@@ -14,6 +14,31 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-Biples-BiplesTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-Biples-BiplesTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		AF489D96D5F84E67AD903DF3 /* TT Firs Neue Trial Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5430F63E65674D97839BD4F8 /* TT Firs Neue Trial Bold.ttf */; };
+		7420179AA0A443DCA28982F9 /* TT Firs Neue Trial ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C96F609DF2F2436B9CA3159D /* TT Firs Neue Trial ExtraBold.ttf */; };
+		5C9FB6FF7ADD4AF3BEBD6094 /* TT Firs Neue Trial Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FAFC6D48989F4644B6829ADD /* TT Firs Neue Trial Light.ttf */; };
+		45705604A8324D258825A082 /* TT Firs Neue Trial Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5537A3A07E974BE8B51CA256 /* TT Firs Neue Trial Medium.ttf */; };
+		AC2E40A102304EDB9A81955D /* TT Firs Neue Trial Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F3B4FB3519B4E1383318254 /* TT Firs Neue Trial Regular.ttf */; };
+		94588F925FBA438FAFE63B27 /* Neue-Metana.otf in Resources */ = {isa = PBXBuildFile; fileRef = DF35157C843640308F894469 /* Neue-Metana.otf */; };
+		5E37557DDCFB466D82894B4A /* NeueMetana-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B4657B72A5CB48CD82E3C53C /* NeueMetana-Bold.otf */; };
+		3D7186C9BFDD40AF862C52F0 /* NeueMetana-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 953A8D24F8E4495B8E2AD180 /* NeueMetana-Regular.otf */; };
+		06E1B3D2267A41A0A4286220 /* NeueMetanaNext-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 28C588021C944ECD88EC38A5 /* NeueMetanaNext-SemiBold.otf */; };
+		42A076E2BA854EE1B41B67B1 /* NeueMetanaNextOutline-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = D03545EEA33347DB925F413B /* NeueMetanaNextOutline-Black.otf */; };
+		7BEB3BDD5E3D468A93C32892 /* TT Firs Neue Trial Black Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C27A11AD6BFD42D7A3D3A80E /* TT Firs Neue Trial Black Italic.ttf */; };
+		55D3E0B120754D539C4F0D55 /* TT Firs Neue Trial Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2FB59A688F5C4291BEAB50DC /* TT Firs Neue Trial Black.ttf */; };
+		0DB5FBC4A2DB456FB34FA688 /* TT Firs Neue Trial Bold Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77C433E36492487485735520 /* TT Firs Neue Trial Bold Italic.ttf */; };
+		E58E73224B324463A86CDBD8 /* TT Firs Neue Trial DemiBold Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA4D9C9FE4304C3EB650DFE1 /* TT Firs Neue Trial DemiBold Italic.ttf */; };
+		D20E584AE4E3404A9732562F /* TT Firs Neue Trial DemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEEC5214E1FC402A9861B18C /* TT Firs Neue Trial DemiBold.ttf */; };
+		95F4EEF7C43F4A63B0406F6C /* TT Firs Neue Trial ExtraBold Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E1F26592966340F7834E7400 /* TT Firs Neue Trial ExtraBold Italic.ttf */; };
+		9F88337F535A4D20BF58A8A0 /* TT Firs Neue Trial ExtraLight Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3B6522124834A4987EE3F5E /* TT Firs Neue Trial ExtraLight Italic.ttf */; };
+		13BC87D86523491D93CA9374 /* TT Firs Neue Trial ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3C1D422D7EC64376A9F95639 /* TT Firs Neue Trial ExtraLight.ttf */; };
+		EFA20D12726F4031AC730F81 /* TT Firs Neue Trial Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 141D164411B64DB1AC94ACAF /* TT Firs Neue Trial Italic.ttf */; };
+		DA78C6A8732E4231A8F74B70 /* TT Firs Neue Trial Light Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C47BF30923F6442196448656 /* TT Firs Neue Trial Light Italic.ttf */; };
+		8933B4FB315D4798BCFAD418 /* TT Firs Neue Trial Medium Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2DC9B35A53B844208A1C5EF5 /* TT Firs Neue Trial Medium Italic.ttf */; };
+		A403D3860DB941C181377297 /* TT Firs Neue Trial Thin Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 066C95A2BBDE4044B294C5F8 /* TT Firs Neue Trial Thin Italic.ttf */; };
+		B37909C670FC45298FF60CA0 /* TT Firs Neue Trial Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B0B8E086BD64AE6AE8FED2B /* TT Firs Neue Trial Thin.ttf */; };
+		B15FCE42B9E746BF9F1837D8 /* TT Firs Neue Trial Var Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0DFBD0B3605C4FBB873C066E /* TT Firs Neue Trial Var Italic.ttf */; };
+		49E47941036E4C099D0ED3E3 /* TT Firs Neue Trial Var Roman.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F4A26E32EF7468CBFFFE06E /* TT Firs Neue Trial Var Roman.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +69,31 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Biples/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-Biples-BiplesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Biples-BiplesTests.release.xcconfig"; path = "Target Support Files/Pods-Biples-BiplesTests/Pods-Biples-BiplesTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		5430F63E65674D97839BD4F8 /* TT Firs Neue Trial Bold.ttf */ = {isa = PBXFileReference; name = "TT Firs Neue Trial Bold.ttf"; path = "../assets/fonts/TT Firs Neue Trial Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C96F609DF2F2436B9CA3159D /* TT Firs Neue Trial ExtraBold.ttf */ = {isa = PBXFileReference; name = "TT Firs Neue Trial ExtraBold.ttf"; path = "../assets/fonts/TT Firs Neue Trial ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FAFC6D48989F4644B6829ADD /* TT Firs Neue Trial Light.ttf */ = {isa = PBXFileReference; name = "TT Firs Neue Trial Light.ttf"; path = "../assets/fonts/TT Firs Neue Trial Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5537A3A07E974BE8B51CA256 /* TT Firs Neue Trial Medium.ttf */ = {isa = PBXFileReference; name = "TT Firs Neue Trial Medium.ttf"; path = "../assets/fonts/TT Firs Neue Trial Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0F3B4FB3519B4E1383318254 /* TT Firs Neue Trial Regular.ttf */ = {isa = PBXFileReference; name = "TT Firs Neue Trial Regular.ttf"; path = "../assets/fonts/TT Firs Neue Trial Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		DF35157C843640308F894469 /* Neue-Metana.otf */ = {isa = PBXFileReference; name = "Neue-Metana.otf"; path = "../assets/fonts/Neue-Metana.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B4657B72A5CB48CD82E3C53C /* NeueMetana-Bold.otf */ = {isa = PBXFileReference; name = "NeueMetana-Bold.otf"; path = "../assets/fonts/NeueMetana-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		953A8D24F8E4495B8E2AD180 /* NeueMetana-Regular.otf */ = {isa = PBXFileReference; name = "NeueMetana-Regular.otf"; path = "../assets/fonts/NeueMetana-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		28C588021C944ECD88EC38A5 /* NeueMetanaNext-SemiBold.otf */ = {isa = PBXFileReference; name = "NeueMetanaNext-SemiBold.otf"; path = "../assets/fonts/NeueMetanaNext-SemiBold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D03545EEA33347DB925F413B /* NeueMetanaNextOutline-Black.otf */ = {isa = PBXFileReference; name = "NeueMetanaNextOutline-Black.otf"; path = "../assets/fonts/NeueMetanaNextOutline-Black.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C27A11AD6BFD42D7A3D3A80E /* TT Firs Neue Trial Black Italic.ttf */ = {isa = PBXFileReference; name = "TT Firs Neue Trial Black Italic.ttf"; path = "../assets/fonts/TT Firs Neue Trial Black Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2FB59A688F5C4291BEAB50DC /* TT Firs Neue Trial Black.ttf */ = {isa = PBXFileReference; name = "TT Firs Neue Trial Black.ttf"; path = "../assets/fonts/TT Firs Neue Trial Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		77C433E36492487485735520 /* TT Firs Neue Trial Bold Italic.ttf */ = {isa = PBXFileReference; name = "TT Firs Neue Trial Bold Italic.ttf"; path = "../assets/fonts/TT Firs Neue Trial Bold Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AA4D9C9FE4304C3EB650DFE1 /* TT Firs Neue Trial DemiBold Italic.ttf */ = {isa = PBXFileReference; name = "TT Firs Neue Trial DemiBold Italic.ttf"; path = "../assets/fonts/TT Firs Neue Trial DemiBold Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AEEC5214E1FC402A9861B18C /* TT Firs Neue Trial DemiBold.ttf */ = {isa = PBXFileReference; name = "TT Firs Neue Trial DemiBold.ttf"; path = "../assets/fonts/TT Firs Neue Trial DemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E1F26592966340F7834E7400 /* TT Firs Neue Trial ExtraBold Italic.ttf */ = {isa = PBXFileReference; name = "TT Firs Neue Trial ExtraBold Italic.ttf"; path = "../assets/fonts/TT Firs Neue Trial ExtraBold Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C3B6522124834A4987EE3F5E /* TT Firs Neue Trial ExtraLight Italic.ttf */ = {isa = PBXFileReference; name = "TT Firs Neue Trial ExtraLight Italic.ttf"; path = "../assets/fonts/TT Firs Neue Trial ExtraLight Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3C1D422D7EC64376A9F95639 /* TT Firs Neue Trial ExtraLight.ttf */ = {isa = PBXFileReference; name = "TT Firs Neue Trial ExtraLight.ttf"; path = "../assets/fonts/TT Firs Neue Trial ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		141D164411B64DB1AC94ACAF /* TT Firs Neue Trial Italic.ttf */ = {isa = PBXFileReference; name = "TT Firs Neue Trial Italic.ttf"; path = "../assets/fonts/TT Firs Neue Trial Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C47BF30923F6442196448656 /* TT Firs Neue Trial Light Italic.ttf */ = {isa = PBXFileReference; name = "TT Firs Neue Trial Light Italic.ttf"; path = "../assets/fonts/TT Firs Neue Trial Light Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2DC9B35A53B844208A1C5EF5 /* TT Firs Neue Trial Medium Italic.ttf */ = {isa = PBXFileReference; name = "TT Firs Neue Trial Medium Italic.ttf"; path = "../assets/fonts/TT Firs Neue Trial Medium Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		066C95A2BBDE4044B294C5F8 /* TT Firs Neue Trial Thin Italic.ttf */ = {isa = PBXFileReference; name = "TT Firs Neue Trial Thin Italic.ttf"; path = "../assets/fonts/TT Firs Neue Trial Thin Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4B0B8E086BD64AE6AE8FED2B /* TT Firs Neue Trial Thin.ttf */ = {isa = PBXFileReference; name = "TT Firs Neue Trial Thin.ttf"; path = "../assets/fonts/TT Firs Neue Trial Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0DFBD0B3605C4FBB873C066E /* TT Firs Neue Trial Var Italic.ttf */ = {isa = PBXFileReference; name = "TT Firs Neue Trial Var Italic.ttf"; path = "../assets/fonts/TT Firs Neue Trial Var Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7F4A26E32EF7468CBFFFE06E /* TT Firs Neue Trial Var Roman.ttf */ = {isa = PBXFileReference; name = "TT Firs Neue Trial Var Roman.ttf"; path = "../assets/fonts/TT Firs Neue Trial Var Roman.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +172,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				820B3B0081DA4E669F42AB5F /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -147,6 +198,39 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		820B3B0081DA4E669F42AB5F /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				5430F63E65674D97839BD4F8 /* TT Firs Neue Trial Bold.ttf */,
+				C96F609DF2F2436B9CA3159D /* TT Firs Neue Trial ExtraBold.ttf */,
+				FAFC6D48989F4644B6829ADD /* TT Firs Neue Trial Light.ttf */,
+				5537A3A07E974BE8B51CA256 /* TT Firs Neue Trial Medium.ttf */,
+				0F3B4FB3519B4E1383318254 /* TT Firs Neue Trial Regular.ttf */,
+				DF35157C843640308F894469 /* Neue-Metana.otf */,
+				B4657B72A5CB48CD82E3C53C /* NeueMetana-Bold.otf */,
+				953A8D24F8E4495B8E2AD180 /* NeueMetana-Regular.otf */,
+				28C588021C944ECD88EC38A5 /* NeueMetanaNext-SemiBold.otf */,
+				D03545EEA33347DB925F413B /* NeueMetanaNextOutline-Black.otf */,
+				C27A11AD6BFD42D7A3D3A80E /* TT Firs Neue Trial Black Italic.ttf */,
+				2FB59A688F5C4291BEAB50DC /* TT Firs Neue Trial Black.ttf */,
+				77C433E36492487485735520 /* TT Firs Neue Trial Bold Italic.ttf */,
+				AA4D9C9FE4304C3EB650DFE1 /* TT Firs Neue Trial DemiBold Italic.ttf */,
+				AEEC5214E1FC402A9861B18C /* TT Firs Neue Trial DemiBold.ttf */,
+				E1F26592966340F7834E7400 /* TT Firs Neue Trial ExtraBold Italic.ttf */,
+				C3B6522124834A4987EE3F5E /* TT Firs Neue Trial ExtraLight Italic.ttf */,
+				3C1D422D7EC64376A9F95639 /* TT Firs Neue Trial ExtraLight.ttf */,
+				141D164411B64DB1AC94ACAF /* TT Firs Neue Trial Italic.ttf */,
+				C47BF30923F6442196448656 /* TT Firs Neue Trial Light Italic.ttf */,
+				2DC9B35A53B844208A1C5EF5 /* TT Firs Neue Trial Medium Italic.ttf */,
+				066C95A2BBDE4044B294C5F8 /* TT Firs Neue Trial Thin Italic.ttf */,
+				4B0B8E086BD64AE6AE8FED2B /* TT Firs Neue Trial Thin.ttf */,
+				0DFBD0B3605C4FBB873C066E /* TT Firs Neue Trial Var Italic.ttf */,
+				7F4A26E32EF7468CBFFFE06E /* TT Firs Neue Trial Var Roman.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -243,6 +327,31 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				AF489D96D5F84E67AD903DF3 /* TT Firs Neue Trial Bold.ttf in Resources */,
+				7420179AA0A443DCA28982F9 /* TT Firs Neue Trial ExtraBold.ttf in Resources */,
+				5C9FB6FF7ADD4AF3BEBD6094 /* TT Firs Neue Trial Light.ttf in Resources */,
+				45705604A8324D258825A082 /* TT Firs Neue Trial Medium.ttf in Resources */,
+				AC2E40A102304EDB9A81955D /* TT Firs Neue Trial Regular.ttf in Resources */,
+				94588F925FBA438FAFE63B27 /* Neue-Metana.otf in Resources */,
+				5E37557DDCFB466D82894B4A /* NeueMetana-Bold.otf in Resources */,
+				3D7186C9BFDD40AF862C52F0 /* NeueMetana-Regular.otf in Resources */,
+				06E1B3D2267A41A0A4286220 /* NeueMetanaNext-SemiBold.otf in Resources */,
+				42A076E2BA854EE1B41B67B1 /* NeueMetanaNextOutline-Black.otf in Resources */,
+				7BEB3BDD5E3D468A93C32892 /* TT Firs Neue Trial Black Italic.ttf in Resources */,
+				55D3E0B120754D539C4F0D55 /* TT Firs Neue Trial Black.ttf in Resources */,
+				0DB5FBC4A2DB456FB34FA688 /* TT Firs Neue Trial Bold Italic.ttf in Resources */,
+				E58E73224B324463A86CDBD8 /* TT Firs Neue Trial DemiBold Italic.ttf in Resources */,
+				D20E584AE4E3404A9732562F /* TT Firs Neue Trial DemiBold.ttf in Resources */,
+				95F4EEF7C43F4A63B0406F6C /* TT Firs Neue Trial ExtraBold Italic.ttf in Resources */,
+				9F88337F535A4D20BF58A8A0 /* TT Firs Neue Trial ExtraLight Italic.ttf in Resources */,
+				13BC87D86523491D93CA9374 /* TT Firs Neue Trial ExtraLight.ttf in Resources */,
+				EFA20D12726F4031AC730F81 /* TT Firs Neue Trial Italic.ttf in Resources */,
+				DA78C6A8732E4231A8F74B70 /* TT Firs Neue Trial Light Italic.ttf in Resources */,
+				8933B4FB315D4798BCFAD418 /* TT Firs Neue Trial Medium Italic.ttf in Resources */,
+				A403D3860DB941C181377297 /* TT Firs Neue Trial Thin Italic.ttf in Resources */,
+				B37909C670FC45298FF60CA0 /* TT Firs Neue Trial Thin.ttf in Resources */,
+				B15FCE42B9E746BF9F1837D8 /* TT Firs Neue Trial Var Italic.ttf in Resources */,
+				49E47941036E4C099D0ED3E3 /* TT Firs Neue Trial Var Roman.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,0 +1,226 @@
+import React from 'react'
+import type {PropsWithChildren} from 'react'
+import { NativeRouter, Route, Routes } from "react-router-native";
+import LoadingStart from '../pages/loading/loadingStart';
+import Loading from '../pages/loading/loading';
+import LoadingEnd from '../pages/loading/loadingEnd';
+// import LoadingApp from "../pages/loading/loadingApp";
+import Register from '../pages/register/register';
+import RegisterEmail from '../pages/register/email';
+import RouterComponent from '../layout/router';
+import RegisterVerify from '../pages/register/verify';
+import RegisterVerifyConfirm from '../pages/register/verifyConfirm';
+import CreateAccountInfo from '../pages/register/createAccountInfo';
+import CreateAccountLoading from '../pages/register/createAccountLoading';
+import SelectAvatar from '../pages/register/selectAvatar';
+import CreateEndLoading from '../pages/register/createEndLoading';
+import BackLogin from '../pages/login/backLogin';
+import WalletLogin from '../pages/login/walletLogin';
+import ForgetAccount from '../pages/login/forgetAccount';
+import ResetPassword from '../pages/login/resetPassword';
+import ResetLoading from '../pages/login/resetLoading';
+import Login from '../pages/login/login';
+import Settings from '../pages/settings/settings';
+import Preferences from '../pages/settings/preferences';
+import PrivatePolicy from '../pages/settings/privatePolicy';
+import Main from '../pages/landing/main';
+import Topics from '../pages/landing/topic';
+import Notifications from '../pages/landing/notifications';
+import MainSearch from '../pages/landing/search/mainSearch';
+import SearchResultNone from '../pages/landing/search/searchResultNone';
+import SpeechInput from '../pages/landing/search/speechInput';
+import SortSearch from '../pages/landing/search/sortSearch';
+import MemberSearch from '../pages/landing/search/memberSearch';
+import Explorer from '../pages/landing/manage/explorer';
+import ManageFriend from '../pages/landing/manage/manageFriend';
+import QRProfile from '../pages/landing/manage/QRProfile';
+import Scan from '../pages/landing/manage/scan';
+import FriendProfile from '../pages/landing/profile/friendProfile';
+import HomeApp from './home';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  View,
+} from 'react-native';
+
+import {
+  Colors,
+  DebugInstructions,
+  Header,
+  LearnMoreLinks,
+  ReloadInstructions,
+} from 'react-native/Libraries/NewAppScreen';
+import UnmaskExample from './Verifycode';
+const Stack = createNativeStackNavigator();
+
+
+function StackRouter() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name = 'Load'
+        component = { LoadingStart }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Loading'
+        component = { Loading }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Register'
+        component = { Register }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Email'
+        component = { RegisterEmail }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Verify'
+        component = { RegisterVerify }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'VerifyComplete'
+        component = { RegisterVerifyConfirm }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'CreateAccountInfo'
+        component = { CreateAccountInfo }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'CreateAccountLoading'
+        component = { CreateAccountLoading }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'SelectAvatar'
+        component = { SelectAvatar }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'CreateEndLoading'
+        component = { CreateEndLoading }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'BackLogin'
+        component = { BackLogin }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'ForgetAccount'
+        component = { ForgetAccount }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'ResetPassword'
+        component = { ResetPassword }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'ResetLoading'
+        component = { ResetLoading }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Login'
+        component = { Login }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Settings'
+        component = { Settings }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Preferences'
+        component = { Preferences }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'PrivatePolicy'
+        component = { PrivatePolicy }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Main'
+        component = { Main }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Topics'
+        component = { Topics }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Notifications'
+        component = { Notifications }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'MainSearch'
+        component = { MainSearch }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'SearchResultNone'
+        component = { SearchResultNone }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'SpeechInput'
+        component = { SpeechInput }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'SortSearch'
+        component = { SortSearch }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'MemberSearch'
+        component = { MemberSearch }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Explorer'
+        component = { Explorer }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'ManageFriend'
+        component = { ManageFriend }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'QRProfile'
+        component = { QRProfile }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Scan'
+        component = { Scan }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'FrieldProfile'
+        component = { FrieldProfile }
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+
+export default StackRouter;

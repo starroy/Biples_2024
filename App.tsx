@@ -1,118 +1,75 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import type {PropsWithChildren} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+    ImageBackground, 
+    View, 
+    Text, 
+    StatusBar, 
+    StyleSheet, 
+    Image,
+    SafeAreaView,
+    ScrollView,
+    PanResponder,
+    TouchableOpacity, 
+    FlatList
+} from 'react-native'
+// import LoadingStart from './src/pages/loading/loadingStart';
+// import Loading from './src/pages/loading/loading';
+// import LoadingEnd from './src/pages/loading/loadingEnd';
+// import Register from './src/pages/register/register';
+// import RegisterEmail from './src/pages/register/email';
+// import RouterComponent from './src/layout/router';
+// import RegisterVerify from "./src/pages/register/verify";
+// import RegisterVerifyConfirm from "./src/pages/register/verifyConfirm";
+// import CreateAccountInfo from "./src/pages/register/createAccountInfo";
+// import SelectAvatar from "./src/pages/register/selectAvatar";
+// import CreateEndLoading from './src/pages/register/createEndLoading';
+// import BackLogin from './src/pages/login/backLogin';
+// import WalletLogin from './src/pages/login/walletLogin';
+// import ForgetAccount from './src/pages/login/forgetAccount';
+// import ResetPassword from './src/pages/login/resetPassword';
+// import ResetLoading from './src/pages/login/resetLoading';
+// import Login from './src/pages/login/login';
+// import Settings from './src/pages/settings/settings';
+// import Preferences from './src/pages/settings/preferences';
+// import PrivatePolicy from './src/pages/settings/privatePolicy';
+// import Main from "./src/pages/landing/main";
+// import Topics from "./src/pages/landing/topic";
+// import Notifications from "./src/pages/landing/notifications";
+// import MainSearch from "./src/pages/landing/search/mainSearch";
+// import SearchResultNone from "./src/pages/landing/search/searchResultNone";
+// import SpeechInput from "./src/pages/landing/search/speechInput";
+import SortSearch from "./src/pages/landing/search/sortSearch";
+import MemberSearch from "./src/pages/landing/search/memberSearch";
+import Explorer from "./src/pages/landing/manage/explorer";
+import ManageFriend from "./src/pages/landing/manage/manageFriend";
+import QRProfile from "./src/pages/landing/manage/QRProfile";
+import Scan from "./src/pages/landing/manage/scan";
+import FriendProfile from "./src/pages/landing/profile/friendProfile";
+import StackRouter from './src/router/router';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+// import Font from './font';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+// const Stack = createNativeStackNavigator();
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+function App() {
+
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+      <NavigationContainer style = {styles.container}>
+          <StackRouter/>
+      </NavigationContainer>
+    
+    // <View style={styles.container}>
+    //   <FriendProfile/>
+    // </View>
   );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
+  container: {
+    backgroundImage: 'Radial-gradient(to bottom, #151515, #000000)'
+  }
 });
 
 export default App;

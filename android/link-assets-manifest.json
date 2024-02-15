@@ -1,0 +1,105 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/Neue-Metana.otf",
+      "sha1": "be9c48fe2d4ac1938bac0fc3cf440f9db43ddbc4"
+    },
+    {
+      "path": "assets/fonts/NeueMetana-Bold.otf",
+      "sha1": "be9c48fe2d4ac1938bac0fc3cf440f9db43ddbc4"
+    },
+    {
+      "path": "assets/fonts/NeueMetana-Regular.otf",
+      "sha1": "2921a8cd21eb493317c7d9f875524f7c179a27a4"
+    },
+    {
+      "path": "assets/fonts/NeueMetanaNext-SemiBold.otf",
+      "sha1": "33a447c88e63c85db7568a7cba65836c74125675"
+    },
+    {
+      "path": "assets/fonts/NeueMetanaNextOutline-Black.otf",
+      "sha1": "186870764e00e0a981abfe549767fbb816182a49"
+    },
+    {
+      "path": "assets/fonts/TT Firs Neue Trial Black Italic.ttf",
+      "sha1": "b5446840ed6b7eef6ac19171724741fd8c2a1cbb"
+    },
+    {
+      "path": "assets/fonts/TT Firs Neue Trial Black.ttf",
+      "sha1": "ad751adfbe9771047c4a32bac1b96aebdcc086db"
+    },
+    {
+      "path": "assets/fonts/TT Firs Neue Trial Bold Italic.ttf",
+      "sha1": "eed9e9b785bec1ee94a9bb3cddaafbe571729380"
+    },
+    {
+      "path": "assets/fonts/TT Firs Neue Trial Bold.ttf",
+      "sha1": "2a2063b7a4125b2d6a4695afda99d82b58ba9317"
+    },
+    {
+      "path": "assets/fonts/TT Firs Neue Trial DemiBold Italic.ttf",
+      "sha1": "70f92bb221451c8510dc124d7c7c5517e55ecaed"
+    },
+    {
+      "path": "assets/fonts/TT Firs Neue Trial DemiBold.ttf",
+      "sha1": "d69d2ccada9e12dd8758f15506bf20b43569a435"
+    },
+    {
+      "path": "assets/fonts/TT Firs Neue Trial ExtraBold Italic.ttf",
+      "sha1": "f5ebf2da2fde103250bbf42ef9de9c62e5ef9b23"
+    },
+    {
+      "path": "assets/fonts/TT Firs Neue Trial ExtraBold.ttf",
+      "sha1": "dbaa4886999d054a031eb6f166c896e1905aae0e"
+    },
+    {
+      "path": "assets/fonts/TT Firs Neue Trial ExtraLight Italic.ttf",
+      "sha1": "37f72c827158b70fe7baa62abdced111ba20d000"
+    },
+    {
+      "path": "assets/fonts/TT Firs Neue Trial ExtraLight.ttf",
+      "sha1": "31397a2f75dbfa91268c02d6dff439bbc2bd877e"
+    },
+    {
+      "path": "assets/fonts/TT Firs Neue Trial Italic.ttf",
+      "sha1": "20f4945feaab62ef0f0a537f45b0cdda7da24955"
+    },
+    {
+      "path": "assets/fonts/TT Firs Neue Trial Light Italic.ttf",
+      "sha1": "dd11cf2183bf6715701baa4931fe21a844139b65"
+    },
+    {
+      "path": "assets/fonts/TT Firs Neue Trial Light.ttf",
+      "sha1": "f573c5c9d0481f13813588f4ab79b8afd2ec9432"
+    },
+    {
+      "path": "assets/fonts/TT Firs Neue Trial Medium Italic.ttf",
+      "sha1": "61d30336a4a3e598b189b0e1b22c49d234e44332"
+    },
+    {
+      "path": "assets/fonts/TT Firs Neue Trial Medium.ttf",
+      "sha1": "3cddc968a53b747034680b07247470a8c86996d1"
+    },
+    {
+      "path": "assets/fonts/TT Firs Neue Trial Regular.ttf",
+      "sha1": "042df54364d92869b192ff42c23dbb59645e5ed5"
+    },
+    {
+      "path": "assets/fonts/TT Firs Neue Trial Thin Italic.ttf",
+      "sha1": "a92b1587fba1f7b150b61a82a499efb7a8527eb7"
+    },
+    {
+      "path": "assets/fonts/TT Firs Neue Trial Thin.ttf",
+      "sha1": "6d10d7f5412899ac554e6d501c2591b2fc89f4f1"
+    },
+    {
+      "path": "assets/fonts/TT Firs Neue Trial Var Italic.ttf",
+      "sha1": "eebfd13c81fbcccfa50f8e17f127421ac378ccb1"
+    },
+    {
+      "path": "assets/fonts/TT Firs Neue Trial Var Roman.ttf",
+      "sha1": "cdc379dbc4d6487ff436cee1a149134f340c6e1c"
+    }
+  ]
+}
