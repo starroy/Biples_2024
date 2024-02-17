@@ -25,7 +25,7 @@ const Register = ({ navigation }) => {
     }
 
     return (
-        <ScrollView> 
+        <View> 
             <StatusBar 
                 translucent backgroundColor="transparent"
             />
@@ -33,45 +33,44 @@ const Register = ({ navigation }) => {
                 <ImageBackground 
                     style={styles.imageBackground} 
                     source={require('../../../assets/images/loading_background.png')}
+                />
+            </View>
+            <View style = {{position: 'absolute', bottom: vw(10)}}>
+                <View className='loading_action'
+                    style={{width: '100%', aspectRatio:360/108, flexDirection: 'col', justifyContent: 'center', alignItems: 'center'}}
                 >
-                    <View style={{height: vw(115)}}/>
-                    <View className='loading_action'
-                        style={{width: '100%', aspectRatio:360/198, flexDirection: 'col', justifyContent: 'center', alignItems: 'center'}}
+                    <View className='registe_login_button'
+                        style={{width: vw(88), aspectRatio:297/46, flexDirection: 'row', backgroundColor: '#2B2B2B', borderRadius: vw(4.2), borderWidth: vw(0.3), borderColor: '#808080', opacity: 0.85}}
                     >
-                        <View className='registe_login_button'
-                            style={{width: vw(88), aspectRatio:297/46, flexDirection: 'row', backgroundColor: '#2B2B2B', borderRadius: vw(4.2), borderWidth: vw(0.3), borderColor: '#808080', opacity: 0.85}}
-                        >
-                            <CustomButton
-                                navigation={navigation}
-                                title="Register"
-                                width={vw(44)}
-                                height={'100'}
-                                backgroundColor="#53FAFB"
-                                color="#2E2E2E"
-                                fontSize={vw(3.9)}
-                                navigateName = 'Email'
-                            />
-                            <CustomButton
-                                navigation={navigation}
-                                title="Sign In"
-                                width={vw(44)}
-                                height={'100'}
-                                backgroundColor="#00000000"  
-                                color='white'
-                                fontSize={vw(3.9)}
-                                navigateName = "BackLogin"
-                            />
-                        </View>
-                        <View className='small_text'
-                            style = {{marginTop: vw(16)}}
-                        >
-                            <Text style={{ fontFamily: 'TT Firs Neue Trial Regular', color: 'white', fontSize: vw(3.6), textAlign: 'center', }}>
-                                Or continue with
-                            </Text>
-                        </View>
+                        <CustomButton
+                            navigation={navigation}
+                            title="Register"
+                            width={vw(44)}
+                            height={'100'}
+                            backgroundColor="#53FAFB"
+                            color="#2E2E2E"
+                            fontSize={vw(3.9)}
+                            navigateName = 'Email'
+                        />
+                        <CustomButton
+                            navigation={navigation}
+                            title="Sign In"
+                            width={vw(44)}
+                            height={'100'}
+                            backgroundColor="#00000000"  
+                            color='white'
+                            fontSize={vw(3.9)}
+                            navigateName = "BackLogin"
+                        />
                     </View>
-                </ImageBackground>
-                
+                    <View className='small_text'
+                        style = {{marginTop: vw(12)}}
+                    >
+                        <Text style={{ fontFamily: 'TT Firs Neue Trial Regular', color: 'white', fontSize: vw(3.6), textAlign: 'center', }}>
+                            Or continue with
+                        </Text>
+                    </View>
+                </View>
                 <View style={styles.imgbuttonStyle}>
                     <CustomImageButton
                         // onPress={() => console.log('My Button pressed')}
@@ -104,7 +103,7 @@ const Register = ({ navigation }) => {
                         image={require('../../../assets/images/metamask.png')}
                         link="/register/wallet"
                     />
-                </View>        
+                </View>
                 <View className='small_text'
                     style = {{marginTop: vw(16)}}
                 >
@@ -125,7 +124,7 @@ const Register = ({ navigation }) => {
                     </Text>
                 </View>
             </View>
-        </ScrollView>
+        </View>
     );
 };
 

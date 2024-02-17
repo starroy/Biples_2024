@@ -35,7 +35,7 @@ const ResetLoading = ({ navigation }) => {
     useremail = "yazidelkherrati@gmail.com";
 
     return (
-        <ScrollView>
+        <View>
             <StatusBar 
                 translucent backgroundColor="transparent"
             />
@@ -98,7 +98,7 @@ const ResetLoading = ({ navigation }) => {
                 </View>
                 <View style = {{width: vw(100), height: vw(56.5)}}/>
             </View>
-        </ScrollView>
+        </View>
     );
 };
 
@@ -109,7 +109,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#151515',
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingTop: vw(20)
     },
     titleBar: {
         paddingTop: vw(16),

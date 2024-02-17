@@ -77,7 +77,7 @@ const RegisterVerify = ({ navigation }) => {
     }, []);
 
     return (
-        <ScrollView>
+        <View style={styles.container}>
             <StatusBar 
                 translucent backgroundColor="transparent"
             />
@@ -164,7 +164,7 @@ const RegisterVerify = ({ navigation }) => {
                     </Text>
                 </View>
             </View>
-        </ScrollView>
+        </View>
     );
 };
 
@@ -173,9 +173,6 @@ const styles = StyleSheet.create({
         width: vw(101),
         height: '100%',
         backgroundColor: '#151515',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
     },
     title: {
         marginTop: vw(13.3),
@@ -250,10 +247,11 @@ const styles = StyleSheet.create({
     comment: {
         // marginTop: 10,
         width: vw(100),
-        height: vw(29.5),
+        // height: vw(29.5),
         flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        position: 'absolute',
+        top: vh(100)
     }
 });
 

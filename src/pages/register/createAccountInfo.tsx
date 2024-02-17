@@ -59,7 +59,7 @@ const CreateAccountInfo = ({ navigation }) => {
     };
 
     return (
-        <ScrollView>
+        <View>
             <StatusBar 
                 translucent backgroundColor="transparent"
             />
@@ -178,7 +178,7 @@ const CreateAccountInfo = ({ navigation }) => {
                     </View>
                 </View>
             </View>
-        </ScrollView>
+        </View>
     );
 };
 
@@ -188,8 +188,6 @@ const styles = StyleSheet.create({
         height: '100%',
         backgroundColor: '#151515',
         flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
     },
     titleBar: {
         paddingTop: vw(16),
@@ -253,12 +251,13 @@ const styles = StyleSheet.create({
     },
     footer: {
         // margin: 10,
+        position: 'absolute',
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
         width: vw(100),
         height: vw(39),
-        marginBottom: vw(13.3)
+        top: vh(80),
     },
     arrow: {
         marginRight: vw(1.4)

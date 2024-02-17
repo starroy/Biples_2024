@@ -35,11 +35,11 @@ const RegisterVerifyConfirm = ({ navigation }) => {
     useremail = "yazidelkherrati@gmail.com";
 
     return (
-        <ScrollView>
+        <View style={styles.container}>
             <StatusBar 
                 translucent backgroundColor="transparent"
             />
-            <View style={styles.container}>
+            <View style = {{marginTop: vw(20)}}>
                 <View style = {styles.titleBar}>
                     <TouchableOpacity 
                         style = {styles.prevButton}
@@ -98,7 +98,7 @@ const RegisterVerifyConfirm = ({ navigation }) => {
                 </View>
                 <View style = {{width: vw(100), height: vw(56.5)}}/>
             </View>
-        </ScrollView>
+        </View>
     );
 };
 

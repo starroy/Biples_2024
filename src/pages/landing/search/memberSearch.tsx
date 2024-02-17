@@ -17,7 +17,7 @@ import { vh, vw } from 'react-native-css-vh-vw';
 import Svg, { Path } from 'react-native-svg';
 import CustomFollow from '../../../components/customFollow'
 
-const SearchResultNone = ({navigation}) => {
+const MemberSearch = ({navigation}) => {
     
     memberCardArray = [
         {
@@ -139,7 +139,7 @@ const SearchResultNone = ({navigation}) => {
                     </View>
                     <View style = {styles.ResultTitle}>
                         <Text style = {styles.title}>
-                            Results
+                            Members
                         </Text>
                         <Text style = {[styles.title, {color: '#53FAFB', fontSize: vw(3.3)}]}
                             onPress = {() => {setFilter([]); navigation.navigate('SearchResultNone')}}
@@ -301,4 +301,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SearchResultNone;
+export default MemberSearch;

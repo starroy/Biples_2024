@@ -54,19 +54,19 @@ const Settings = ({ navigation }) => {
         }, 
         {
             name: 'Notifications',
-            navigate: 'Preferences'
+            navigate: 'Notifications'
         }, 
         {
             name: 'Messages',
-            navigate: 'Preferences'
+            navigate: 'Messages'
         }, 
         {
             name: 'Communities',
-            navigate: 'Preferences'
+            navigate: 'Communities'
         }, 
         {
             name: 'Saved',
-            navigate: 'Preferences'
+            navigate: 'Saved'
         },
     ];
     const apparray = ['Sign & Security', 'Data Privacy', 'Languages', 'Display', 'Devices'];
@@ -118,7 +118,7 @@ const Settings = ({ navigation }) => {
                                     width={vw(37.2)}
                                     height={vw(13.3)}
                                     backgroundColor="#53FAFB"  
-                                    color='black'
+                                    color='white'
                                     fontSize={vw(3.9)}
                                     onPress={handleNavigate}
                                 />
@@ -129,9 +129,9 @@ const Settings = ({ navigation }) => {
                 <View style = {styles.header}>
                     <TouchableOpacity 
                         style = {styles.prevButton}
-                        // onPress = {() => 
-                        //     navigation.navigate('BackLogin')
-                        // }
+                        onPress = {() => 
+                            navigation.navigate('Main')
+                        }
                     >
                         <Svg width={windowWidth*0.02} height={0.033*windowWidth} viewBox='0 0 7 12' fill="none" xmlns="http://www.w3.org/2000/svg">
                             <Path d="M6 1L1 6L6 11" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
@@ -171,7 +171,7 @@ const Settings = ({ navigation }) => {
                             Promoted
                         </Text>
                         <View style = {styles.upgrade}>
-                            <Text style = {styles. modal}>
+                            <Text style = {styles. modalTitle}>
                                 Upgrade to PRO
                             </Text>
                             <Svg width={vw(5.83)} height={vw(5.83)} viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -390,6 +390,7 @@ const styles = StyleSheet.create({
         fontSize: vw(4.5),
         marginTop: vw(4.7),
         marginBottom: vw(4.7),
+        color: 'white'
     },
     settingpanel: {
         width: vw(90),
@@ -453,7 +454,7 @@ const styles = StyleSheet.create({
         padding: vw(4)
     },
     modalTitle: {
-        fontSize: vw(5), 
+        fontSize: vw(3.6), 
         fontFamily: 'TT Firs Neue Trial Bold', 
         color: 'white'
     },
@@ -469,7 +470,8 @@ const styles = StyleSheet.create({
     },
     footerText: {
         fontFamily: 'TT Firs Neue Trial Regular',
-        fontSize: vw(3.3)
+        fontSize: vw(3.3),
+        color: 'white'
     }
 });
 

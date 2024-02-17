@@ -114,7 +114,7 @@ const SelectAvatar = ({ navigation }) => {
     }
 
     return (
-        <ScrollView>
+        <View style={styles.container}>
             <StatusBar 
                 translucent backgroundColor="transparent"
             />
@@ -264,17 +264,17 @@ const SelectAvatar = ({ navigation }) => {
                             : null
                     }
                 </View>
-                <View style = {styles.footer}>
-                    {
-                        image === null ? 
-                            <Text style = {styles.footertext}>
-                                Skip 
-                            </Text>
-                            : null
-                    }
-                </View>
             </View>
-        </ScrollView>
+            <View style = {styles.footer}>
+                {
+                    image === null ? 
+                        <Text style = {styles.footertext}>
+                            Skip 
+                        </Text>
+                        : null
+                }
+            </View>
+        </View>
     );
 };
 
@@ -358,12 +358,14 @@ const styles = StyleSheet.create({
     },
     footer: {
         // margin: 10,
+        position: 'absolute',
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
         width: vw(100),
         aspectRatio: 360/75,
-        paddingBottom: vw(13.3)
+        paddingBottom: vw(13.3),
+        bottom: vw(0)
     },
     footertext: {
         fontSize: vw(3.3),

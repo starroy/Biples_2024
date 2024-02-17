@@ -89,7 +89,11 @@ const CustomSettingButton = ({ navigation, title, navigateName, avatarName }) =>
     return (
             <TouchableOpacity
                 style={styles.button}
-                onPress={() => navigation.navigate(navigateName)}
+                onPress={() => {
+                    if (title != 'Privacy Policy')
+                        navigation.navigate(navigateName);
+                    else
+                        navigation.navigate('PrivatePolicy'); }}
             >
                 <View style = {{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'}}>
                     <View style={{backgroundColor: avatar[avatarName].backgroundColor, width: vw(7), height: vw(7), borderRadius: vw(3.6), overflow: 'hidden'}}>

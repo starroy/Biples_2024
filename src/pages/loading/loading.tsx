@@ -39,14 +39,14 @@ const Loading = ({ navigation }) => {
                 // console.log('length: ', descriptions.length);
                 if (gestureState.dx > 0) {
                     // console.log('dx>0', loadingNumber);
-                    setChannelNumber((prevChannelNumber) => {
-                        if (prevChannelNumber <= 0) {
+                    setLoadingNumber((prevLoadingNumber) => {
+                        if (prevLoadingNumber <= 0) {
                             num = 0;
                             return 0;
                         }
                         else { 
                             num = num - 1;
-                            return (prevChannelNumber-1);
+                            return (prevLoadingNumber-1);
                         }
                     });
                 } else {
@@ -67,12 +67,12 @@ const Loading = ({ navigation }) => {
     ).current;
 
     return (
-        <ScrollView  {...panResponder.panHandlers}>
+        <View  {...panResponder.panHandlers}>
             
             <StatusBar 
                 translucent backgroundColor="transparent"
             />
-            <View  style={styles.container}>
+            <ScrollView  style={styles.container}>
                 <ImageBackground 
                     style={styles.imageBackground} 
                     source={require('../../../assets/images/loading_background.png')}
@@ -138,62 +138,62 @@ const Loading = ({ navigation }) => {
                             <Path d="M35.9009 83H0L24.4069 0H106L94.648 38.5408C86.8434 64.9565 63.0041 83 35.9009 83Z" fill="#53FAFB"/>
                         </Svg>
                     </View>
-                    <View  className='big_text'
-                        style = {{marginTop: vw(18.3)}}
-                    >
-                        <Text style={{color: 'white', fontSize: vw(5.83), textAlign: 'center', fontFamily: 'Neue-Metana'}}>
-                            {descriptions[loadingNumber]}
-                        </Text>
-                    </View>
-                    <View className='small_text'
-                        style = {{marginTop: vw(9.2)}}
-                    >
-                        <Text style={{ color: 'white', fontSize: vw(3),textAlign: 'center', bottom: 0, fontFamily: 'TT Firs Neue Trial Regular'}}>
-                            Our goal is to ensure that you have everything you need to feel {"\n"} comfortable, confidident, and ready to make and impact.
-                        </Text>
-                    </View>
                 </ImageBackground>
-                <View className='loading_action'
-                    style={{width: '100%', aspectRatio:360/198, flexDirection: 'col', justifyContent: 'center', alignItems: 'center'}}
+            </ScrollView>
+            <View className='loading_action'
+                style={{width: '100%', position: 'absolute', bottom: vw(20), flexDirection: 'col', justifyContent: 'center', alignItems: 'center'}}
+            >
+                <View  className='big_text'
+                    style = {{marginTop: vw(18.3)}}
                 >
-                    <View style={styles.loading}>
-                        {loadingNumberArray.map((number) => (
-                            <View
-                                key={number}
-                                style={
-                                    number === loadingNumber ? styles.onloading : styles.offloading
-                                }
-                            />
-                        ))}
-                    </View>
-                    <View className='register_login_button'
-                        style={{width: vw(88), aspectRatio:297/46, flexDirection: 'row', backgroundColor: '#2B2B2B', borderRadius: vw(4.2), borderWidth: vw(0.3), borderColor: '#808080', opacity: 0.85}}
-                    >
-                        <CustomButton
-                            navigation={navigation}
-                            title="Register"
-                            width={vw(44)}
-                            height={'100'}
-                            backgroundColor="#53FAFB"
-                            color="black"
-                            fontSize={vw(3.9)}
-                            navigateName = 'Email'
-                        />
-                        <CustomButton
-                            navigation={navigation}
-                            title="Sign In"
-                            width={vw(44)}
-                            height={'100'}
-                            backgroundColor="#00000000"  
-                            color='white'
-                            fontSize={vw(3.9)}
-                            navigateName = "BackLogin"
-                        />
-                    </View>
-                    <View style = {{height: 20}}/>
+                    <Text style={{color: 'white', fontSize: vw(5.83), textAlign: 'center', fontFamily: 'Neue-Metana'}}>
+                        {descriptions[loadingNumber]}
+                    </Text>
                 </View>
+                <View className='small_text'
+                    style = {{marginTop: vw(9.2)}}
+                >
+                    <Text style={{ color: 'white', fontSize: vw(3),textAlign: 'center',  fontFamily: 'TT Firs Neue Trial Regular'}}>
+                        Our goal is to ensure that you have everything you need to feel {"\n"} comfortable, confidident, and ready to make and impact.
+                    </Text>
+                </View>
+                <View style={styles.loading}>
+                    {loadingNumberArray.map((number) => (
+                        <View
+                            key={number}
+                            style={
+                                number === loadingNumber ? styles.onloading : styles.offloading
+                            }
+                        />
+                    ))}
+                </View>
+                <View className='register_login_button'
+                    style={{width: vw(88), aspectRatio:297/46, flexDirection: 'row', backgroundColor: '#2B2B2B', borderRadius: vw(4.2), borderWidth: vw(0.3), borderColor: '#808080', opacity: 0.85}}
+                >
+                    <CustomButton
+                        navigation={navigation}
+                        title="Register"
+                        width={vw(44)}
+                        height={'100'}
+                        backgroundColor="#53FAFB"
+                        color="black"
+                        fontSize={vw(3.9)}
+                        navigateName = 'Email'
+                    />
+                    <CustomButton
+                        navigation={navigation}
+                        title="Sign In"
+                        width={vw(44)}
+                        height={'100'}
+                        backgroundColor="#00000000"  
+                        color='white'
+                        fontSize={vw(3.9)}
+                        navigateName = "BackLogin"
+                    />
+                </View>
+                <View style = {{height: 20}}/>
             </View>
-        </ScrollView>
+        </View>
     );
 };
 

@@ -56,7 +56,7 @@ const Login = ({ navigation }) => {
         setIsVerify(!isVerify);
     }
     return (
-        <ScrollView>
+        <View>
             <StatusBar 
                 translucent backgroundColor="transparent"
             />
@@ -197,7 +197,7 @@ const Login = ({ navigation }) => {
                         />
                     </View>        
                     <View className='small_text'
-                        style = {{width: vw(100), aspectRatio: 360/120, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}
+                        style = {{width: vw(100), aspectRatio: 360/80, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}
                     >
                         <Text style={{ color: 'white', fontSize: vw(3.3), textAlign: 'center', fontFamily: 'TT Firs Neue Trial Regular'}}>
                             Don't have and account?&nbsp;
@@ -210,7 +210,7 @@ const Login = ({ navigation }) => {
                     </View>
                 </View>
             </View>
-        </ScrollView>
+        </View>
     );
 };
 
@@ -266,10 +266,10 @@ const styles = StyleSheet.create({
       borderBottomColor: 'rgba(255, 255, 255, 0.3)',
       marginBottom: vw(5.6),
     },
-    // footer: {
-    //     positon: 'absolute',
-    //     bottom: vw(13.6)
-    // }
+    footer: {
+        positon: 'absolute',
+        bottom: vw(5)
+    },
     loginButton: {
         width: vw(90),
         aspectRatio: 360/127,

@@ -56,7 +56,7 @@ const CreateEndLoading = ({navigation}) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'rgba(0, 0, 0, 0.95)',
+        backgroundColor: '#000000',
         width: vw(101),
         // aspectRatio: 360/780,
         height: '100%',

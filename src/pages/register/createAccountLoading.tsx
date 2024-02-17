@@ -45,7 +45,7 @@ const CreateAccountLoading = ({ navigation }) => {
     }, []);
 
     return (
-        <ScrollView>
+        <View>
             <StatusBar 
                 translucent backgroundColor="transparent"
             />
@@ -76,7 +76,7 @@ const CreateAccountLoading = ({ navigation }) => {
                 </View>
                 <View style = {styles.footer}/>
             </View>
-        </ScrollView>
+        </View>
     );
 };
 

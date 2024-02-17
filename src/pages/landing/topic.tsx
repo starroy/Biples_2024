@@ -145,6 +145,9 @@ const Topics = ({ navigation }) => {
                     style = {{ width: '100%', height: '100%', position: 'absolute', top: 0}}
                 >
                 <View style = {styles.header}>
+                    <Image source = {require('../../../assets/images/background.png')}
+                        style = {styles.backImage}
+                    />
                     <View style = {styles.userInfo}>
                         <TouchableOpacity 
                             style = {styles.prevButton}
@@ -292,7 +295,11 @@ const Topics = ({ navigation }) => {
                                 {
                                     memberButtonArray.map((item, index) => 
                                         <Text key = {index} style = {{padding: vw(2.64), paddingLeft: vw(4.44), paddingRight: vw(4.44), borderRadius: vw(5), fontFamily: 'TT Firs Neue Trial Regular', fontSize: vw(2.8), color: selectProperty == item ? 'white' :'#606060', backgroundColor: selectProperty == item ? '#53FAFB10': 'transparent', marginRight: vw(4)}}
-                                            onPress = {() => setSelectProperty(item)}
+                                            onPress = {() => {setSelectProperty(item);
+                                                if (item == 'Members'){
+                                                    navigation.navigate('Members')
+                                                }
+                                            }}
                                         >
                                             {item}
                                         </Text>
@@ -346,8 +353,10 @@ const Topics = ({ navigation }) => {
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style = {styles.footerIcon}
-                        onPress = {() => 
-                            setSelected('Chat')
+                        onPress = {() => {
+                            setSelected('Chat');
+                            navigation.navigate('GroupAccount');
+                        }
                         }
                     >
                         <Svg width={vw(5.6)} height={vw(5.6)} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -388,6 +397,12 @@ const styles = StyleSheet.create({
         paddingLeft: vw(5),
         paddingRight: vw(5)
     },
+    backImage: {
+        width: '100%',
+        height: vw(70),
+        position: 'absolute',
+        top: 0,
+    },
     prevButton: {
         width: vw(9),
         aspectRatio: 1/1,
@@ -417,7 +432,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     body: {
-        marginTop: vw(27.5),
+        marginTop: vw(22.5),
         marginBottom: vw(12.5)
     },
     channels: {
@@ -536,7 +551,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        backgroundColor: '#363636',
+        backgroundColor: '#36363690',
         borderRadius: vw(5),
         left: vw(3.9)
     },

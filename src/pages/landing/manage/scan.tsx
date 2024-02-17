@@ -57,9 +57,11 @@ const Scan = ({navigation}) => {
                     </View>
                 </View>
                 <View style = {styles.footer}>
-                    <TouchableOpacity style = {styles.footerBtn}>
+                    <TouchableOpacity style = {styles.footerBtn}
+                        onPress = {() => navigation.navigate('FriendProfile')}
+                    >
                         <Text style = {{ fontFamily: 'TT Firs Neue Trial Medium', color: 'black', fontSize: vw(5.6), textAlign: 'center'}}>
-                            Share
+                            Scan
                         </Text>
                     </TouchableOpacity>
                 </View>

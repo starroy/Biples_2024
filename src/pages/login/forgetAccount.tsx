@@ -50,7 +50,7 @@ const ForgetAccount = ({ navigation }) => {
         navigation.navigate('BackLogin');
     }
     return (
-        <ScrollView>
+        <View>
             <StatusBar 
                 translucent backgroundColor="transparent"
             />
@@ -123,7 +123,7 @@ const ForgetAccount = ({ navigation }) => {
                     </Text>
                 </View>
             </View>
-        </ScrollView>
+        </View>
     );
 };
 
@@ -201,7 +201,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: vw(100),
         aspectRatio: 360/17,
-        marginBottom: vw(13.3)
+        // marginBottom: vw(13.3),
+        position: 'absolute',
+        bottom: vw(5)
     },
     arrow: {
         marginRight: vw(1.4)

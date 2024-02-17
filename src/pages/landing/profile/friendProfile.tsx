@@ -16,12 +16,13 @@ import {
 import { vh, vw } from 'react-native-css-vh-vw';
 import Svg, { Path, G, Circle } from 'react-native-svg';
 import CustomFriendCard from '../../../components/customFriendCard'
+import { ListItem } from 'react-native-elements';
 
 const FriendProfile = ({navigation}) => {
     
     const [selected, setSelected] = useState('Home');
-    const [friendData, setFriendData] = useState([
-        avatar: require('../../../../assets/images/follow2.png')
+    const [friendData, setFriendData] = useState({
+        avatar: require('../../../../assets/images/follow2.png'),
         userName: 'Kitshuna Fowyu',
         displayName: '@KitshunaFowyu',
         online: true,
@@ -30,10 +31,11 @@ const FriendProfile = ({navigation}) => {
                 name: 'Add Friend',
                 avatar: <Svg width={vw(3.6)} height={vw(3.3)} viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <Path d="M6.5 7.94444H4.025C3.25744 7.94444 2.87366 7.94444 2.56137 8.04013C1.85825 8.25558 1.30802 8.81136 1.09473 9.52159C1 9.83703 1 10.2247 1 11M10.35 11V7.66667M8.7 9.33333H12M7.875 3.5C7.875 4.88071 6.7669 6 5.4 6C4.0331 6 2.925 4.88071 2.925 3.5C2.925 2.11929 4.0331 1 5.4 1C6.7669 1 7.875 2.11929 7.875 3.5Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-                    </Svg>
-                
+                    </Svg>,
+                navigationName: 'Account',
             }, {
                 name: 'message',
+                navigationName: 'Account',
             }
         ],
         text: 'The terms and conditions contained in this Agreement and understandings, whether oral or written.',
@@ -56,7 +58,37 @@ const FriendProfile = ({navigation}) => {
                 num: '211.1k'
             },
         ]
-    ]);
+    });
+    const [sortBtn, setSortBtn] = useState([
+        {
+            mame: 'Items',
+            selected: true,
+        },
+        {
+            mame: 'Saved',
+            selected: false,
+        },
+        {
+            mame: 'Activity',
+            selected: false,
+        },
+        {
+            mame: 'Groups',
+            selected: false,
+        },
+    ])
+    const data = [
+        { id : '1', avatarUrl: require('../../../../assets/images/card2.png'), value: '1' },
+        { id : '2', avatarUrl: require('../../../../assets/images/card6.png'), value: '1' },
+        { id : '3', avatarUrl: require('../../../../assets/images/card7.png'), value: '1' },
+        { id : '4', avatarUrl: require('../../../../assets/images/card4.png'), value: '2' },
+        { id : '5', avatarUrl: require('../../../../assets/images/card10.png'), value: '1' },
+        { id : '6', avatarUrl: require('../../../../assets/images/card1.png'), value: '1' },
+        { id : '7', avatarUrl: require('../../../../assets/images/card8.png'), value: '1' },
+        { id : '8', avatarUrl: require('../../../../assets/images/card5.png'), value: '1' },
+        { id : '9', avatarUrl: require('../../../../assets/images/card9.png'), value: '1' },
+      ];
+    const [nftAvatars, setNftAvatars] = useState(data);
     return (
         <SafeAreaView>
             <StatusBar translucent backgroundColor = 'transparent'/>
@@ -91,20 +123,141 @@ const FriendProfile = ({navigation}) => {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <View style = {styles.body}>
+                <ScrollView style = {styles.body}>
                     <View style = {styles.friendInfo}>
                         <View style = {styles.friend}>
-                            <ImageBackground
+                            {/* <View style = {{borderRadius: vw(11.3), overflow:'hidden'}}> */}
+                            <Image
                                 source = {friendData.avatar}
                                 style = {styles.friendAvatar}
-                            >
-                                <View style = {}
+                            />
+                            <View style = {styles.onlineState}/>
+                            {/* </View> */}
+                            <View style = {styles.info}>
+                                <View style = {{flexDirection: 'row', alignItems:'center'}}>
+                                    <Text style = {[styles.headerTitle,{fontSize: vw(5)}]}>
+                                        {friendData.userName}&nbsp;
+                                    </Text>
+                                    <Svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <Path d="M12.6639 2.38805C12.8279 2.78469 13.1427 3.09996 13.5391 3.26456L14.929 3.84029C15.3256 4.00459 15.6408 4.31974 15.8051 4.71641C15.9694 5.11307 15.9694 5.55876 15.8051 5.95543L15.2298 7.34437C15.0654 7.74121 15.0652 8.18735 15.2303 8.584L15.8046 9.97253C15.886 10.169 15.928 10.3796 15.928 10.5923C15.928 10.8049 15.8862 11.0155 15.8048 11.212C15.7234 11.4085 15.6041 11.587 15.4537 11.7374C15.3033 11.8878 15.1247 12.007 14.9282 12.0883L13.5393 12.6637C13.1427 12.8277 12.8274 13.1425 12.6628 13.5389L12.0871 14.9288C11.9228 15.3255 11.6077 15.6406 11.211 15.8049C10.8144 15.9692 10.3687 15.9692 9.97207 15.8049L8.58318 15.2296C8.18651 15.0657 7.741 15.066 7.34459 15.2305L5.9547 15.8054C5.55827 15.9694 5.11298 15.9692 4.71666 15.805C4.32033 15.6409 4.00537 15.3261 3.84095 14.9299L3.26507 13.5395C3.10108 13.1429 2.78629 12.8276 2.38992 12.663L1.00003 12.0873C0.60355 11.923 0.288506 11.6081 0.124147 11.2116C-0.0402122 10.8152 -0.0404354 10.3697 0.123527 9.97313L0.698824 8.58419C0.862718 8.18751 0.862384 7.74198 0.697894 7.34555L0.123422 5.95461C0.0419734 5.75815 3.40993e-05 5.54756 2.0785e-08 5.33488C-3.40577e-05 5.1222 0.0418377 4.9116 0.123223 4.71511C0.204609 4.51862 0.323913 4.3401 0.474318 4.18974C0.624724 4.03937 0.803282 3.92012 0.99979 3.8388L2.38868 3.26348C2.78496 3.09962 3.10003 2.78522 3.26474 2.38929L3.84045 0.999348C4.00475 0.602682 4.31989 0.287533 4.71654 0.123228C5.11319 -0.0410761 5.55886 -0.0410761 5.95551 0.123228L7.34441 0.698547C7.74107 0.862447 8.18658 0.862112 8.583 0.697616L9.97347 0.12412C10.3701 -0.0400916 10.8156 -0.040058 11.2122 0.124214C11.6088 0.288486 11.9239 0.603545 12.0882 1.00011L12.6641 2.39046L12.6639 2.38805Z" fill="#53FAFB"/>
+                                        <Path d="M5.5744 7.96406L7.16723 9.55688L8.95916 7.76495L10.7511 5.97302" stroke="black" stroke-width="2.23585" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </Svg>
+                                </View>
+                                <Text style = {[styles.text, {color: 'white'}]}>
+                                    {friendData.displayName}
+                                </Text>
+                                <View style = {styles.btnsStyle}>
+                                    {
+                                        friendData.btnName.map((item, index) => 
+                                        <TouchableOpacity 
+                                            key = {index}
+                                            style = {[styles.btnStyle, {backgroundColor: index == 0? '#53FAFB' : '#131313'}]}
+                                            onPress = {() => navigation.navigate(item.navigationName)}
+                                        >
+                                            {item.avatar}
+                                            <Text style = {[styles.text, {color: index == 0? 'black' : 'white'}]}>
+                                                {item.name}
+                                            </Text>
+                                        </TouchableOpacity>
+                                    )
+                                    }
+                                </View>
+                            </View>
+                        </View>
+                        <View style = {styles.middle}>
+                            <Text style = {styles.text}>
+                                {friendData.text}
+                            </Text>
+                            <View style = {styles.joinDate}>
+                                <Text style = {styles.text}>
+                                    {friendData.enterDay}
+                                </Text>
+                                <View style = {{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                                    <Svg width={vw(3.3)} height={vw(3.3)} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <Path d="M6.16722 9.10501L5.43278 9.83946C4.41872 10.8535 2.7746 10.8535 1.76054 9.83946C0.746485 8.8254 0.746485 7.18128 1.76054 6.16722L2.49499 5.43278M9.10501 6.16722L9.83946 5.43278C10.8535 4.41872 10.8535 2.7746 9.83946 1.76054C8.8254 0.746485 7.18128 0.746485 6.16722 1.76054L5.43278 2.49499M3.98234 7.61765L7.61766 3.98233" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </Svg>
+                                    <Text style = {[styles.text, {marginLeft: vw(1), color: 'white', fontFamily: 'TT Firs Neue Trial Light'}]}>
+                                        Tuerp.1lsuy
+                                    </Text>
+                                </View>
+                            </View>
+                        </View>
+                        <View style = {styles.friendFooter}>
+                            {
+                                friendData.personalData.map((item, index) => 
+                                    <View key = {index} style = {[styles.personalInfo, {borderRightColor: index == 3? 'black' : '#4C4C4C'}]}>
+                                        <Text style = {[styles.headerTitle, {fontSize: vw(3.3)}]}>
+                                            {item.num}
+                                        </Text>
+                                        <Text style = {[styles.text, {fontSize: vw(2)}]}>
+                                            {item.name}
+                                        </Text>
+                                    </View>
+                                )
+                            }
                         </View>
                     </View>
                     <View style = {styles.avatarData}>
-                        
+                        <View style = {styles.sortbtn}>
+                            {
+                                sortBtn.map((item, index) => 
+                                    <TouchableOpacity 
+                                        key = {index} 
+                                        style = {[styles.btn,{backgroundColor: item.selected ? '#53FAFB10': 'black'}]}
+                                        onPress={() => 
+                                            setSortBtn(prevBtn => {
+                                                const newBtn = [...prevBtn];
+                                                for (i = 0; i< sortBtn.length; i++){
+                                                    newBtn[i].selected = false;
+                                                }
+                                                newBtn[index].selected = !(newBtn[index].selected);
+                                        // console.log(newBtn);
+                                                return newBtn;
+                                            })
+                                        }
+                                    >
+                                        <Text style = {[styles.headerTitle, {fontSize: vw(3.3)}]}>
+                                            {item.mame}
+                                        </Text>
+                                     </TouchableOpacity>
+                                )
+                            }
+                        </View>
+                        <View style = {styles.nftAvatar}>
+                            {
+                                nftAvatars.map((items, index) =>
+                                    
+                                        index<3 || index>5 ?
+                                            <Image source = {items.avatarUrl}
+                                                style = {styles.item}
+                                                key = {index}
+                                            />
+                                            :
+                                            index == 3 ? 
+                                            <Image source = {items.avatarUrl}
+                                                style = {[styles.item, {width: vw(57.6), height: vw(57.6)}]}
+                                                key = {index}
+                                            />
+                                            :
+                                            index == 4 ?
+                                            <View style = {{flexDirection: 'column', width: vw(27.8), height: vw(55.6), marginRight: vw(2), marginBottom: vw(2)}}
+                                                key = {index}
+                                            >
+                                                <Image source = {items.avatarUrl}
+                                                    style = {styles.item}
+                                                />
+                                                <Image source = {nftAvatars[index+1].avatarUrl}
+                                                    style = {styles.item}
+                                                />
+                                            </View>
+                                            :
+                                            null
+                                    
+                                )
+                            }
+                        </View>
                     </View>
-                </View>
+                </ScrollView>
                 <View style = {styles.footer}>
                     <TouchableOpacity style = {styles.footerIcon}
                         onPress = {() => 
@@ -131,9 +284,10 @@ const FriendProfile = ({navigation}) => {
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style = {styles.footerIcon}
-                        onPress = {() => 
-                            setSelected('Chat')
-                        }
+                        onPress = {() => {
+                            setSelected('Chat');
+                            navigation.navigate('GroupAccount');
+                        }}
                     >
                         <Svg width={vw(5.6)} height={vw(5.6)} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <G clip-path="url(#clip0_175_4353)">
@@ -194,10 +348,9 @@ const styles = StyleSheet.create({
     body: {
         width: vw(100),
         // position: 'absolute',
-        paddingTop: vw(51.1),
-        marginBottom: vh(12.11),
-        justifyContent: 'center',
-        alignItems: 'center'
+        marginTop: vw(28.1),
+        marginBottom: vw(6),
+        paddingLeft: vw(7)
     },
     title: {
         fontFamily: 'TT Firs Neue Trial Medium',
@@ -215,7 +368,7 @@ const styles = StyleSheet.create({
         marginBottom: vw(20)
     },
     text: {
-        fontFamily: 'TT Firs Neue Trial Regular',
+        fontFamily: 'TT Firs Neue Trial ExtraLight',
         fontSize: vw(3.3),
         color: '#656565',
         width: vw(85)
@@ -225,10 +378,108 @@ const styles = StyleSheet.create({
         height: vw(74.72),
         paddingTop: vw(8.33),
         paddingBottom: vw(7.22),
+        flexDirection: 'column',
+        justifyContent: 'space-between'
     },
     friend: {
         flexDirection: 'row',
         height: vw(22.2),
+        marginBottom: vw(6.7)
+    },
+    friendAvatar: {
+        width: vw(22.2),
+        height: vw(22.2),
+        borderRadius: vw(15)
+    },
+    onlineState: {
+        backgroundColor: '#53FAFB',
+        width: vw(4.56),
+        height: vw(4.56),
+        borderRadius: vw(3),
+        borderWidth: vw(0.3),
+        borderColor: 'black',
+        right: vw(5),
+        top: vw(16)
+    },
+    info: {
+        flexDirection: 'column',
+        justifyContent: 'space-between'
+    },
+    btnsStyle: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        // width: vw(18.6),
+        // marginLeft: vw(4),
+    },
+    btnStyle: {
+        height: vw(8.33),
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: vw(2),
+        paddingLeft: vw(4),
+        paddingRight: vw(4),
+        flexDirection: 'row',
+        borderRadius: vw(10),
+        justifyContent:'center',
+    },
+    text: {
+        fontFamily : 'TT Firs Neue Trial Medium',
+        fontSize: vw(2.8),
+        color: '#4C4C4C'
+    },
+    middle: {
+        flexDirection: 'column',
+        height: vw(13.6),
+        width: vw(90),
+        justifyContent: 'space-betwen',
+
+    },
+    joinDate: {
+        flexDirection: 'row',
+        marginTop: vw(1),
+        width: vw(60),
+        justifyContent: 'space-between',
+    },
+    friendFooter: {
+        flexDirection: 'row',
+    },
+    personalInfo: {
+        flexDirection:'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingRight: vw(7),
+        paddingLeft: vw(7),
+        borderRightWidth: 2, 
+        borderRightColor: '#4C4C4C'
+    },
+    avatarData: {
+        marginTop: vw(0)
+    },
+    sortbtn: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    btn: {
+        width: vw(20.83),
+        height: vw(9.4),
+        borderRadius: vw(5),
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    nftAvatar: {
+        width: vw(90),
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginTop: vw(6),
+        marginBottom: vw(20)
+    },
+    item: {
+        marginRight: vw(2),
+        marginBottom: vw(2),
+        width: vw(27.8),
+        height: vw(27.8),
+        borderRadius: vw(5)
     },
     footer: {
         position: 'absolute',
@@ -239,7 +490,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        backgroundColor: '#222222',
+        backgroundColor: '#22222295',
         borderRadius: vw(5)
     },
     footerIcon: {

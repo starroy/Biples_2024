@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
         width: vw(90),
         // position: 'absolute',
         paddingTop: vw(51.1),
-        paddingBottom: vw(55),
+        paddingBottom: vw(25),
         marginLeft: vw(5)
     },
     myCard: {
@@ -339,19 +339,13 @@ const styles = StyleSheet.create({
     },
     myFriends: {
         width: vw(90),
-        height: vw(100)
+        height: vw(90)
     },
     friendTitle: {
         height: vw(21.4),
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems:'center'
-    },
-    friendData: {
-        // paddingBottom: vw(50),
-        // width: vw(90),
-        // flexDirection: 'column',
-        // textAlign: 'center'
     },
     footer: {
         position: 'absolute',

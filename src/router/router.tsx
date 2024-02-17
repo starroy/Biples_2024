@@ -36,6 +36,13 @@ import ManageFriend from '../pages/landing/manage/manageFriend';
 import QRProfile from '../pages/landing/manage/QRProfile';
 import Scan from '../pages/landing/manage/scan';
 import FriendProfile from '../pages/landing/profile/friendProfile';
+import FriendSearch from '../pages/landing/profile/friendSearch';
+import FriendSearchLoading from '../pages/landing/profile/friendSearchLoading';
+import Account from '../pages/landing/profile/account';
+import GroupAccount from '../pages/landing/profile/groupAccount';
+import Documents from '../pages/landing/profile/documents';
+import MediaView from '../pages/landing/profile/mediaView';
+import Members from '../pages/landing/profile/members';
 import HomeApp from './home';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -214,8 +221,43 @@ function StackRouter() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name = 'FrieldProfile'
-        component = { FrieldProfile }
+        name = 'FriendProfile'
+        component = { FriendProfile }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'FriendSearch'
+        component = { FriendSearch }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'FriendSearchLoading'
+        component = { FriendSearchLoading }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Account'
+        component = { Account }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'GroupAccount'
+        component = { GroupAccount }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Documents'
+        component = { Documents }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'MediaView'
+        component = { MediaView }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Members'
+        component = { Members }
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

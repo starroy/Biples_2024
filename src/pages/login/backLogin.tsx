@@ -78,7 +78,7 @@ const BackLogin = ({ navigation }) => {
     }
 
     return (
-        <ScrollView>
+        <View>
             <StatusBar 
                 translucent backgroundColor="transparent"
             />
@@ -223,7 +223,7 @@ const BackLogin = ({ navigation }) => {
                     </Text>
                 </View>
             </View>
-        </ScrollView>
+        </View>
     );
 };
 
@@ -311,7 +311,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        marginBottom: vw(11.1)
+        // marginBottom: vw(11.1),
+        position: 'absolute',
+        bottom: vw(5),
     },
     footerAvatar: {
         width: vw(8.3), 
@@ -350,7 +352,8 @@ const styles = StyleSheet.create({
     },
     centeredView: {
         width: vw(100),
-        aspectRatio: 360/780,
+        height: '100%',
+        // aspectRatio: 360/780,
         flex: 1,
         justifyContent: 'flex-end'
     },

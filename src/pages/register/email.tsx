@@ -41,7 +41,7 @@ const RegisterEmail = ({navigation}) => {
     }
 
     return (
-        <ScrollView>
+        <View style={styles.container}>
             <StatusBar 
                 translucent backgroundColor="transparent"
             />
@@ -55,9 +55,9 @@ const RegisterEmail = ({navigation}) => {
                             {'\n'}Login or Signup.
                         </Text>
                     </View>
-                    <View style={{marginTop: vw(39)}}/>
+                    <View style={{marginTop: vw(19)}}/>
                     <View className='loading_action'
-                        style={{width: '100%', aspectRatio:360/198, flexDirection: 'col', justifyContent: 'center', alignItems: 'center'}}
+                        style={{width: '100%', aspectRatio:360/198, flexDirection: 'col', justifyContent: 'flex-start', alignItems: 'center'}}
                     >
                         <View className='registe_login_button'
                             style={{width: vw(88), aspectRatio:320/34, flexDirection: 'row', borderRadius: vw(13.9)}}
@@ -135,16 +135,16 @@ const RegisterEmail = ({navigation}) => {
 
                             }
                         </View>
-                        <View className='small_text'
-                            style = {{marginTop: vw(33)}}
-                        >
-                            <Text style={{ color: 'white', fontSize: vw(3.6), textAlign: 'center', fontFamily: 'TT Firs Neue Trial Regular'}}>
-                                Or continue with
-                            </Text>
-                        </View>
                     </View>
                 </View>
-                
+                <View style = {{position: 'absolute', top: vh(58)}}>
+                <View className='small_text'
+                    style = {{marginTop: vw(33)}}
+                >
+                    <Text style={{ color: 'white', fontSize: vw(3.6), textAlign: 'center', fontFamily: 'TT Firs Neue Trial Regular'}}>
+                        Or continue with
+                    </Text>
+                </View>
                 <View style={styles.imgbuttonStyle}>
                     <CustomImageButton
                         // onPress={() => console.log('My Button pressed')}
@@ -179,7 +179,7 @@ const RegisterEmail = ({navigation}) => {
                     />
                 </View>        
                 <View className='small_text'
-                    style = {{marginTop: vw(16)}}
+                    style = {{marginTop: vw(16), marginLeft: vw(10)}}
                 >
                     <Text style={{ color: '#565656', fontSize: vw(3.3), textAlign: 'center', fontFamily: 'TT Firs Neue Trial Regular'}}>
                         By creating your account, you agree in the Biples {'\n'}
@@ -197,8 +197,9 @@ const RegisterEmail = ({navigation}) => {
                         </Text>
                     </Text>
                 </View>
+                </View>
             </View>
-        </ScrollView>
+        </View>
     );
 };
 

@@ -27,8 +27,6 @@ import {
 import PhoneInput from 'react-native-phone-input'; 
 import RadialGradient from 'react-native-radial-gradient';
 
-const CELL_COUNT = 5;
-
 const Main = ({ navigation }) => {
 
     const [selected, setSelected] = useState('Home');
@@ -302,7 +300,7 @@ const Main = ({ navigation }) => {
                         />
                     </View>
                     <View style = {styles.topCommunitites}>
-                        <View style = {{justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', marginBottom: vw(3.33), marginLeft: vw(5), paddingRight: vw(5)}}>
+                        <View style = {{justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', marginBottom: vw(3.33), marginLeft: vw(5), paddingRight: vw(5), marginTop: vw(10)}}>
                             <Text style = {styles.title}>
                                 Top Communities
                             </Text>
@@ -342,9 +340,10 @@ const Main = ({ navigation }) => {
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style = {styles.footerIcon}
-                        onPress = {() => 
-                            setSelected('Community')
-                        }
+                        onPress = {() => {
+                            setSelected('Community');
+                            navigation.navigate('GroupAccount');
+                        }}
                     >
                         <Svg width={vw(5.6)} height={vw(5.6)} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <Path d="M15 13.1974C16.2132 13.8069 17.2534 14.785 18.0127 16.008C18.163 16.2502 18.2382 16.3713 18.2642 16.539C18.317 16.8798 18.084 17.2988 17.7666 17.4336C17.6104 17.5 17.4347 17.5 17.0833 17.5M13.3333 9.6102C14.5681 8.99657 15.4167 7.72238 15.4167 6.25C15.4167 4.77762 14.5681 3.50343 13.3333 2.8898M11.6667 6.25C11.6667 8.32107 9.98772 10 7.91665 10C5.84559 10 4.16665 8.32107 4.16665 6.25C4.16665 4.17893 5.84559 2.5 7.91665 2.5C9.98772 2.5 11.6667 4.17893 11.6667 6.25ZM2.13268 15.782C3.46127 13.7871 5.5578 12.5 7.91665 12.5C10.2755 12.5 12.372 13.7871 13.7006 15.782C13.9917 16.219 14.1372 16.4375 14.1205 16.7166C14.1074 16.9339 13.9649 17.2 13.7913 17.3313C13.5683 17.5 13.2615 17.5 12.648 17.5H3.18528C2.5718 17.5 2.26505 17.5 2.04202 17.3313C1.86836 17.2 1.72589 16.9339 1.71285 16.7166C1.69609 16.4375 1.84162 16.219 2.13268 15.782Z" stroke={selected == 'Community'? '#53FAFB' : "#9D9D9D"} stroke-linecap="round" stroke-linejoin="round"/>
@@ -354,9 +353,10 @@ const Main = ({ navigation }) => {
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style = {styles.footerIcon}
-                        onPress = {() => 
+                        onPress = {() => {
                             setSelected('Chat')
-                        }
+                            navigation.navigate('GroupAccount');
+                        }}
                     >
                         <Svg width={vw(5.6)} height={vw(5.6)} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <G clip-path="url(#clip0_175_4353)">
@@ -437,7 +437,7 @@ const styles = StyleSheet.create({
     },
     body: {
         marginTop: vw(27.5),
-        paddingBottom: vw(32.5)
+        marginBottom: vw(6)
     },
     myCommunities: {
         width: vw(100),
@@ -483,7 +483,6 @@ const styles = StyleSheet.create({
         fontFamily: 'TT Firs Neue Trial Medium',
         color: 'white',
         fontSize: vw(2.8)
-
     },
     close: {
         width: vw(4.44),
@@ -500,6 +499,7 @@ const styles = StyleSheet.create({
     topCommunities: {
         width: vw(100),
         aspectRatio: 360/365,
+        paddingTop: vw(5.6),
         marginTop: vw(5.6)
     },
     topCard: {
@@ -516,7 +516,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        backgroundColor: '#222222',
+        backgroundColor: '#22222295',
         borderRadius: vw(5)
     },
     footerIcon: {
