@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {
     ImageBackground, 
     View, 
@@ -11,12 +11,14 @@ import {
     PanResponder,
     TouchableOpacity, 
     FlatList,
-    TextInput
+    TextInput,
+    Animated
 } from 'react-native'
 import { vh, vw } from 'react-native-css-vh-vw';
 import Svg, { Path, G, Circle, Rect } from 'react-native-svg';
 import CustomFriendCard from '../../../components/customFriendCard'
 import { ListItem } from 'react-native-elements';
+import { SwipeListView, Sw } from 'react-native-swipe-list-view';
 
 const Documents = ({navigation}) => {
     
@@ -42,6 +44,8 @@ const Documents = ({navigation}) => {
     const [state, setState] = useState('Documents');
     const document = [
         {
+            id: 0,
+            dragged: false,
             avatar: require('../../../../assets/images/document.png'),
             semiAvatar: require('../../../../assets/images/follow2.png'),
             title: 'Fichier.pdf',
@@ -53,6 +57,8 @@ const Documents = ({navigation}) => {
                 </Svg>
         },
         {
+            id: 1,
+            dragged: false,
             avatar: require('../../../../assets/images/document.png'),
             semiAvatar: require('../../../../assets/images/follow2.png'),
             title: 'Fichier.pdf',
@@ -65,6 +71,8 @@ const Documents = ({navigation}) => {
                 </Svg>
         },
         {
+            id: 2,
+            dragged: false,
             avatar: require('../../../../assets/images/document.png'),
             semiAvatar: require('../../../../assets/images/follow2.png'),
             title: 'Fichier.pdf',
@@ -76,6 +84,8 @@ const Documents = ({navigation}) => {
                 </Svg>
         },
         {
+            id: 3,
+            dragged: false,
             avatar: require('../../../../assets/images/document.png'),
             semiAvatar: require('../../../../assets/images/follow2.png'),
             title: 'Fichier.pdf',
@@ -90,28 +100,114 @@ const Documents = ({navigation}) => {
     const [documentData, setDocumentData] = useState(document);
     const [intervalId, setIntervalId] = useState(null);
     const DocumentItem = ({item, index}) => {
+        const handleDelete = (id) => {
+            setDocumentData(prevFriends => {
+            const newFriends = [...prevFriends];
+            let index = newFriends.findIndex(friend => friend.id === id);
+            if (index !== -1) {
+                newFriends.splice(index, 1);
+                for (let i = index; i < newFriends.length; i++) {
+                if (newFriends[i].id > id) {
+                    newFriends[i].id -= 1;
+                }
+                }
+            }
+            return newFriends;
+            });
+        };
+        
+        const pan = new Animated.ValueXY();
+        const panResponder = useRef(
+            PanResponder.create({
+                onMoveShouldSetPanResponder: (evt, gestureState) => {
+                    // console.log('onMoveShouldSetPanResponder', evt, gestureState);
+                    return Math.abs(gestureState.dx) > 5;
+                },
+                onPanResponderRelease: (evt, gestureState) => {
+                    let num = 0;
+                    console.log('onPanResponderRelease', evt, gestureState);
+                    // console.log('length: ', descriptions.length);
+                    if (gestureState.dx > 0) {
+                        // console.log('dx>0', gestureState.dx);
+                        setDocumentData(prevFriend => {
+                            const newFriends = [...prevFriend];
+                            newFriends[index].dragged = false;
+                            return newFriends;
+                        });
+                    } else {
+                        // console.log('dx<0', gestureState.dx);
+                        setDocumentData(prevFriend => {
+                            const newFriends = [...prevFriend];
+                            newFriends[index].dragged = true;
+                            return newFriends;
+                        });
+                        Animated.spring(pan.x, { toValue: 0, useNativeDriver: true }).start();
+                    }
+                },
+            })
+        ).current;
+        const handleBack = () => {
+            setDocumentData(prevFriend => {
+                const newFriends = [...prevFriend];
+                newFriends[index].dragged = false;
+                return newFriends;
+            });
+        }
         return (
-            <View key = {item} style = {styles.documentItem}>
-                <View style = {styles.userInfo}>
-                    <View style = {styles.avatar}>
-                        <ImageBackground source = {item.avatar}
-                            style = {styles.avatarItem}
+            <Animated.View 
+                {...panResponder.panHandlers}
+                style={[styles.documentItem, {
+                transform: [{ translateX: pan.x }], backgroundColor: item.dragged ? '#53FAFB': '#53FAFB10'
+                }]} key = {item}
+            >
+                <View style = {[styles.userInfo, {alignItems: 'center'}]}>
+                    {
+                        item.dragged ?
+                        <TouchableOpacity 
+                            onPress = {handleBack}
+                            style = {{backgroundColor: '#131313', borderRadius: vw(5), width: vw(8.33), height: vw(8.33), justifyContent: 'center', alignItems: 'center'}}
                         >
-                            <Image source = {item.semiAvatar}
-                                style = {styles.semiAvatarItem}
-                            />
-                        </ImageBackground>
-                    </View>
+                            <Svg width={vw(1.7)} height={vw(3.1)} viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <Path d="M5.375 0.8125L0.6875 5.5L5.375 10.1875" fill="white" fill-opacity="0.2"/>
+                                <Path d="M5.375 0.8125L0.6875 5.5L5.375 10.1875" fill="#212121"/>
+                                <Path d="M5.375 0.8125L0.6875 5.5L5.375 10.1875" fill="#181818"/>
+                                <Path d="M5.375 0.8125L0.6875 5.5L5.375 10.1875" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                            </Svg>
+                        </TouchableOpacity>
+                        :
+                        <View style = {styles.avatar}>
+                            <ImageBackground source = {item.avatar}
+                                style = {styles.avatarItem}
+                            >
+                                <Image source = {item.semiAvatar}
+                                    style = {styles.semiAvatarItem}
+                                />
+                            </ImageBackground>
+                        </View>
+                    }
                     <View style = {styles.documentStyle}>
-                        <Text style = {styles.documentName}>
+                        <Text style = {[styles.documentName, {color: item.dragged ? 'black' : '#DADADA', fontFamily: item.dragged ? 'TT Firs Neue Trial Medium': 'TT Firs New Trial Light'}]}>
                             {item.title}
                         </Text>
-                        <Text style = {styles.documenttime}>
+                        <Text style = {[styles.documenttime, {color: item.dragged ? 'black' : '#979797', fontFamily: item.dragged ? 'TT Firs Neue Trial Regular': 'TT Firs New Trial Light'}]}>
                             {item.date}
                         </Text>
                     </View>
                 </View>
-                <View style = {styles.download}>
+                {
+                    item.dragged ?
+                    
+                    <TouchableOpacity
+                        style={{ backgroundColor: '#53FAFB', justifyContent: 'center', alignItems: 'flex-end', width: vw(8.3)}}
+                        onPress={() => handleDelete(item.id)}
+                    >
+                        <Svg width={vw(8.3)} height={vw(8.3)} viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <Circle cx="15" cy="15" r="14.5" stroke="black"/>
+                            <Path d="M13.4375 8.4375H17.5M9.375 10.4687H21.5625M20.2083 10.4687L19.7335 17.5912C19.6623 18.6598 19.6266 19.1941 19.3958 19.5992C19.1926 19.9559 18.8862 20.2426 18.5168 20.4217C18.0972 20.625 17.5617 20.625 16.4907 20.625H14.4468C13.3758 20.625 12.8403 20.625 12.4207 20.4217C12.0513 20.2426 11.7449 19.9559 11.5417 19.5992C11.3109 19.1941 11.2752 18.6598 11.204 17.5912L10.7292 10.4687M14.1146 13.5156V16.901M16.8229 13.5156V16.901" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                        </Svg>
+                    </TouchableOpacity>
+                    :
+                    <View style = {styles.download}>
                     <TouchableOpacity style = {styles.downloadBtn}
                         // onPress = { () => {
                         //     setDocumentData(prevData => {
@@ -171,12 +267,14 @@ const Documents = ({navigation}) => {
                         :
                         null
                     }
-                </View>
-            </View>
+                    </View>
+                }
+            </Animated.View>
         );
     };
     const voice = [
         {
+            id: 0,
             state: 'run',
             playedTime: '0:09',
             display: <Svg width={vw(44.17)} height={vw(4.44)} viewBox="0 0 159 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -212,6 +310,7 @@ const Documents = ({navigation}) => {
             uploadingDate: 'Yesterday 03:21 PM'
         },
         {
+            id: 1,
             state: 'stop',
             playedTime: '0:00',
             display: <Svg width={vw(44.17)} height={vw(4.44)} viewBox="0 0 159 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -247,6 +346,7 @@ const Documents = ({navigation}) => {
             uploadingDate: 'Yesterday 03:21 PM'
         },
         {
+            id: 2,
             state: 'stop',
             playedTime: '0:00',
             display: <Svg width={vw(44.17)} height={vw(4.44)} viewBox="0 0 159 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -284,65 +384,166 @@ const Documents = ({navigation}) => {
     ];
     const [voiceData, setVoiceData] = useState(voice);
     const VoiceItem = ({item, index}) => {
-        return (
-            <View style = {styles.voicedataStyle}>
-                <View style = {[styles.vicCard, {backgroundColor: item.state == 'run' ? "#53FAFB" : '#53FAFB10'}]}>
-                    {
-                        item.state == 'run' ?
-                        <TouchableOpacity 
-                            onPress = {() => 
-                                setVoiceData(prevData => {
-                                    const newData = [...prevData];
-                                    newData[index] = voice[1];
-                                    return newData;
-                                })
-                            }
-                        >
-                            <Svg width={vw(8.9)} height={vw(8.9)} viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <Path d="M12.1885 20.5V11.5M19.6885 20.5V11.5M30.9385 16C30.9385 24.2843 24.2227 31 15.9385 31C7.65421 31 0.938477 24.2843 0.938477 16C0.938477 7.71573 7.65421 1 15.9385 1C24.2227 1 30.9385 7.71573 30.9385 16Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </Svg>
-                        </TouchableOpacity>
-                        :
-                        <TouchableOpacity 
-                            onPress = {() => 
-                                setVoiceData(prevData => {
-                                    const newData = [...prevData];
-                                    newData[index] = voice[0];
-                                    return newData;
-                                })
-                            }
-                        >
-                            <Svg width={vw(9.1)} height={vw(9.1)} viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <Path d="M16.4385 31C24.7227 31 31.4385 24.2843 31.4385 16C31.4385 7.71573 24.7227 1 16.4385 1C8.15421 1 1.43848 7.71573 1.43848 16C1.43848 24.2843 8.15421 31 16.4385 31Z" stroke="#53FAFB50" stroke-opacity="0.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <Path d="M12.6885 11.448C12.6885 10.7321 12.6885 10.3741 12.8381 10.1743C12.9685 10.0001 13.168 9.89115 13.385 9.87565C13.6341 9.85787 13.9352 10.0514 14.5374 10.4386L21.6183 14.9906C22.1409 15.3265 22.4021 15.4945 22.4924 15.7081C22.5712 15.8947 22.5712 16.1053 22.4924 16.2919C22.4021 16.5055 22.1409 16.6735 21.6183 17.0094L14.5374 21.5614C13.9352 21.9486 13.6341 22.1421 13.385 22.1243C13.168 22.1088 12.9685 21.9999 12.8381 21.8257C12.6885 21.6259 12.6885 21.2679 12.6885 20.552V11.448Z" stroke="#53FAFB50" stroke-opacity="0.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </Svg>
-                        </TouchableOpacity>
-                    }
-                    <Text style = {[styles.voiceRunTime, {color: item.state == 'run' ? "black" : '#53FAFB50'}]}>
-                        {item.playedTime}
-                    </Text>
-                    {item.display}
-                    {
-                        item.state == 'run' ?
-                        <View style = {styles.speed}>
-                            <Text style = {[styles.speedText, {color: item.state == 'run' ? "black" : '#53FAFB50'}]}>
-                                {item.speed}
-                            </Text>
-                        </View>
-                        :
-                        <Text style = {[styles.voiceRunTime, {color: item.state == 'run' ? "black" : '#53FAFB50'}]}>
-                            {item.remainedTime}
-                        </Text>
-                    }
-                    <Svg width={vw(0.83)} height={vw(3.3)} viewBox="0 0 3 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <Path d="M1.49995 5.43837C1.1898 5.43837 0.938371 5.68979 0.938371 5.99994C0.938371 6.31009 1.1898 6.56152 1.49995 6.56152C1.8101 6.56152 2.06152 6.31009 2.06152 5.99994C2.06152 5.68979 1.8101 5.43837 1.49995 5.43837Z" stroke={item.state == 'run' ? "black" : '#53FAFB50'} stroke-width="1.12724" stroke-linecap="round" stroke-linejoin="round"/>
-                        <Path d="M1.49995 9.3694C1.1898 9.3694 0.938371 9.62083 0.938371 9.93098C0.93837 10.2411 1.1898 10.4926 1.49995 10.4926C1.8101 10.4926 2.06152 10.2411 2.06152 9.93098C2.06152 9.62083 1.8101 9.3694 1.49995 9.3694Z" stroke={item.state == 'run' ? "black" : '#53FAFB50'} stroke-width="1.12724" stroke-linecap="round" stroke-linejoin="round"/>
-                        <Path d="M1.49995 1.50733C1.1898 1.50733 0.938371 1.75876 0.938371 2.06891C0.938371 2.37906 1.1898 2.63048 1.49995 2.63048C1.8101 2.63048 2.06152 2.37906 2.06152 2.06891C2.06152 1.75876 1.8101 1.50733 1.49995 1.50733Z" stroke={item.state == 'run' ? "black" : '#53FAFB50'} stroke-width="1.12724" stroke-linecap="round" stroke-linejoin="round"/>
+        const [dragged, setDragged] = useState(false);
+        const [direct, setDirection] = useState('');
+        const items = [item]
+        // console.log(items);
+        const handleDelete = (id) => {
+            setVoiceData(prevFriends => {
+            const newFriends = [...prevFriends];
+            let index = newFriends.findIndex(friend => friend.id === id);
+            if (index !== -1) {
+                newFriends.splice(index, 1);
+                for (let i = index; i < newFriends.length; i++) {
+                if (newFriends[i].id > id) {
+                    newFriends[i].id -= 1;
+                }
+                }
+            }
+            return newFriends;
+            });
+        };
+        const renderHiddenItem = (data, rowMap) => {
+            const swipeAnimatedValue = new Animated.Value(0);
+            const backgroundColor = swipeAnimatedValue.interpolate({
+              inputRange: [-75, 0, 75],
+              outputRange: ['black', 'black', 'blue'],
+            });
+        
+            return (
+              <Animated.View
+                style={{
+                  flex: 1,
+                  backgroundColor: backgroundColor,
+                  justifyContent: 'flex-end',
+                  flexDirection: 'row',
+                  width: vw(90)
+                }}
+              >
+              <TouchableOpacity
+                style={{ backgroundColor: 'red', justifyContent: 'center', alignItems: 'center', width: vw(13.3), height: vw(13.3), borderRadius: vw(15), marginTop: vw(0.5), marginRight: vw(0.5) }}
+                onPress={() => handleDelete(data.item.id)}
+              >
+                  {/* <Svg width={vw(6.1)} height={vw(6.1)} viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <Path d="M7.66667 1H14.3333M1 4.33333H21M18.7778 4.33333L17.9986 16.0214C17.8817 17.775 17.8232 18.6518 17.4445 19.3167C17.111 19.902 16.608 20.3725 16.0018 20.6663C15.3133 21 14.4346 21 12.6771 21H9.32295C7.56545 21 6.6867 21 5.99815 20.6663C5.39195 20.3725 4.88899 19.902 4.55554 19.3167C4.17679 18.6518 4.11834 17.775 4.00143 16.0214L3.22222 4.33333M8.77778 9.33333V14.8889M13.2222 9.33333V14.8889" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </Svg> */}
+                  <Image source = {require('../../../../assets/images/follow2.png')}
+                    style = {{width: vw(13.3), height: vw(13.3), borderRadius: vw(10)}}/>
+              </TouchableOpacity>
+              <View style = {{width:vw(60)}}/>
+                <TouchableOpacity
+                  style={{ backgroundColor: 'red', justifyContent: 'center', alignItems: 'center', width: vw(13.3), height: vw(13.3), borderRadius: vw(15), marginTop: vw(0.5), marginRight: vw(0.5) }}
+                  onPress={() => handleDelete(data.item.id)}
+                >
+                    <Svg width={vw(6.1)} height={vw(6.1)} viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <Path d="M7.66667 1H14.3333M1 4.33333H21M18.7778 4.33333L17.9986 16.0214C17.8817 17.775 17.8232 18.6518 17.4445 19.3167C17.111 19.902 16.608 20.3725 16.0018 20.6663C15.3133 21 14.4346 21 12.6771 21H9.32295C7.56545 21 6.6867 21 5.99815 20.6663C5.39195 20.3725 4.88899 19.902 4.55554 19.3167C4.17679 18.6518 4.11834 17.775 4.00143 16.0214L3.22222 4.33333M8.77778 9.33333V14.8889M13.2222 9.33333V14.8889" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </Svg>
-                </View>
-                <Text style = {styles.uploadText}>
-                    {item.uploadingDate}
-                </Text>
+                </TouchableOpacity>
+              </Animated.View>
+            );
+          };
+        const renderItem = (data) => {
+            console.log(data.item.state);
+            return (
+            <View style={[styles.voicedataStyle, { width: dragged ? vw(72) : vw(90),  left: dragged && direct == 'left' ? vw(17) : 0, right: dragged && direct == 'right' ? 0 : 0-vw(17),}]}>
+                 <View style = {[styles.vicCard, {width: dragged? vw(72.2): vw(90), backgroundColor: data.item.state == 'run' ? "#53FAFB" : '#172727'}]}>
+                     {
+                         data.item.state == 'run' ?
+                         <TouchableOpacity 
+                             onPress = {() => 
+                                 setVoiceData(prevData => {
+                                     const newData = [...prevData];
+                                     newData[index] = voice[1];
+                                     return newData;
+                                 })
+                             }
+                         >
+                             <Svg width={vw(8.9)} height={vw(8.9)} viewBox="0 0 32 32" fill="none" xmlns="http:www.w3.org/2000/svg">
+                                 <Path d="M12.1885 20.5V11.5M19.6885 20.5V11.5M30.9385 16C30.9385 24.2843 24.2227 31 15.9385 31C7.65421 31 0.938477 24.2843 0.938477 16C0.938477 7.71573 7.65421 1 15.9385 1C24.2227 1 30.9385 7.71573 30.9385 16Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                             </Svg>
+                         </TouchableOpacity>
+                         :
+                         <TouchableOpacity 
+                             onPress = {() => 
+                                 setVoiceData(prevData => {
+                                     const newData = [...prevData];
+                                     newData[index] = voice[0];
+                                     return newData;
+                                 })
+                             }
+                         >
+                             <Svg width={vw(9.1)} height={vw(9.1)} viewBox="0 0 33 32" fill="none" xmlns="http:www.w3.org/2000/svg">
+                                 <Path d="M16.4385 31C24.7227 31 31.4385 24.2843 31.4385 16C31.4385 7.71573 24.7227 1 16.4385 1C8.15421 1 1.43848 7.71573 1.43848 16C1.43848 24.2843 8.15421 31 16.4385 31Z" stroke="#53FAFB50" stroke-opacity="0.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                 <Path d="M12.6885 11.448C12.6885 10.7321 12.6885 10.3741 12.8381 10.1743C12.9685 10.0001 13.168 9.89115 13.385 9.87565C13.6341 9.85787 13.9352 10.0514 14.5374 10.4386L21.6183 14.9906C22.1409 15.3265 22.4021 15.4945 22.4924 15.7081C22.5712 15.8947 22.5712 16.1053 22.4924 16.2919C22.4021 16.5055 22.1409 16.6735 21.6183 17.0094L14.5374 21.5614C13.9352 21.9486 13.6341 22.1421 13.385 22.1243C13.168 22.1088 12.9685 21.9999 12.8381 21.8257C12.6885 21.6259 12.6885 21.2679 12.6885 20.552V11.448Z" stroke="#53FAFB50" stroke-opacity="0.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                             </Svg>
+                         </TouchableOpacity>
+                     }
+                     <Text style = {[styles.voiceRunTime, {color: data.item.state == 'run' ? "black" : '#53FAFB50'}]}>
+                         {data.item.playedTime}
+                     </Text>
+                     {dragged?
+                      <Svg width={vw(26.94)} height={vw(4.44)} viewBox="0 0 97 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <Rect opacity="0.66" x="0.438477" y="4" width="2" height="8" rx="1" fill="black"/>
+                      <Rect opacity="0.66" x="6.43848" y="1" width="2" height="14" rx="1" fill="black"/>
+                      <Rect opacity="0.66" x="12.4385" y="6" width="2" height="4" rx="1" fill="black"/>
+                      <Rect opacity="0.66" x="18.4385" y="1" width="2" height="14" rx="1" fill="black"/>
+                      <Rect opacity="0.66" x="24.4385" y="3" width="2" height="10" rx="1" fill="#00C1C3"/>
+                      <Rect opacity="0.66" x="30.4385" y="3" width="2" height="10" rx="1" fill="#00C1C3"/>
+                      <Rect opacity="0.66" x="36.4385" y="3" width="2" height="10" rx="1" fill="#00C1C3"/>
+                      <Rect opacity="0.66" x="42.4385" y="3" width="2" height="10" rx="1" fill="#00C1C3"/>
+                      <Rect opacity="0.66" x="48.4385" y="3" width="2" height="10" rx="1" fill="#00C1C3"/>
+                      <Rect opacity="0.66" x="54.4385" width="2" height="16" rx="1" fill="#00C1C3"/>
+                      <Rect opacity="0.66" x="60.4385" y="3" width="2" height="10" rx="1" fill="#00C1C3"/>
+                      <Rect opacity="0.66" x="66.4385" y="3" width="2" height="10" rx="1" fill="#00C1C3"/>
+                      <Rect opacity="0.66" x="72.4385" y="3" width="2" height="10" rx="1" fill="#00C1C3"/>
+                      <Rect opacity="0.66" x="78.4385" y="6" width="2" height="4" rx="1" fill="#00C1C3"/>
+                      <Rect opacity="0.66" x="84.4385" y="6" width="2" height="4" rx="1" fill="#00C1C3"/>
+                      <Rect opacity="0.66" x="90.4385" y="7" width="2" height="2" rx="1" fill="#00C1C3"/>
+                      </Svg>
+                     :data.item.display}
+                     {
+                         data.item.state == 'run' ?
+                         <View style = {styles.speed}>
+                             <Text style = {[styles.speedText, {color: data.item.state == 'run' ? "black" : '#53FAFB50'}]}>
+                                 {data.item.speed}
+                             </Text>
+                         </View>
+                         :
+                         <Text style = {[styles.voiceRunTime, {color: data.item.state == 'run' ? "black" : '#53FAFB50'}]}>
+                             {data.item.remainedTime}
+                         </Text>
+                     }
+                     <Svg width={vw(0.83)} height={vw(3.3)} viewBox="0 0 3 12" fill="none" xmlns="http:www.w3.org/2000/svg">
+                         <Path d="M1.49995 5.43837C1.1898 5.43837 0.938371 5.68979 0.938371 5.99994C0.938371 6.31009 1.1898 6.56152 1.49995 6.56152C1.8101 6.56152 2.06152 6.31009 2.06152 5.99994C2.06152 5.68979 1.8101 5.43837 1.49995 5.43837Z" stroke={item.state == 'run' ? "black" : '#53FAFB50'} stroke-width="1.12724" stroke-linecap="round" stroke-linejoin="round"/>
+                         <Path d="M1.49995 9.3694C1.1898 9.3694 0.938371 9.62083 0.938371 9.93098C0.93837 10.2411 1.1898 10.4926 1.49995 10.4926C1.8101 10.4926 2.06152 10.2411 2.06152 9.93098C2.06152 9.62083 1.8101 9.3694 1.49995 9.3694Z" stroke={item.state == 'run' ? "black" : '#53FAFB50'} stroke-width="1.12724" stroke-linecap="round" stroke-linejoin="round"/>
+                         <Path d="M1.49995 1.50733C1.1898 1.50733 0.938371 1.75876 0.938371 2.06891C0.938371 2.37906 1.1898 2.63048 1.49995 2.63048C1.8101 2.63048 2.06152 2.37906 2.06152 2.06891C2.06152 1.75876 1.8101 1.50733 1.49995 1.50733Z" stroke={item.state == 'run' ? "black" : '#53FAFB50'} stroke-width="1.12724" stroke-linecap="round" stroke-linejoin="round"/>
+                     </Svg>
+                 </View>
+                 <Text style = {styles.uploadText}>
+                     {data.item.uploadingDate}
+                 </Text>
+            </View>
+        );}
+        onSwipeValueChange = (swipeData) => {
+            const { key, value, direction } = swipeData;
+            if (value < -30 || value > 30){
+                setDragged(true)
+                setDirection(direction);
+            } 
+            else {
+                setDragged(false)}
+            console.log(direction)
+        }
+        return (
+            <View style = {{width: vw(90), flexDirection: 'row',}}>
+                <SwipeListView
+                data={items}
+                renderItem={renderItem}
+                renderHiddenItem={renderHiddenItem}
+                leftOpenValue={vw(17)}
+                rightOpenValue={0-vw(17)}
+                onSwipeValueChange={onSwipeValueChange}
+                />
             </View>
         )
     }
@@ -491,7 +692,7 @@ const Documents = ({navigation}) => {
                                 )
                             }
                         </View>
-                        <ScrollView style = {styles.dwnBtns}>
+                        <View style = {styles.dwnBtns}>
                             {
                                 state == 'Documents' ?
                                 documentData.map((item, index) =>
@@ -527,7 +728,7 @@ const Documents = ({navigation}) => {
                                 </View>
                             }
                             <View style = {{height: vw(40)}}/>
-                        </ScrollView>
+                        </View>
                     </View>
                 </View>
                 <View style = {styles.footer}>
@@ -569,7 +770,6 @@ const Documents = ({navigation}) => {
                         <Text style = {[styles.footerText, {fontSize: vw(2.8), color: selected == 'Chat' ? '#53FAFB' : "#9D9D9D"}]}>
                             Chat
                         </Text>
-
                     </TouchableOpacity>
                 </View>
             </View>

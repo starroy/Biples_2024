@@ -21,62 +21,78 @@ const Explorer = ({navigation}) => {
     
     const friendArray = [
         {
+            id: 0,
             avatar: require('../../../../assets/images/avatar(2).png'),
             userName: 'Satrnaroy_1927',
             displayName: '@yazidkherrati',
             onlineState: false,
-            msgNum: 8
+            msgNum: 8,
+            dragged: false
         },
         {
+            id: 1,
             avatar: require('../../../../assets/images/friendAvatar1.png'),
             userName: 'Doministore',
             displayName: '@yazidkherrati',
             onlineState: false,
-            msgNum: 0
+            msgNum: 0,
+            dragged: false
         },
         {
+            id: 2,
             avatar: require('../../../../assets/images/friendAvatar1.png'),
             userName: 'Doministore',
             displayName: '@yazidkherrati',
             onlineState: false,
-            msgNum: 0
+            msgNum: 0,
+            dragged: false
         },
         {
+            id: 3,
             avatar: require('../../../../assets/images/friendAvatar2.png'),
             userName: 'Doministore',
             displayName: '@yazidkherrati',
             onlineState: true,
-            msgNum: 12
+            msgNum: 12,
+            dragged: false
         },
         {
+            id: 4,
             avatar: require('../../../../assets/images/avatar(2).png'),
             userName: 'Satrnaroy_1927',
             displayName: '@yazidkherrati',
             onlineState: false,
-            msgNum: 8
+            msgNum: 8,
+            dragged: false
         },
         {
+            id: 5,
             avatar: require('../../../../assets/images/friendAvatar1.png'),
             userName: 'Doministore',
             displayName: '@yazidkherrati',
             onlineState: false,
-            msgNum: 0
+            msgNum: 0,
+            dragged: false
         },
         {
+            id: 6,
             avatar: require('../../../../assets/images/friendAvatar1.png'),
             userName: 'Doministore',
             displayName: '@yazidkherrati',
             onlineState: false,
-            msgNum: 0
+            msgNum: 0,
+            dragged: false
         },
         {
+            id: 7,
             avatar: require('../../../../assets/images/friendAvatar2.png'),
             userName: 'Doministore',
             displayName: '@yazidkherrati',
             onlineState: true,
-            msgNum: 12
+            msgNum: 12,
+            dragged: false
         },
-    ]
+    ];
     const [friends, setFriends] = useState(friendArray);
     const [isFoucsed, setIsFocused] = useState(false);
     const [text, setText] = useState('');
@@ -219,6 +235,10 @@ const Explorer = ({navigation}) => {
                                 displayName = {item.displayName}
                                 onlineState = {item.onlineState}
                                 msgNum = {item.msgNum}
+                                friends = {friends}
+                                setFriends = {setFriends}
+                                id = {item.id}
+                                dragged = {item.dragged}
                             />
                             }
                         />

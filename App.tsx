@@ -40,7 +40,7 @@ import SearchResultNone from "./src/pages/landing/search/searchResultNone";
 import SpeechInput from "./src/pages/landing/search/speechInput";
 import SortSearch from "./src/pages/landing/search/sortSearch";
 import MemberSearch from "./src/pages/landing/search/memberSearch";
-import Explorer from "./src/pages/landing/manage/explorer";
+import Explorer from './src/pages/landing/manage/explorer';
 import ManageFriend from "./src/pages/landing/manage/manageFriend";
 import QRProfile from "./src/pages/landing/manage/QRProfile";
 import Scan from "./src/pages/landing/manage/scan";
@@ -57,20 +57,21 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import CreateAccountLoading from './src/pages/register/createAccountLoading';
 // import Font from './font';
-
+import Basic from './drag'
+import Item from './animation'
 // const Stack = createNativeStackNavigator();
 
 
 function App() {
 
   return (
-      <NavigationContainer style = {styles.container}>
-          <StackRouter/>
-      </NavigationContainer>
+      // <NavigationContainer style = {styles.container}>
+      //     <StackRouter/>
+      // </NavigationContainer>
     
-    // <View style={styles.container}>
-    //   <ResetLoading/>
-    // </View>
+    <View style={styles.container}>
+      <Documents/>
+    </View>
   );
 }
 
