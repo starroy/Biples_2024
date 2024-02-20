@@ -215,6 +215,7 @@ const SortSearch = ({navigation}) => {
                         style = {styles.sort}
                         data = {filter}
                         horizontal = {false}
+                        showsVerticalScrollIndicator={false}
                         renderItem = {({item, index}) => 
                             <View key={index} style = {styles.sortItem}>
                                 <Text style = {styles.sortTitle}>

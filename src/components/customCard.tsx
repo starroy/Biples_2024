@@ -1,10 +1,48 @@
-import React, { useState } from 'react';
-import { TouchableOpacity, Text, StyleSheet, Pressable, View, Image, ImageBackground } from 'react-native';
+import React, { useState, useEffect, createRef } from 'react';
+import {
+    ImageBackground, 
+    View, 
+    Text, 
+    StatusBar, 
+    StyleSheet, 
+    Image,
+    SafeAreaView,
+    ScrollView,
+    TouchableOpacity, 
+    useWindowDimensions,
+    FlatList,
+    InteractionManager,
+    Switch,
+    findNodeHandle,
+} from 'react-native';
+import { BlurView } from '@react-native-community/blur';
 import { vh, vw } from 'react-native-css-vh-vw';
-import Svg, { Path} from 'react-native-svg';
+import Svg, { Path, Circle, ClipPath, G, Defs, Rect } from 'react-native-svg';
+import { Icon } from 'react-native-elements';
 
 const CustomCard = ({ backgroundImage, avatar, avatarName, avatarContent, title, avatar1, avatar2, avatar3, text, heartNumber, onPress }) => {
     
+    const [showBlur, setShowBlur] = useState(false);
+    const [viewRef, setViewRef] = useState(null);
+    const [blurType, setBlurType] = useState('Dark');
+    const backgroundImageRef = createRef();
+    const renderBlurView = () => {
+        console.log(viewRef);
+        return (
+            <View style = {{width: vw(92.2), position: 'relative', right: 0, bottom: 0}}>
+                
+                <BlurView
+                    // viewRef={viewRef}
+                    style={styles.blurViewStyle}
+                    // blurRadius={1}
+                    // blurType={blurType}
+                    blurRadius={3}
+                    // downsampleFactor={10}
+                    overlayColor={'rgba(75, 75, 75, .6)'}
+                />
+            </View>
+        );
+    }
     return (
             <TouchableOpacity
                 style={[styles.card]}
@@ -39,7 +77,12 @@ const CustomCard = ({ backgroundImage, avatar, avatarName, avatarContent, title,
                         </View>
                     </ImageBackground>
                 </View>
-                <View style = {{width: vw(63.9), aspectRatio: 230/70, borderRadius: vw(5), backgroundColor: '#75757550', padding: vw(3.3), position: 'absolute', top: vw(48.3), justifyContent: 'space-between', alignItems: 'flex-start'}}>
+                <View style = {{width: vw(63.9), aspectRatio: 230/70, borderRadius: vw(5), backgroundColor: '#75757550', padding: vw(3.3), position: 'absolute', top: vw(48.3), justifyContent: 'space-between', alignItems: 'flex-start', overflow: 'hidden'}}>
+                    {/* <Image source = {require('../../assets/images/blur.png')}
+                        style={styles.imageStyle}
+                        ref={backgroundImageRef}
+                        />
+                    {showBlur ? renderBlurView() : null} */}
                     <Text style = {{fontFamily: 'TT Firs Neue Trial Medium', fontSize: vw(3.9), color: 'white'}}>
                         {title}
                     </Text>
@@ -104,6 +147,23 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         width: vw(63.9),
         aspectRatio: 230/220
+    },
+    imageStyle: {
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      bottom: 0,
+      right: 0,
+      resizeMode: 'cover',
+      width: null,
+      height: null,
+    },
+    blurViewStyle: {
+        position: 'absolute',
+        bottom: 0,
+        width: vw(92.2),
+        height: vw(30),
+        left: 0,
     },
     avatarInfo: {
         width: vw(26.4),

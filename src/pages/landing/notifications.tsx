@@ -142,6 +142,7 @@ const Notifications = ({ navigation }) => {
                         <FlatList
                             data = {sortBtn}
                             horizontal
+                            showsHorizontalScrollIndicator={false}
                             renderItem = {({item, index}) => 
                                 <TouchableOpacity
                                     style = {[styles.headBtn, {backgroundColor: item.selected ? '#53FAFB' : '#1E1E1E'}]}

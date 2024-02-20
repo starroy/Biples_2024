@@ -121,7 +121,7 @@ const Login = ({ navigation }) => {
                     <Text 
                         style={[styles.text, {marginTop: vw(6.1)}]}
                         onPress = {() => {
-                            console.log('Recovery account');
+                            // console.log('Recovery account');
                             
                             navigation.navigate('ForgetAccount');
                         }}

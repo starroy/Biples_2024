@@ -176,6 +176,7 @@ const MainSearch = ({navigation}) => {
                             style = {styles.cards}
                             data = {friendCard}
                             horizontal
+                            showsHorizontalScrollIndicator={false}
                             renderItem = {({item, index}) => 
                                 <View key = {index} style = {styles.card}>
                                     <Image

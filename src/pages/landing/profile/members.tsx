@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, createRef} from 'react';
 import {
     ImageBackground, 
     View, 
@@ -11,8 +11,12 @@ import {
     PanResponder,
     TouchableOpacity, 
     FlatList,
-    TextInput
+    TextInput,
+    findNoneHandle,
+    BackHandler
 } from 'react-native'
+import { useFocusEffect } from '@react-navigation/native';
+import { BlurView } from '@react-native-community/blur';
 import { vh, vw } from 'react-native-css-vh-vw';
 import Svg, { Path, G, Circle } from 'react-native-svg';
 import CustomFriendCard from '../../../components/customFriendCard'
@@ -20,6 +24,10 @@ import CustomMemberCard from '../../../components/customMemberCard'
 
 const Members = ({navigation}) => {
     
+    const [showBlur, setShowBlur] = useState(false);
+    const [viewRef, setViewRef] = useState(null);
+    const [blurType, setBlurType] = useState('light');
+    const backgroundImageRef = createRef()
     const [selected, setSelected] = useState('Chat');
     const friendArray = [
         {
@@ -67,6 +75,87 @@ const Members = ({navigation}) => {
     handlePress = () => {
         navigation.navigate('Explorer');
     };
+    useEffect(() => {
+      const backAction = () => {
+        setShowBlurs(false);
+  
+        setTimeout(() => {
+          navigation.goBack();
+        }, 30); // Delay the back action by one second
+  
+        return true; // Prevent default behavior (i.e. exit the app)
+      };
+  
+      const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+  
+      return () => backHandler.remove();
+    }, []);
+    useFocusEffect(
+        React.useCallback(() => {
+          let timerId;
+            
+          if (!showBlurs) {
+            timerId = setTimeout(() => {
+              setShowBlurs(true);
+            }, 500); // Adjust the delay as needed
+          }
+          console.log(showBlurs)
+          if (showBlurs) setShowblur(!showblur);
+          return () => {
+            clearTimeout(timerId);
+          };
+        }, [ showBlurs,navigation])
+      );
+    const renderBlurView = () => {
+        console.log(viewRef);
+        return (
+            <View style = {{width: vw(92.2), position: 'absolute', right: 0, bottom: 0}}>
+                
+                <BlurView
+                    viewRef={viewRef}
+                    style={styles.blurViewStyle}
+                    // blurRadius={1}
+                    // blurType={blurType}
+                    blurRadius={1}
+                    downsampleFactor={10}
+                    overlayColor={'rgba(24, 24, 24, .8)'}
+                />
+            </View>
+        );
+    }
+    const navigated = () => {
+        setSelected('Chat');
+        setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+            navigation.navigate('GroupAccount');
+        }, 30); // Adjust the delay as needed
+        return () => {
+        clearTimeout(timerId);
+        };
+    }
+    const navigated2 = () => {
+            setSelected('Home')
+            setShowBlur(false);
+            let timerId;
+            timerId = setTimeout(() => {
+                navigation.navigate('Main');
+            }, 30); // Adjust the delay as needed
+            return () => {
+            clearTimeout(timerId);
+            };
+    }
+    const navigated1 = () => {
+        // navigation.navigate('Explorer')
+        setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+            navigation.navigate('Main');
+        }, 30); // Adjust the delay as needed
+        return () => {
+        clearTimeout(timerId);
+        };
+    }
     return (
         <SafeAreaView>
             <StatusBar translucent backgroundColor = 'transparent'/>
@@ -75,9 +164,7 @@ const Members = ({navigation}) => {
                     <View style = {styles.headerBar}>
                         <TouchableOpacity
                             style = {styles.prevButton}
-                            onPress = { () => 
-                                navigation.navigate('Main')
-                            }
+                            onPress = { navigated1}
                         >
                             <Svg width={vw(2)} height={vw(3.3)} viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <Path d="M6 1L1 6L6 11" fill="#181818"/>
@@ -127,7 +214,9 @@ const Members = ({navigation}) => {
                         </Text>
                     </View>
                 </View>
-                <ScrollView style = {styles.body}>
+                <ScrollView style = {styles.body}
+                    showsVerticalScrollIndicator={false}
+                >
                     <TouchableOpacity 
                         style = {[styles.btnStyle, {backgroundColor:'#53FAFB', width: vw(88), borderRadius: vw(5)}]}
                         onPress = {() => setInvite(true)}
@@ -191,11 +280,15 @@ const Members = ({navigation}) => {
                     </View>
                     <View style = {{height: vw(18)}}/>
                 </ScrollView>
-                <View style = {styles.footer}>
+                <View style = {[styles.footer, {position: 'absolute', overflow: 'hidden'}]}>
+                    <Image source = {require('../../../../assets/images/blur.png')}
+                        style={styles.imageStyle}
+                        ref={backgroundImageRef}
+                        />
+                    {showBlur ? renderBlurView() : null}
+                    
                     <TouchableOpacity style = {styles.footerIcon}
-                        onPress = {() => 
-                            setSelected('Home')
-                        }
+                        onPress = {navigated2}
                     >
                         <Svg width={vw(5)} height={vw(5)} viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <Path d="M6.50008 16.5V10.3333C6.50008 9.86662 6.50008 9.63327 6.59091 9.45501C6.67081 9.29821 6.79829 9.17072 6.95509 9.09083C7.13335 9 7.36671 9 7.83342 9H10.1668C10.6335 9 10.8668 9 11.0451 9.09083C11.2019 9.17072 11.3294 9.29821 11.4093 9.45501C11.5001 9.63327 11.5001 9.86662 11.5001 10.3333V16.5M0.666748 6.91667L8.20008 1.26667C8.48697 1.0515 8.63041 0.943924 8.78794 0.902454C8.927 0.865849 9.07317 0.865849 9.21222 0.902454C9.36976 0.943924 9.5132 1.05151 9.80008 1.26667L17.3334 6.91667M2.33342 5.66667V13.8333C2.33342 14.7668 2.33342 15.2335 2.51507 15.59C2.67486 15.9036 2.92983 16.1586 3.24343 16.3183C3.59995 16.5 4.06666 16.5 5.00008 16.5H13.0001C13.9335 16.5 14.4002 16.5 14.7567 16.3183C15.0703 16.1586 15.3253 15.9036 15.4851 15.59C15.6668 15.2335 15.6668 14.7668 15.6668 13.8333V5.66667L10.6001 1.86667C10.0263 1.43634 9.73944 1.22118 9.42436 1.13824C9.14625 1.06503 8.85392 1.06503 8.57581 1.13824C8.26073 1.22118 7.97385 1.43634 7.40008 1.86667L2.33342 5.66667Z" stroke={selected == 'Home'? '#53FAFB' : "#9D9D9D"} stroke-linecap="round" stroke-linejoin="round"/>
@@ -217,10 +310,7 @@ const Members = ({navigation}) => {
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style = {styles.footerIcon}
-                        onPress = {() => {
-                            setSelected('Chat');
-                            navigation.navigate('GroupAccount');
-                        }}
+                        onPress = {navigated}
                     >
                         <Svg width={vw(5.6)} height={vw(5.6)} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <G clip-path="url(#clip0_175_4353)">
@@ -364,6 +454,23 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         height: vw(12.5)
+    },
+    imageStyle: {
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      bottom: 0,
+      right: 0,
+      resizeMode: 'cover',
+      width: null,
+      height: null,
+    },
+    blurViewStyle: {
+        position: 'absolute',
+        bottom: 0,
+        width: vw(92.2),
+        height: vw(30),
+        left: 0,
     },
     button: {
         justifyContent: 'center',

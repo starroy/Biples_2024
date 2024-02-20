@@ -118,7 +118,7 @@ const Settings = ({ navigation }) => {
                                     width={vw(37.2)}
                                     height={vw(13.3)}
                                     backgroundColor="#53FAFB"  
-                                    color='white'
+                                    color='black'
                                     fontSize={vw(3.9)}
                                     onPress={handleNavigate}
                                 />
@@ -143,7 +143,9 @@ const Settings = ({ navigation }) => {
                     </Text>
                     <Text styles= {{width: vw(9), height: '100%'}}>&nbsp;&nbsp;&nbsp;</Text>
                 </View>
-                <ScrollView style = {styles.body}>
+                <ScrollView style = {styles.body}
+                    showsVerticalScrollIndicator={false}
+                >
                     <View style = {styles.userSetting}>
                         <View style = {styles.userInfo}>
                             <View style = {styles.user}>
@@ -333,7 +335,7 @@ const styles = StyleSheet.create({
     },
     body: {
         marginTop: vw(27.5),
-        marginBottom: vw(32.5),
+        marginBottom: vw(22.5),
     },
     userSetting: {
         marginTop: vw(5),
@@ -418,7 +420,7 @@ const styles = StyleSheet.create({
     },
     footer: {
         position: 'absolute',
-        bottom: vw(9.44),
+        bottom: vw(4.44),
         width: vw(100),
         aspectRatio: 360/90,
         flexDirection: 'column',

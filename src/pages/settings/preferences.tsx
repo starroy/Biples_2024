@@ -96,7 +96,9 @@ const Preferences = ({ navigation }) => {
                     </Text>
                     <Text styles= {{width: vw(9), height: '100%'}}>&nbsp;&nbsp;&nbsp;</Text>
                 </View>
-                <ScrollView style = {styles.body}>
+                <ScrollView style = {styles.body}
+                    showsVerticalScrollIndicator={false}
+                >
                     <View style = {{ marginBottom: vw(8)}}>
                         <Text style = {[styles.text, {marginBottom: vw(6.4)}]}>
                             Account Preferences

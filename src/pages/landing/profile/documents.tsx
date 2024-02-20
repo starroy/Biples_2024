@@ -12,25 +12,26 @@ import {
     TouchableOpacity, 
     FlatList,
     TextInput,
-    Animated
+    Animated,
+    Dimensions
 } from 'react-native'
 import { vh, vw } from 'react-native-css-vh-vw';
 import Svg, { Path, G, Circle, Rect } from 'react-native-svg';
 import CustomFriendCard from '../../../components/customFriendCard'
 import { ListItem } from 'react-native-elements';
 import { SwipeListView, Sw } from 'react-native-swipe-list-view';
-
+import { act } from 'react-test-renderer';
 const Documents = ({navigation}) => {
-    
+    const SCREEN_WIDTH = Dimensions.get('window').width;
     const [selected, setSelected] = useState('Chat');
     const [sortBtn, setSortBtn] = useState([
         {
             mame: 'Media',
-            selected: false,
+            selected: true,
         },
         {
             mame: 'Documents',
-            selected: true,
+            selected: false,
         },
         {
             mame: 'Voices',
@@ -41,7 +42,7 @@ const Documents = ({navigation}) => {
             selected: false,
         },
     ]);
-    const [state, setState] = useState('Documents');
+    const [state, setState] = useState('Media');
     const document = [
         {
             id: 0,
@@ -622,6 +623,18 @@ const Documents = ({navigation}) => {
         { id : '9', avatarUrl: require('../../../../assets/images/card4.png'), },
     ];
     const [nftAvatars, setNftAvatars] = useState(data);
+    const [activeTab, setActiveTab] = useState(0);
+    const [screenX, setScreenX] = useState(new Animated.Value(0));
+    
+    const handleTabPress = (index) => {
+        setActiveTab(index);
+        Animated.timing(screenX, {
+          toValue: -index * SCREEN_WIDTH,
+          duration: 250,
+          useNativeDriver: true,
+        }).start();
+        console.log(activeTab);
+      };
     return (
         <SafeAreaView>
             <StatusBar translucent backgroundColor = 'transparent'/>
@@ -674,6 +687,7 @@ const Documents = ({navigation}) => {
                                         style = {[styles.btn,{backgroundColor: item.selected ? '#53FAFB': 'black'}]}
                                         onPress={() => {
                                             setState(item.mame);
+                                            handleTabPress(index);
                                             setSortBtn(prevBtn => {
                                                 const newBtn = [...prevBtn];
                                                 for (i = 0; i< sortBtn.length; i++){
@@ -692,23 +706,10 @@ const Documents = ({navigation}) => {
                                 )
                             }
                         </View>
-                        <View style = {styles.dwnBtns}>
-                            {
-                                state == 'Documents' ?
-                                documentData.map((item, index) =>
-                                    <DocumentItem key = {index} item = {item} index = {index}/>
-                                )
-                                :
-                                state == 'Voices' ? 
-                                voiceData.map((item, index) =>
-                                    <VoiceItem key = {index} item = {item} index = {index}/>
-                                )
-                                :
-                                state == 'Links' ?
-                                linkData.map((item,index) => 
-                                    <LinkItem key = {index} item = {item} index = {index}/>
-                                )
-                                :
+                        <Animated.View style = {[styles.dwnBtns, {transform: [{ translateX: screenX }], flexDirection: 'row', width: vw(400)}]}
+                            showsVerticalScrollIndicator={false}
+                        >
+                            <ScrollView style = {{width: SCREEN_WIDTH}}>
                                 <View style = {styles.nftAvatar}>
                                     {
                                         nftAvatars.map((items, index) =>
@@ -726,9 +727,32 @@ const Documents = ({navigation}) => {
                                         )
                                     }
                                 </View>
+                                <View style = {{height: vw(50)}}/>
+                            </ScrollView>
+                            <ScrollView style = {{width: SCREEN_WIDTH}}>
+                            {
+                                documentData.map((item, index) =>
+                                    <DocumentItem key = {index} item = {item} index = {index}/>
+                                )
                             }
-                            <View style = {{height: vw(40)}}/>
-                        </View>
+                            <View style = {{height: vw(50)}}/>
+                            </ScrollView>
+                            <View style = {{width: SCREEN_WIDTH}}>
+                            {
+                                voiceData.map((item, index) =>
+                                    <VoiceItem key = {index} item = {item} index = {index}/>
+                                )
+                            }
+                            </View>
+                            <ScrollView style = {{width: SCREEN_WIDTH}}>
+                            {
+                                linkData.map((item,index) => 
+                                    <LinkItem key = {index} item = {item} index = {index}/>
+                                )
+                            }
+                            <View style = {{height: vw(50)}}/>
+                            </ScrollView>
+                        </Animated.View>
                     </View>
                 </View>
                 <View style = {styles.footer}>
@@ -867,7 +891,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#53FAFB10',
         paddingLeft: vw(3),
         paddingRight: vw(2),
-        borderRadius: vw(5)
+        borderRadius: vw(5),
+        marginRight: vw(10)
     },
     userInfo: {
         flexDirection: 'row',
@@ -946,7 +971,8 @@ const styles = StyleSheet.create({
         width: vw(90),
         flexDirection: 'column',
         height: vw(20.83),
-        marginBottom: vw(4.7)
+        marginBottom: vw(4.7),
+        marginRight: vw(5)
     },
     vicCard: {
         width: vw(90),
@@ -956,7 +982,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingLeft: vw(2),
         paddingRight: vw(2),
-        borderRadius: vw(10)
+        borderRadius: vw(10),
+        marginRight: vw(5)
     },
     voiceRunTime: {
         fontFamily: 'Poppins-Regular',
@@ -986,6 +1013,7 @@ const styles = StyleSheet.create({
         height: vw(120),
         flexDirection: 'row',
         flexWrap: 'wrap',
+        marginRight: vw(5)
         // marginBottom: vw(10)
     },
     item: {

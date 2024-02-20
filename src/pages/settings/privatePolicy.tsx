@@ -75,7 +75,9 @@ const PrivatePolicy = ({ navigation }) => {
                     </Text>
                     <Text styles= {{width: vw(9), height: '100%'}}>&nbsp;&nbsp;&nbsp;</Text>
                 </View>
-                <ScrollView style = {styles.body}>
+                <ScrollView style = {styles.body}
+                    showsVerticalScrollIndicator={false}
+                >
                     {
                         privateArray.map((item, index) => 
                             <View key = { index } style = {styles.privates} >

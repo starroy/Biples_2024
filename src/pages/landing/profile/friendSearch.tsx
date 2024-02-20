@@ -96,7 +96,9 @@ const MemberSearch = ({navigation}) => {
                     <Text style = {[styles.text, {marginBottom: vh(2), marginLeft: vw(5)}]}>
                         105 Items Found
                     </Text>
-                    <ScrollView style = {styles.foundResult}>
+                    <ScrollView style = {styles.foundResult}
+                        showsVerticalScrollIndicator={false}
+                    >
                         {
                             filter.map((item, index) => 
                                 <CustomFollows

@@ -52,6 +52,7 @@ import GroupAccount from "./src/pages/landing/profile/groupAccount";
 import Documents from "./src/pages/landing/profile/documents";
 import MediaView from "./src/pages/landing/profile/mediaView";
 import Members from "./src/pages/landing/profile/members";
+import NoChat from "./src/pages/landing/chat/noChat";
 import StackRouter from './src/router/router';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -59,18 +60,18 @@ import CreateAccountLoading from './src/pages/register/createAccountLoading';
 // import Font from './font';
 import Basic from './drag'
 import Item from './animation'
+import Home from './blur'
 // const Stack = createNativeStackNavigator();
 
 
 function App() {
-
   return (
       // <NavigationContainer style = {styles.container}>
       //     <StackRouter/>
       // </NavigationContainer>
     
     <View style={styles.container}>
-      <Documents/>
+      <NoChat/>
     </View>
   );
 }

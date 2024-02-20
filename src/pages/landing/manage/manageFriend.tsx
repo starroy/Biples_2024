@@ -153,7 +153,9 @@ const ManageFriend = ({navigation}) => {
                 </View>
                 <View style = {styles.body}>
 
-                    <ScrollView style = {styles.friendData}>
+                    <ScrollView style = {styles.friendData}
+                        showsVerticalScrollIndicator={false}
+                    >
                         {
                             friends.map((item, index)=>
                             <CustomFriendCard
@@ -266,8 +268,9 @@ const styles = StyleSheet.create({
     },
     body: {
         width: vw(90),
+        // height: '100%',
         // position: 'absolute',
-        paddingTop: vw(51.1),
+        paddingTop: vw(46.1),
         marginBottom: vh(12.11),
         marginLeft: vw(5)
     },
@@ -275,7 +278,7 @@ const styles = StyleSheet.create({
         // paddingBottom: vw(90),
         width: vw(90),
         flexDirection: 'column',
-        textAlign: 'center'
+        textAlign: 'center',
     },
     footer: {
         position: 'absolute',

@@ -228,6 +228,7 @@ const Explorer = ({navigation}) => {
                             style = {styles.friendData}
                             data = {friends}
                             horizontal = {false}
+                            showsVerticalScrollIndicator={false}
                             renderItem = {({item, index}) => 
                             <CustomFriendCard
                                 avatar = {item.avatar}
@@ -326,7 +327,7 @@ const styles = StyleSheet.create({
         width: vw(90),
         // position: 'absolute',
         paddingTop: vw(51.1),
-        paddingBottom: vw(25),
+        paddingBottom: vw(5),
         marginLeft: vw(5)
     },
     myCard: {
@@ -359,7 +360,7 @@ const styles = StyleSheet.create({
     },
     myFriends: {
         width: vw(90),
-        height: vw(90)
+        height: vw(100)
     },
     friendTitle: {
         height: vw(21.4),
@@ -372,7 +373,7 @@ const styles = StyleSheet.create({
         bottom: vw(0),
         width: vw(100),
         marginBottom: vw(8),
-        paddingTop: vw(4),
+        // paddingTop: vw(4),
         alignItems: 'center',
         backgroundColor: 'black',
         zIndex: 0

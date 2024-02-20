@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, createRef} from 'react';
 import {
     ImageBackground, 
     View, 
@@ -11,14 +11,23 @@ import {
     PanResponder,
     TouchableOpacity, 
     FlatList,
-    TextInput
+    TextInput,
+    findNodeHandle,
+    InteractionManager,
+    BackHandler
 } from 'react-native'
+import { useFocusEffect } from '@react-navigation/native';
+import { BlurView } from '@react-native-community/blur';
 import { vh, vw } from 'react-native-css-vh-vw';
 import Svg, { Path, G, Circle } from 'react-native-svg';
 import CustomFriendCard from '../../../components/customFriendCard'
 import { ListItem } from 'react-native-elements';
 
 const Account = ({navigation}) => {
+    const [showBlur, setShowBlur] = useState(false);
+    const [viewRef, setViewRef] = useState(null);
+    const [blurType, setBlurType] = useState('light');
+    const backgroundImageRef = createRef()
     
     const [selected, setSelected] = useState('Home');
     const [friendData, setFriendData] = useState({
@@ -92,6 +101,96 @@ const Account = ({navigation}) => {
     const [friendsAvatars, setFriendsAvatars] = useState(friendArray);
     const [wallet, setWallet] = useState(false);
     const [invite, setInvite] = useState(false);
+    useEffect(() => {
+      const backAction = () => {
+        setShowBlur(false);
+  
+        setTimeout(() => {
+          navigation.goBack();
+        }, 30); // Delay the back action by one second
+  
+        return true; // Prevent default behavior (i.e. exit the app)
+      };
+  
+      const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+  
+      return () => backHandler.remove();
+    }, []);
+    useFocusEffect(
+        React.useCallback(() => {
+          let timerId;
+    
+          if (!showBlur) {
+            timerId = setTimeout(() => {
+              setShowBlur(true);
+            }, 1000); // Adjust the delay as needed
+          }
+    
+          return () => {
+            clearTimeout(timerId);
+          };
+        }, [showBlur])
+      );
+    // useEffect(() => {
+    //     const switchPage = setTimeout(() => {
+    //         // console.log('time is ended');
+    //         // navigation.navigate('Loading');
+    //         setShowBlur(true);
+    //     }, 3); // 10 seconds in milliseconds
+    
+    //     return () => clearTimeout(switchPage);
+    //   }, [navigation]);
+    const renderBlurView = () => {
+        // console.log(viewRef);
+        return (
+            // <View style = {{width: vw(92.2), position: 'absolute', right: 0, bottom: 0}}>
+                
+                <BlurView
+                    viewRef={viewRef}
+                    style={styles.blurViewStyle}
+                    // blurRadius={1}
+                    // blurType={blurType}
+                    blurRadius={1}
+                    downsampleFactor={10}
+                    overlayColor={'rgba(50, 50, 50, .2)'}
+                />
+            // </View>
+        );
+    }
+    const navigated = () => {
+        setWallet(false);
+        setInvite(false);
+        setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+            navigation.navigate('FriendProfile');
+          }, 30); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
+    }
+    const navigated2 = () => {
+            setSelected('Home')
+            setShowBlur(false);
+            let timerId;
+            timerId = setTimeout(() => {
+                navigation.navigate('Main');
+            }, 30); // Adjust the delay as needed
+            return () => {
+            clearTimeout(timerId);
+            };
+    }
+    const navigated1 = () => {
+            setSelected('Chat')
+            setShowBlur(false);
+            let timerId;
+            timerId = setTimeout(() => {
+                navigation.navigate('GroupAccount');
+            }, 30); // Adjust the delay as needed
+            return () => {
+            clearTimeout(timerId);
+            };
+    }
     return (
         <SafeAreaView>
             <StatusBar translucent backgroundColor = 'transparent'/>
@@ -100,11 +199,7 @@ const Account = ({navigation}) => {
                     <View style = {styles.headerBar}>
                         <TouchableOpacity
                             style = {styles.prevButton}
-                            onPress = { () => {
-                                setWallet(false);
-                                setInvite(false);
-                                navigation.navigate('Main');
-                            }}
+                            onPress = { navigated}
                         >
                             <Svg width={vw(2)} height={vw(3.3)} viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <Path d="M6 1L1 6L6 11" fill="#181818"/>
@@ -117,7 +212,8 @@ const Account = ({navigation}) => {
                         <TouchableOpacity
                             style = {[styles.prevButton, {backgroundColor: 'transparent', alignItems: 'flex-end'}]}
                             onPress = { () => 
-                                navigation.navigate('Settings')
+                                {navigation.navigate('Settings');
+                                setShowBlur(false);}
                             }
                         >
                             <Svg width={vw(5.6)} height={vw(5.6)} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -127,7 +223,9 @@ const Account = ({navigation}) => {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <ScrollView style = {styles.body}>
+                <ScrollView style = {styles.body}
+                    showsVerticalScrollIndicator={false}
+                >
                     <View style = {styles.friendInfo}>
                         <View style = {styles.friend}>
                             <View style = {styles.avatarborder}>
@@ -272,7 +370,8 @@ const Account = ({navigation}) => {
                                         My Friends
                                     </Text>
                                     <Text style = {[styles.text, {fontSize: vw(3.33)}]}
-                                        onPress = {() => navigation.navigate('FriendSearch')}
+                                        onPress = {() => {navigation.navigate('FriendSearch');
+                                        setShowBlur(false);}}
                                     >
                                         View all
                                     </Text>
@@ -306,7 +405,8 @@ const Account = ({navigation}) => {
                                         My Friends
                                     </Text>
                                     <Text style = {[styles.text, {fontSize: vw(3.33)}]}
-                                        onPress = {() => navigation.navigate('FriendSearch')}
+                                        onPress = {() => {navigation.navigate('FriendSearch');
+                                        setShowBlur(false);}}
                                     >
                                         View all
                                     </Text>
@@ -346,11 +446,16 @@ const Account = ({navigation}) => {
                             </View>
                         }
                 </ScrollView>
-                <View style = {styles.footer}>
+                
+                <View style = {[styles.footer, {position: 'absolute', overflow: 'hidden'}]}>
+                    <Image source = {require('../../../../assets/images/blur.png')}
+                        style={styles.imageStyle}
+                        ref={backgroundImageRef}
+                        />
+                    {showBlur ? renderBlurView() : null}
+                    
                     <TouchableOpacity style = {styles.footerIcon}
-                        onPress = {() => 
-                            setSelected('Home')
-                        }
+                        onPress = {navigated2}
                     >
                         <Svg width={vw(5)} height={vw(5)} viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <Path d="M6.50008 16.5V10.3333C6.50008 9.86662 6.50008 9.63327 6.59091 9.45501C6.67081 9.29821 6.79829 9.17072 6.95509 9.09083C7.13335 9 7.36671 9 7.83342 9H10.1668C10.6335 9 10.8668 9 11.0451 9.09083C11.2019 9.17072 11.3294 9.29821 11.4093 9.45501C11.5001 9.63327 11.5001 9.86662 11.5001 10.3333V16.5M0.666748 6.91667L8.20008 1.26667C8.48697 1.0515 8.63041 0.943924 8.78794 0.902454C8.927 0.865849 9.07317 0.865849 9.21222 0.902454C9.36976 0.943924 9.5132 1.05151 9.80008 1.26667L17.3334 6.91667M2.33342 5.66667V13.8333C2.33342 14.7668 2.33342 15.2335 2.51507 15.59C2.67486 15.9036 2.92983 16.1586 3.24343 16.3183C3.59995 16.5 4.06666 16.5 5.00008 16.5H13.0001C13.9335 16.5 14.4002 16.5 14.7567 16.3183C15.0703 16.1586 15.3253 15.9036 15.4851 15.59C15.6668 15.2335 15.6668 14.7668 15.6668 13.8333V5.66667L10.6001 1.86667C10.0263 1.43634 9.73944 1.22118 9.42436 1.13824C9.14625 1.06503 8.85392 1.06503 8.57581 1.13824C8.26073 1.22118 7.97385 1.43634 7.40008 1.86667L2.33342 5.66667Z" stroke={selected == 'Home'? '#53FAFB' : "#9D9D9D"} stroke-linecap="round" stroke-linejoin="round"/>
@@ -360,9 +465,11 @@ const Account = ({navigation}) => {
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style = {styles.footerIcon}
-                        onPress = {() => 
-                            setSelected('Community')
-                        }
+                        onPress = {() => {
+                            setSelected('Community');
+                            // navigation.navigate('GroupAccount');
+                            setShowBlur(false);
+                        }}
                     >
                         <Svg width={vw(5.6)} height={vw(5.6)} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <Path d="M15 13.1974C16.2132 13.8069 17.2534 14.785 18.0127 16.008C18.163 16.2502 18.2382 16.3713 18.2642 16.539C18.317 16.8798 18.084 17.2988 17.7666 17.4336C17.6104 17.5 17.4347 17.5 17.0833 17.5M13.3333 9.6102C14.5681 8.99657 15.4167 7.72238 15.4167 6.25C15.4167 4.77762 14.5681 3.50343 13.3333 2.8898M11.6667 6.25C11.6667 8.32107 9.98772 10 7.91665 10C5.84559 10 4.16665 8.32107 4.16665 6.25C4.16665 4.17893 5.84559 2.5 7.91665 2.5C9.98772 2.5 11.6667 4.17893 11.6667 6.25ZM2.13268 15.782C3.46127 13.7871 5.5578 12.5 7.91665 12.5C10.2755 12.5 12.372 13.7871 13.7006 15.782C13.9917 16.219 14.1372 16.4375 14.1205 16.7166C14.1074 16.9339 13.9649 17.2 13.7913 17.3313C13.5683 17.5 13.2615 17.5 12.648 17.5H3.18528C2.5718 17.5 2.26505 17.5 2.04202 17.3313C1.86836 17.2 1.72589 16.9339 1.71285 16.7166C1.69609 16.4375 1.84162 16.219 2.13268 15.782Z" stroke={selected == 'Community'? '#53FAFB' : "#9D9D9D"} stroke-linecap="round" stroke-linejoin="round"/>
@@ -372,10 +479,7 @@ const Account = ({navigation}) => {
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style = {styles.footerIcon}
-                        onPress = {() => {
-                            setSelected('Chat');
-                            navigation.navigate('GroupAccount');
-                        }}
+                        onPress = {navigated1}
                     >
                         <Svg width={vw(5.6)} height={vw(5.6)} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <G clip-path="url(#clip0_175_4353)">
@@ -611,6 +715,25 @@ const styles = StyleSheet.create({
         borderRadius: vw(13.5),
         backgroundColor: '#E9E9E921',
         flexDirection: 'row'
+    },
+    imageStyle: {
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      bottom: 0,
+      right: 0,
+      resizeMode: 'cover',
+      width: null,
+      height: null,
+    },
+    blurViewStyle: {
+        position: 'absolute',
+        bottom: 0,
+        width: vw(92.2),
+        height: vw(20),
+        left: 0,
+        top: 0,
+        right: 0
     },
     footerText: {
         fontFamily: 'TT Firs Neue Trial Regular',

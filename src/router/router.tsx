@@ -43,6 +43,7 @@ import GroupAccount from '../pages/landing/profile/groupAccount';
 import Documents from '../pages/landing/profile/documents';
 import MediaView from '../pages/landing/profile/mediaView';
 import Members from '../pages/landing/profile/members';
+import NoChat from '../pages/landing/profile/chat/noChat';
 import HomeApp from './home';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
