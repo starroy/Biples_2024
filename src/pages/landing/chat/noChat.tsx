@@ -164,7 +164,7 @@ const NoChat = ({ navigation }) => {
                     <View style = {styles.chatBox}>
                         <View style = {styles.addChat}>
                             <View style = {styles.addChatIcon}>
-                                <Svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <Svg width={vw(4.44)} height={vw(4.44)} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <Path d="M8 15.5V0.5M0.5 8H15.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                                 </Svg>
                             </View>

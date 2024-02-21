@@ -53,6 +53,9 @@ import Documents from "./src/pages/landing/profile/documents";
 import MediaView from "./src/pages/landing/profile/mediaView";
 import Members from "./src/pages/landing/profile/members";
 import NoChat from "./src/pages/landing/chat/noChat";
+import Chats from "./src/pages/landing/chat/chats";
+import Calling from "./src/pages/landing/chat/calling";
+import ChatConversation from "./src/pages/landing/chat/chatConversation";
 import StackRouter from './src/router/router';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -71,7 +74,7 @@ function App() {
       // </NavigationContainer>
     
     <View style={styles.container}>
-      <NoChat/>
+      <Calling/>
     </View>
   );
 }

@@ -44,6 +44,10 @@ import Documents from '../pages/landing/profile/documents';
 import MediaView from '../pages/landing/profile/mediaView';
 import Members from '../pages/landing/profile/members';
 import NoChat from '../pages/landing/profile/chat/noChat';
+import Chats from '../pages/landing/profile/chat/chats';
+import Calling from '../pages/landing/profile/chat/calling';
+import ChatMore from '../pages/landing/profile/chat/chatMore';
+import ChatConversation from '../pages/landing/profile/chat/chatConversation';
 import HomeApp from './home';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -259,6 +263,31 @@ function StackRouter() {
       <Stack.Screen
         name = 'Members'
         component = { Members }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'NoChat'
+        component = { NoChat }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Chats'
+        component = { Chats }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'ChatMore'
+        component = { ChatMore }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'ChatConversation'
+        component = { ChatConversation }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Calling'
+        component = { Calling }
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     View, 
     Text, 
@@ -11,21 +11,37 @@ import {
 } from 'react-native';
 import { vh, vw } from 'react-native-css-vh-vw';
 import Svg, {Path} from 'react-native-svg';
+import { useFocusEffect } from '@react-navigation/native';
 
 const LoadingStart = ({navigation}) => {
     
     const windowWidth = useWindowDimensions().width;
 //   const history = useHistory();
+    const [loadingState, setLoadingState] = useState(false);
+    // useEffect(() => {
+    //     const switchPage = setTimeout(() => {
+    //         console.log('time is ended');
+    //         navigation.navigate('Loading');
+    //     }, 3000); // 10 seconds in milliseconds
 
-  useEffect(() => {
-    const switchPage = setTimeout(() => {
-        console.log('time is ended');
-        navigation.navigate('Loading');
-    }, 3000); // 10 seconds in milliseconds
+    //     return () => clearTimeout(switchPage);
+    // }, []);
 
-    return () => clearTimeout(switchPage);
-  }, []);
-
+    useFocusEffect(
+        React.useCallback(() => {
+        let timerId;
+            
+        if (!loadingState) {
+            timerId = setTimeout(() => {
+                setLoadingState(!loadingState);
+                navigation.navigate('Loading');
+            }, 3000); // Adjust the delay as needed
+        }
+        return () => {
+            clearTimeout(timerId);
+        };
+        }, [loadingState])
+    );
     return (
         <View style={styles.container}>
             
