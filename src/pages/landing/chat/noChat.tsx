@@ -43,22 +43,22 @@ const NoChat = ({ navigation }) => {
     
         return () => backHandler.remove();
     }, []);
-    // useFocusEffect(
-    //     React.useCallback(() => {
-    //     let timerId;
-    //     setSelected('Home');
+    useFocusEffect(
+        React.useCallback(() => {
+        let timerId;
+        setSelected('Home');
             
-    //     if (!showBlur) {
-    //         timerId = setTimeout(() => {
-    //         setShowBlur(true);
-    //         }, 500); // Adjust the delay as needed
-    //     }
-    //     //   console.log(showBlur)
-    //     return () => {
-    //         clearTimeout(timerId);
-    //     };
-    //     }, [showBlur])
-    // );
+        if (!showBlur) {
+            timerId = setTimeout(() => {
+            setShowBlur(true);
+            }, 500); // Adjust the delay as needed
+        }
+        //   console.log(showBlur)
+        return () => {
+            clearTimeout(timerId);
+        };
+        }, [showBlur])
+    );
     const renderBlurView = () => {
         return (
                 <BlurView
@@ -107,16 +107,16 @@ const NoChat = ({ navigation }) => {
             };
         }
     }
-    // const navigateBack = () => {
-    //     setShowBlur(false);
-    //     let timerId;
-    //     timerId = setTimeout(() => {
-    //         navigation.navigate('FriendProfile');
-    //       }, 30); // Adjust the delay as needed
-    //       return () => {
-    //         clearTimeout(timerId);
-    //       };
-    // }
+    const navigateBack = () => {
+        setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+            navigation.navigate('FriendProfile');
+          }, 30); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
+    }
     const navigateHome = () => {
         setSelected('Home')
         setShowBlur(false);
@@ -139,6 +139,15 @@ const NoChat = ({ navigation }) => {
         //     clearTimeout(timerId);
         // };
     }
+    const handleChats = () => {
+        setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+            navigation.navigate('Chats');
+          }, 30); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };}
     return(
         <SafeAreaView>
             <StatusBar translucent backgroundColor = 'transparent'/>
@@ -162,7 +171,9 @@ const NoChat = ({ navigation }) => {
                         </View>
                     </View>
                     <View style = {styles.chatBox}>
-                        <View style = {styles.addChat}>
+                        <TouchableOpacity style = {styles.addChat}
+                            onPress = {handleChats}
+                        >
                             <View style = {styles.addChatIcon}>
                                 <Svg width={vw(4.44)} height={vw(4.44)} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <Path d="M8 15.5V0.5M0.5 8H15.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
@@ -171,7 +182,7 @@ const NoChat = ({ navigation }) => {
                             <Text style = {styles.headerText}>
                                 Add
                             </Text>
-                        </View>
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <View style = {styles.body}>

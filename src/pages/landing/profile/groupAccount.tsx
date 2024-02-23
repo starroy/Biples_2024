@@ -791,6 +791,17 @@ const GroupAccount = ({navigation}) => {
             clearTimeout(timerId);
             };
     }
+    const handleNavigateChat = () => {
+        
+        setSelected('Chat')
+        let timerId;
+        timerId = setTimeout(() => {
+            navigation.navigate('NoChat');
+        }, 30); // Adjust the delay as needed
+        return () => {
+        clearTimeout(timerId);
+        };
+    }
     return (
         <SafeAreaView
         {...panResponder.panHandlers}>
@@ -1084,8 +1095,7 @@ const GroupAccount = ({navigation}) => {
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style = {styles.footerIcon}
-                        onPress = {() => 
-                            setSelected('Chat')
+                        onPress = {handleNavigateChat
                         }
                     >
                         <Svg width={vw(5.6)} height={vw(5.6)} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

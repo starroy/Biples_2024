@@ -13,7 +13,10 @@ import {
     FlatList,
     InteractionManager,
     findNodeHandle,
-    BackHandler
+    BackHandler,
+    Dimensions,
+    TextInput,
+    Animated
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { BlurView } from '@react-native-community/blur';
@@ -23,6 +26,8 @@ import Svg, { Path, Circle, ClipPath, G, Defs, Rect } from 'react-native-svg';
 
 const ChatMore = ({ navigation }) => {
     const backgroundImageRef = createRef();
+    const screenWidth = Dimensions.get('window').width;
+    const screenHegiht = Dimensions.get('window').height;
     const chatsArray = [
         {
             avatar: require('../../../../assets/images/card7.png'),
@@ -237,16 +242,15 @@ const ChatMore = ({ navigation }) => {
             ],
         },
         {
-            isMyMsg : true,
-            time: 'Today 02:34 AM',
-            msgSpeech: {state: 'pasued', times: '0:20', speed: 'X1.5'},
+            isMyMsg : false,
+            msgSpeech: {state: 'pasued', times: '0:20', speeds: 'X1.5'},
         },
         {
-            isMyMsg : true,
+            isMyMsg : false,
             msgSpeech: {state: 'play', times: '0:09'}
         },
         {
-            isMyMsg : true,
+            isMyMsg : false,
             time: 'Today 02:34 AM',
             message: 'Thanks a lot'
         },
@@ -257,6 +261,7 @@ const ChatMore = ({ navigation }) => {
         onlineState: 'online',
         time: 'Active Now'
     });
+    const [screenY, setScreenY] = useState(new Animated.Value(0));
     const [msgData, setMsgData] = useState(chatModalData);
     const [isCalled, setIsCalled] = useState (callingData);
     const [allChat, setAllChat] = useState(allData);
@@ -267,7 +272,10 @@ const ChatMore = ({ navigation }) => {
     const [viewRef, setViewRef] = useState(null);
     const [blurType, setBlurType] = useState('light');
     const [selected, setSelected] = useState('Chat');
-    
+    const [isFocused, setIsFocused] = useState(false);
+    const [pin, setPin] = useState(false);
+    const [text, setText] = useState('');
+    const [allView, setAllView] = useState(0);
     useEffect(() => {
         const backAction = () => {
           setShowBlur(false);
@@ -284,6 +292,9 @@ const ChatMore = ({ navigation }) => {
     
         return () => backHandler.remove();
     }, []);
+    const onchangeText = (text) => {
+        setText(text);
+    }
     // useFocusEffect(
     //     React.useCallback(() => {
     //     let timerId;
@@ -379,6 +390,25 @@ const ChatMore = ({ navigation }) => {
         // return () => {
         //     clearTimeout(timerId);
         // };
+    }
+    const handleChatView = () => {
+        setAllView(1)
+        Animated.timing(screenY, {
+            toValue: -1.07*screenHegiht,
+            duration: 50,
+            useNativeDriver: true,
+        }).start();
+    }
+    const handleChatHidden = () => {
+        setAllView(0);
+        Animated.timing(screenY, {
+        toValue: 0 * screenHegiht,
+        duration: 50,
+        useNativeDriver: true,
+        }).start();        
+    }
+    const handleCall = () => {
+        navigation.navigate('Calling')
     }
     return(
         <SafeAreaView>
@@ -537,6 +567,7 @@ const ChatMore = ({ navigation }) => {
                     </View>
                     <ScrollView 
                         showsVerticalScrollIndicator={false}
+                        style = {{paddingBottom: vw(60)}}
                     >
                         <View style = {[styles.archievedBtn]}>
                             <View style = {{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
@@ -572,7 +603,9 @@ const ChatMore = ({ navigation }) => {
                             <View style = {styles.pinArray}>
                                 {
                                     pinnedChat.map((item, index) => 
-                                        <View key = {index} style = {styles.dataItem}>
+                                        <TouchableOpacity key = {index} style = {styles.dataItem}
+                                            onPress = {handleChatView}
+                                        >
                                             <View style = {styles.datas}>
                                                 <View style = {[styles.avatars, {width: vw(11.1), height: vw(11.1)}]}>
                                                     <Image source = {item.avatar}
@@ -648,7 +681,7 @@ const ChatMore = ({ navigation }) => {
                                                     }
                                                 </View>
                                             </View>
-                                        </View>
+                                        </TouchableOpacity>
                                     )
                                 }
                             </View>
@@ -665,7 +698,9 @@ const ChatMore = ({ navigation }) => {
                             <View style = {styles.pinArray}>
                                 {
                                     allChat.map((item, index) => 
-                                        <View key = {index} style = {styles.dataItem}>
+                                        <TouchableOpacity key = {index} style = {styles.dataItem}
+                                            onPress = {handleChatView}
+                                        >
                                             <View style = {styles.datas}>
                                                 <View style = {[styles.avatars, {width: vw(11.1), height: vw(11.1)}]}>
                                                     <Image source = {item.avatar}
@@ -741,7 +776,7 @@ const ChatMore = ({ navigation }) => {
                                                     }
                                                 </View>
                                             </View>
-                                        </View>
+                                        </TouchableOpacity>
                                     )
                                 }
                             </View>
@@ -869,160 +904,6 @@ const ChatMore = ({ navigation }) => {
                                 )
                             }
                         </View>
-                        <View style = {styles.chatBackStyle}>
-                            <ImageBackground source = {require('../../../../assets/images/chatBackground.png')}
-                                style = {styles.chatBackImg}
-                            >
-                                <View style = {styles.topBar}/>
-                                <View style = {[styles.dataItem, {marginLeft: vw(5), marginTop: vw(8.05), marginBottom: vw(5.8)}]}>
-                                    <View style = {styles.datas}>
-                                        <View style = {[styles.avatars, {width: vw(11.1), height: vw(11.1), backgroundColor: 'transparent'}]}>
-                                            <Image source = {clientData.avatar}
-                                                style = {[
-                                                    styles.addChatIcon, 
-                                                    {
-                                                        width: vw(11.1), 
-                                                        height: vw(11.1), 
-                                                        borderRadius: vw(3),
-                                                        backgroundColor: 'transparent'
-                                                        // borderWidth: vw(0.3), 
-                                                        // borderColor: 'black',
-                                                    }
-                                                ]}
-                                            />
-                                        </View>
-                                        <View style = {styles.info}>
-                                            <Text style = {styles.name}>
-                                                {clientData.name}
-                                            </Text>
-                                            <View style = {{flexDirection: 'row', alignItems: 'center'}}>
-                                                <View 
-                                                    style = {{
-                                                        width: vw(2.8),
-                                                        height: vw(2.8),
-                                                        backgroundColor: 
-                                                            clientData.onlineState == 'notification' ? '#FCC145' 
-                                                                : clientData.onlineState == 'offline'? '#FF5252'
-                                                                : clientData.onlineState == 'online' ? '#53FAFB' 
-                                                                : clientData.onlineState == 'out' ? '#D0D5DD'
-                                                                : 'transparent', 
-                                                        borderWidth: clientData.onlineState != 'signout' ? vw(0.6) : 0,
-                                                        borderColor: 'black',
-                                                        borderRadius: vw(2),
-                                                        marginLeft: vw(3),
-                                                    }}
-                                                />
-                                                <Text style = {[styles.name, {fontSize: vw(2.8), color: '#787878', marginLeft: vw(1)}]}>
-                                                    {clientData.time}
-                                                </Text>
-                                            </View>
-                                        </View>
-                                    </View>
-                                    <View style = {[styles.itemInfo,{flexDirection:'row', alignItems: 'center', justifyContent: 'space-between', width: vw(21.1)}]}>
-                                        <Svg width={vw(4.7)} height={vw(4.7)} viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <Path d="M5.78361 6.126C6.33364 7.27158 7.08343 8.34527 8.033 9.29484C8.98256 10.2444 10.0563 10.9942 11.2018 11.5442C11.3004 11.5915 11.3496 11.6152 11.412 11.6334C11.6335 11.6979 11.9056 11.6516 12.0932 11.5172C12.146 11.4794 12.1912 11.4342 12.2815 11.3439C12.5578 11.0676 12.696 10.9295 12.8349 10.8392C13.3587 10.4985 14.0341 10.4985 14.5579 10.8391C14.6968 10.9295 14.835 11.0676 15.1113 11.3439L15.2653 11.4979C15.6852 11.9179 15.8952 12.1279 16.0093 12.3534C16.2362 12.8019 16.2362 13.3316 16.0093 13.7801C15.8952 14.0056 15.6853 14.2156 15.2653 14.6356L15.1407 14.7602C14.7222 15.1787 14.5129 15.388 14.2284 15.5478C13.9126 15.7252 13.4223 15.8527 13.0602 15.8516C12.7338 15.8507 12.5108 15.7874 12.0647 15.6608C9.66755 14.9804 7.40552 13.6966 5.51839 11.8094C3.63125 9.92231 2.34748 7.66028 1.66708 5.26309C1.54048 4.81703 1.47717 4.594 1.4762 4.26766C1.47513 3.90554 1.60264 3.41519 1.78 3.09947C1.93983 2.81495 2.1491 2.60568 2.56764 2.18714L2.69221 2.06256C3.11219 1.64258 3.32218 1.43259 3.54771 1.31852C3.99624 1.09166 4.52592 1.09166 4.97445 1.31852C5.19997 1.43259 5.40996 1.64258 5.82995 2.06256L5.98394 2.21656C6.26023 2.49285 6.39837 2.63099 6.48868 2.7699C6.82928 3.29376 6.82928 3.9691 6.48868 4.49296C6.39837 4.63187 6.26023 4.77002 5.98395 5.0463C5.89361 5.13663 5.84844 5.1818 5.81063 5.2346C5.67628 5.42223 5.62989 5.69429 5.69447 5.91584C5.71265 5.97819 5.7363 6.02746 5.78361 6.126Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </Svg>
-                                        <Svg width={vw(6.1)} height={vw(4.2)} viewBox="0 0 22 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <Path d="M21.1794 4.43137C21.1794 3.82555 21.1794 3.52265 21.0596 3.38238C20.9557 3.26068 20.7998 3.19609 20.6402 3.20865C20.4563 3.22312 20.2421 3.43731 19.8138 3.86569L16.1794 7.5L19.8138 11.1343C20.2421 11.5627 20.4563 11.7769 20.6402 11.7914C20.7998 11.8039 20.9557 11.7393 21.0596 11.6176C21.1794 11.4774 21.1794 11.1744 21.1794 10.5686V4.43137Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <Path d="M1.17944 5.3C1.17944 3.61984 1.17944 2.77976 1.50642 2.13803C1.79404 1.57354 2.25299 1.1146 2.81747 0.82698C3.45921 0.5 4.29929 0.5 5.97944 0.5H11.3794C13.0596 0.5 13.8997 0.5 14.5414 0.82698C15.1059 1.1146 15.5648 1.57354 15.8525 2.13803C16.1794 2.77976 16.1794 3.61984 16.1794 5.3V9.7C16.1794 11.3802 16.1794 12.2202 15.8525 12.862C15.5648 13.4265 15.1059 13.8854 14.5414 14.173C13.8997 14.5 13.0596 14.5 11.3794 14.5H5.97944C4.29929 14.5 3.45921 14.5 2.81747 14.173C2.25299 13.8854 1.79404 13.4265 1.50642 12.862C1.17944 12.2202 1.17944 11.3802 1.17944 9.7V5.3Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </Svg>
-                                        <Svg width="4" height="13" viewBox="0 0 4 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <Path d="M1.86694 5.8125C1.48725 5.8125 1.17944 6.1203 1.17944 6.5C1.17944 6.8797 1.48725 7.1875 1.86694 7.1875C2.24664 7.1875 2.55444 6.8797 2.55444 6.5C2.55444 6.1203 2.24664 5.8125 1.86694 5.8125Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <Path d="M1.86694 10.625C1.48725 10.625 1.17944 10.9328 1.17944 11.3125C1.17944 11.6922 1.48725 12 1.86694 12C2.24664 12 2.55444 11.6922 2.55444 11.3125C2.55444 10.9328 2.24664 10.625 1.86694 10.625Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <Path d="M1.86694 1C1.48725 1 1.17944 1.3078 1.17944 1.6875C1.17944 2.0672 1.48725 2.375 1.86694 2.375C2.24664 2.375 2.55444 2.0672 2.55444 1.6875C2.55444 1.3078 2.24664 1 1.86694 1Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </Svg>
-                                    </View>
-                                </View>
-                                <View style =  {{width: vw(90), marginLeft: vw(5),}}>
-                                    {
-                                        msgData.map((item, index)  => 
-                                            item.date ?
-                                                <Text key = {index} style = {[styles.name, {width: vw(90), marginTop: vw(3.1), textAlign: 'center', marginBottom: vw(3.9)}]}>
-                                                    {item.date}
-                                                </Text>
-                                                :
-                                                <View key = {index} style = {{ marginTop: vw(3.3), flexDirection: 'column', alignItems: item.isMyMsg ? 'flex-end' : 'flex-stat'}}>
-                                                    <View style = {{ maxWidth: item.msgImg? vw(75) : vw(58.3), flexDirection: 'row', borderRadius: vw(5), padding: item.msgImg ? 0 : vw(2.5), paddingLeft: item.msgImg ? 0 : item.msgImg ? 0 : vw(5), paddingRight: vw(5), backgroundColor: item.isMyMsg ? '#181818' : '#53FAFB', justifyContent: 'space-between'}}>
-                                                        {
-                                                            item.msgImg && 
-                                                                <View style = {{height: vw(36.11), flexDirection: 'row', justifyContent: 'space-between', width: '100%'}}>
-                                                                    {item.msgImg.map((items, indexs) => 
-                                                                        <ImageBackground key = {indexs} style = {{height: vw(36.11), borderRadius: vw(5), width: item.time ? vw(52.2) :vw(36.1), marginRight: item.time? 0 : vw(3), marginLeft: item.time? vw(5) : 0, }}
-                                                                            source = {items.url}
-                                                                        >
-                                                                        {
-                                                                            items.selected && <Text style = {[styles.text, {color: item.isMyMsg? 'white': 'black',}]}>
-                                                                                {items. urlData}
-                                                                            </Text>
-                                                                        }
-                                                                        </ImageBackground>
-                                                                    )}
-                                                                </View>
-                                                        }
-                                                        {
-                                                            item.message && <Text style = {[styles.text, {color: item.isMyMsg? 'white': 'black',}]}>
-                                                                {item.message}
-                                                            </Text>
-                                                        }
-                                                        {item.msgSpeech && 
-                                                            item.msgSpeech.state == 'pasued' ?
-                                                            <Svg width={vw(5.8)} height={vw(5.8)} viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                <Path d="M10.5 20.5C16.0228 20.5 20.5 16.0228 20.5 10.5C20.5 4.97715 16.0228 0.5 10.5 0.5C4.97715 0.5 0.5 4.97715 0.5 10.5C0.5 16.0228 4.97715 20.5 10.5 20.5Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-                                                                <Path d="M8 7.46533C8 6.98805 8 6.74941 8.09974 6.61618C8.18666 6.50007 8.31971 6.42744 8.46438 6.4171C8.63038 6.40525 8.83112 6.53429 9.23261 6.79239L13.9532 9.82706C14.3016 10.051 14.4758 10.163 14.5359 10.3054C14.5885 10.4298 14.5885 10.5702 14.5359 10.6946C14.4758 10.837 14.3016 10.949 13.9532 11.1729L9.23261 14.2076C8.83112 14.4657 8.63038 14.5948 8.46438 14.5829C8.31971 14.5726 8.18666 14.4999 8.09974 14.3838C8 14.2506 8 14.012 8 13.5347V7.46533Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-                                                            </Svg>
-                                                            :
-                                                            <View>
-                                                            <Svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                <Path d="M10 15.5V9.5M15 15.5V9.5M22.5 12.5C22.5 18.0228 18.0228 22.5 12.5 22.5C6.97715 22.5 2.5 18.0228 2.5 12.5C2.5 6.97715 6.97715 2.5 12.5 2.5C18.0228 2.5 22.5 6.97715 22.5 12.5Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-                                                            </Svg>
-                                                            <Svg width="81" height="17" viewBox="0 0 81 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                <Rect opacity="0.66" x="0.5" y="4.5" width="2" height="8" rx="1" fill="black"/>
-                                                                <Rect opacity="0.66" x="6.5" y="1.5" width="2" height="14" rx="1" fill="black"/>
-                                                                <Rect opacity="0.66" x="12.5" y="6.5" width="2" height="4" rx="1" fill="black"/>
-                                                                <Rect opacity="0.66" x="18.5" y="0.5" width="2" height="16" rx="1" fill="black"/>
-                                                                <Rect opacity="0.66" x="24.5" y="1.5" width="2" height="14" rx="1" fill="black"/>
-                                                                <Rect opacity="0.66" x="30.5" y="3.5" width="2" height="10" rx="1" fill="black"/>
-                                                                <Rect opacity="0.66" x="36.5" y="3.5" width="2" height="10" rx="1" fill="#00C1C3"/>
-                                                                <Rect opacity="0.66" x="42.5" y="3.5" width="2" height="10" rx="1" fill="#00C1C3"/>
-                                                                <Rect opacity="0.66" x="48.5" y="1.5" width="2" height="14" rx="1" fill="#00C1C3"/>
-                                                                <Rect opacity="0.66" x="54.5" y="3.5" width="2" height="10" rx="1" fill="#00C1C3"/>
-                                                                <Rect opacity="0.66" x="60.5" y="0.5" width="2" height="16" rx="1" fill="#00C1C3"/>
-                                                                <Rect opacity="0.66" x="66.5" y="3.5" width="2" height="10" rx="1" fill="#00C1C3"/>
-                                                                <Rect opacity="0.66" x="72.5" y="6.5" width="2" height="4" rx="1" fill="#00C1C3"/>
-                                                                <Rect opacity="0.66" x="78.5" y="7.5" width="2" height="2" rx="1" fill="#00C1C3"/>
-                                                            </Svg>
-                                                            <Text style = {[styles.text, {color: item.isMyMsg? 'white': 'black',}]}>
-                                                                {item}
-                                                            </Text>
-                                                            </View>
-                                                        }
-                                                    </View>
-                                                    {item.msgSpeech.speed && <View style = {{width: vw(9.4), height: vw(9.4), justifyContent: 'center', alignItems: 'center'}}>
-                                                        <Text style = {styles.text}>{item.msgSpeech.speed}</Text>
-                                                    </View>}
-                                                    {item.time && <Text style = {styles.text}>{item.time}</Text>}
-                                                </View>
-                                            
-                                        )
-                                    }
-                                </View>
-                                <View style = {styles.footerBar}>
-                                    <View style = {{width: vw(9.4), height: vw(9.4), justifyContent: 'center', alignItems: 'center'}}>
-                                        <Svg width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <Circle cx="15.485" cy="7.02662" r="2.0265" fill="#C4C4C4"/>
-                                        <Circle cx="8.99989" cy="2.97328" r="2.0265" fill="#F1F1F1"/>
-                                        <Circle cx="2.51527" cy="7.02662" r="2.0265" fill="#C4C4C4"/>
-                                        </Svg>
-                                    </View>
-                                    <Text style = {styles.text}>Mussa OUEL is typing...</Text>
-                                    <View style = {{width: vw(9.4), height: vw(9.4), justifyContent: 'center', alignItems: 'center'}}>
-                                        <Svg width={vw(3.3)} height={vw(1.67)} viewBox="0 0 12 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <Path d="M1 0.5L6 5.5L11 0.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </Svg>
-                                    </View>
-                                </View>
-                            </ImageBackground>
-                        </View>
                         <View style = {{height: vw(40)}}/>
                     </ScrollView>
                 </View>
@@ -1072,6 +953,308 @@ const ChatMore = ({ navigation }) => {
 
                     </TouchableOpacity>
                 </View>
+                <Animated.View style = {{transform: [{ translateY: screenY }], position: 'relative'}}>
+                    <View style = {styles.chatBackStyle}>
+                        <ImageBackground source = {require('../../../../assets/images/chatBackground.png')}
+                            style = {styles.chatBackImg}
+                        >
+                            <View style = {styles.topBar}/>
+                            <TouchableOpacity style = {[styles.dataItem, {marginLeft: vw(5), marginTop: vw(8.05), marginBottom: vw(5.8)}]}
+                                onPress = {handleChatHidden}
+                            >
+                                <View style = {styles.datas}>
+                                    <View style = {[styles.avatars, {width: vw(11.1), height: vw(11.1), backgroundColor: 'transparent'}]}>
+                                        <Image source = {clientData.avatar}
+                                            style = {[
+                                                styles.addChatIcon, 
+                                                {
+                                                    width: vw(11.1), 
+                                                    height: vw(11.1), 
+                                                    borderRadius: vw(3),
+                                                    backgroundColor: 'transparent'
+                                                    // borderWidth: vw(0.3), 
+                                                    // borderColor: 'black',
+                                                }
+                                            ]}
+                                        />
+                                    </View>
+                                    <View style = {styles.info}>
+                                        <Text style = {styles.name}>
+                                            {clientData.name}
+                                        </Text>
+                                        <View style = {{flexDirection: 'row', alignItems: 'center'}}>
+                                            <View 
+                                                style = {{
+                                                    width: vw(2.8),
+                                                    height: vw(2.8),
+                                                    backgroundColor: 
+                                                        clientData.onlineState == 'notification' ? '#FCC145' 
+                                                            : clientData.onlineState == 'offline'? '#FF5252'
+                                                            : clientData.onlineState == 'online' ? '#53FAFB' 
+                                                            : clientData.onlineState == 'out' ? '#D0D5DD'
+                                                            : 'transparent', 
+                                                    borderWidth: clientData.onlineState != 'signout' ? vw(0.6) : 0,
+                                                    borderColor: 'black',
+                                                    borderRadius: vw(2),
+                                                    marginLeft: vw(3),
+                                                }}
+                                            />
+                                            <Text style = {[styles.name, {fontSize: vw(2.8), color: '#787878', marginLeft: vw(1)}]}>
+                                                {clientData.time}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                </View>
+                                <View style = {[styles.itemInfo,{flexDirection:'row', alignItems: 'center', justifyContent: 'space-between', width: vw(21.1)}]}>
+                                    <TouchableOpacity 
+                                        onPress = {handleCall}
+                                    >
+                                    <Svg width={vw(4.7)} height={vw(4.7)} viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <Path d="M5.78361 6.126C6.33364 7.27158 7.08343 8.34527 8.033 9.29484C8.98256 10.2444 10.0563 10.9942 11.2018 11.5442C11.3004 11.5915 11.3496 11.6152 11.412 11.6334C11.6335 11.6979 11.9056 11.6516 12.0932 11.5172C12.146 11.4794 12.1912 11.4342 12.2815 11.3439C12.5578 11.0676 12.696 10.9295 12.8349 10.8392C13.3587 10.4985 14.0341 10.4985 14.5579 10.8391C14.6968 10.9295 14.835 11.0676 15.1113 11.3439L15.2653 11.4979C15.6852 11.9179 15.8952 12.1279 16.0093 12.3534C16.2362 12.8019 16.2362 13.3316 16.0093 13.7801C15.8952 14.0056 15.6853 14.2156 15.2653 14.6356L15.1407 14.7602C14.7222 15.1787 14.5129 15.388 14.2284 15.5478C13.9126 15.7252 13.4223 15.8527 13.0602 15.8516C12.7338 15.8507 12.5108 15.7874 12.0647 15.6608C9.66755 14.9804 7.40552 13.6966 5.51839 11.8094C3.63125 9.92231 2.34748 7.66028 1.66708 5.26309C1.54048 4.81703 1.47717 4.594 1.4762 4.26766C1.47513 3.90554 1.60264 3.41519 1.78 3.09947C1.93983 2.81495 2.1491 2.60568 2.56764 2.18714L2.69221 2.06256C3.11219 1.64258 3.32218 1.43259 3.54771 1.31852C3.99624 1.09166 4.52592 1.09166 4.97445 1.31852C5.19997 1.43259 5.40996 1.64258 5.82995 2.06256L5.98394 2.21656C6.26023 2.49285 6.39837 2.63099 6.48868 2.7699C6.82928 3.29376 6.82928 3.9691 6.48868 4.49296C6.39837 4.63187 6.26023 4.77002 5.98395 5.0463C5.89361 5.13663 5.84844 5.1818 5.81063 5.2346C5.67628 5.42223 5.62989 5.69429 5.69447 5.91584C5.71265 5.97819 5.7363 6.02746 5.78361 6.126Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </Svg>
+                                    </TouchableOpacity>
+                                    <Svg width={vw(6.1)} height={vw(4.2)} viewBox="0 0 22 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <Path d="M21.1794 4.43137C21.1794 3.82555 21.1794 3.52265 21.0596 3.38238C20.9557 3.26068 20.7998 3.19609 20.6402 3.20865C20.4563 3.22312 20.2421 3.43731 19.8138 3.86569L16.1794 7.5L19.8138 11.1343C20.2421 11.5627 20.4563 11.7769 20.6402 11.7914C20.7998 11.8039 20.9557 11.7393 21.0596 11.6176C21.1794 11.4774 21.1794 11.1744 21.1794 10.5686V4.43137Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <Path d="M1.17944 5.3C1.17944 3.61984 1.17944 2.77976 1.50642 2.13803C1.79404 1.57354 2.25299 1.1146 2.81747 0.82698C3.45921 0.5 4.29929 0.5 5.97944 0.5H11.3794C13.0596 0.5 13.8997 0.5 14.5414 0.82698C15.1059 1.1146 15.5648 1.57354 15.8525 2.13803C16.1794 2.77976 16.1794 3.61984 16.1794 5.3V9.7C16.1794 11.3802 16.1794 12.2202 15.8525 12.862C15.5648 13.4265 15.1059 13.8854 14.5414 14.173C13.8997 14.5 13.0596 14.5 11.3794 14.5H5.97944C4.29929 14.5 3.45921 14.5 2.81747 14.173C2.25299 13.8854 1.79404 13.4265 1.50642 12.862C1.17944 12.2202 1.17944 11.3802 1.17944 9.7V5.3Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </Svg>
+                                    <Svg width="4" height="13" viewBox="0 0 4 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <Path d="M1.86694 5.8125C1.48725 5.8125 1.17944 6.1203 1.17944 6.5C1.17944 6.8797 1.48725 7.1875 1.86694 7.1875C2.24664 7.1875 2.55444 6.8797 2.55444 6.5C2.55444 6.1203 2.24664 5.8125 1.86694 5.8125Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <Path d="M1.86694 10.625C1.48725 10.625 1.17944 10.9328 1.17944 11.3125C1.17944 11.6922 1.48725 12 1.86694 12C2.24664 12 2.55444 11.6922 2.55444 11.3125C2.55444 10.9328 2.24664 10.625 1.86694 10.625Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <Path d="M1.86694 1C1.48725 1 1.17944 1.3078 1.17944 1.6875C1.17944 2.0672 1.48725 2.375 1.86694 2.375C2.24664 2.375 2.55444 2.0672 2.55444 1.6875C2.55444 1.3078 2.24664 1 1.86694 1Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </Svg>
+                                </View>
+                            </TouchableOpacity>
+                            
+                            {/* <FlatList
+                                style = {{width: vw(90), marginLeft: vw(5)}}
+                                data={msgData}
+                                horizontal ={false}
+                                showsVerticalScrollIndicator={false}
+                                renderItem={({ item, index }) =>
+                                    item.date ?
+                                    <Text key = {index} style = {[styles.name, {width: vw(90), marginTop: vw(3.1), textAlign: 'center', marginBottom: vw(3.9)}]}>
+                                        {item.date}
+                                    </Text>
+                                    :
+                                    <View key = {index} style = {{ marginTop: vw(3.3), flexDirection: 'row', justifyContent: item.isMyMsg ? 'flex-end' : 'flex-stat'}}>
+                                        {item.avatar && <Image source = {item.avatar} style = {{width: vw(9.7), height: vw(9.7), marginRight: vw(3), border: vw(5)}}/>}
+                                        <View style = {{flexDirection: 'column', alignItems: item.isMyMsg ? 'flex-end' : 'flex-stat'}}>
+                                            <View style = {{ maxWidth: item.msgImg? vw(75) : vw(58.3), flexDirection: 'row', borderRadius: vw(5), padding: item.msgImg ? 0 : vw(2.5), paddingLeft: item.msgImg ? 0 : item.msgImg ? 0 : vw(5), paddingRight: vw(5), backgroundColor: item.isMyMsg ? '#181818' : '#53FAFB', justifyContent: 'space-between'}}>
+                                                {
+                                                    item.msgImg && 
+                                                        <View style = {{height: vw(36.11), flexDirection: 'row', justifyContent: 'space-between'}}>
+                                                            {item.msgImg.map((items, indexs) => 
+                                                                <ImageBackground key = {indexs} style = {{height: vw(36.11), borderRadius: vw(5), width: item.time ? vw(52.2) :vw(36.1), marginRight: item.time? 0 : vw(3), marginLeft: item.time? vw(5) : 0, }}
+                                                                    source = {items.url}
+                                                                >
+                                                                {
+                                                                    items.selected && <Text style = {[styles.text, {color: item.isMyMsg? 'white': 'black',}]}>
+                                                                        {items. urlData}
+                                                                    </Text>
+                                                                }
+                                                                </ImageBackground>
+                                                            )}
+                                                        </View>
+                                                }
+                                                {
+                                                    item.message && <Text style = {[styles.text, {color: item.isMyMsg? 'white': 'black',}]}>
+                                                        {item.message}
+                                                    </Text>
+                                                }
+                                                {
+                                                    item.msgSpeech && (
+                                                        <>
+                                                        {
+                                                            item.msgSpeech?.state ? 
+                                                            <Svg width={vw(5.8)} height={vw(5.8)} viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <Path d="M10.5 20.5C16.0228 20.5 20.5 16.0228 20.5 10.5C20.5 4.97715 16.0228 0.5 10.5 0.5C4.97715 0.5 0.5 4.97715 0.5 10.5C0.5 16.0228 4.97715 20.5 10.5 20.5Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                <Path d="M8 7.46533C8 6.98805 8 6.74941 8.09974 6.61618C8.18666 6.50007 8.31971 6.42744 8.46438 6.4171C8.63038 6.40525 8.83112 6.53429 9.23261 6.79239L13.9532 9.82706C14.3016 10.051 14.4758 10.163 14.5359 10.3054C14.5885 10.4298 14.5885 10.5702 14.5359 10.6946C14.4758 10.837 14.3016 10.949 13.9532 11.1729L9.23261 14.2076C8.83112 14.4657 8.63038 14.5948 8.46438 14.5829C8.31971 14.5726 8.18666 14.4999 8.09974 14.3838C8 14.2506 8 14.012 8 13.5347V7.46533Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                                            </Svg>
+                                                            :
+                                                            <Svg width={vw(6.94)} height={vw(6.94)} viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <Path d="M10 15.5V9.5M15 15.5V9.5M22.5 12.5C22.5 18.0228 18.0228 22.5 12.5 22.5C6.97715 22.5 2.5 18.0228 2.5 12.5C2.5 6.97715 6.97715 2.5 12.5 2.5C18.0228 2.5 22.5 6.97715 22.5 12.5Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                                            </Svg>
+                                                        }
+                                                        <Svg width={vw(22.5)} height={vw(4.7)} viewBox="0 0 81 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <Rect opacity="0.66" x="0.5" y="4.5" width="2" height="8" rx="1" fill="black"/>
+                                                            <Rect opacity="0.66" x="6.5" y="1.5" width="2" height="14" rx="1" fill="black"/>
+                                                            <Rect opacity="0.66" x="12.5" y="6.5" width="2" height="4" rx="1" fill="black"/>
+                                                            <Rect opacity="0.66" x="18.5" y="0.5" width="2" height="16" rx="1" fill="black"/>
+                                                            <Rect opacity="0.66" x="24.5" y="1.5" width="2" height="14" rx="1" fill="black"/>
+                                                            <Rect opacity="0.66" x="30.5" y="3.5" width="2" height="10" rx="1" fill="black"/>
+                                                            <Rect opacity="0.66" x="36.5" y="3.5" width="2" height="10" rx="1" fill="#00C1C3"/>
+                                                            <Rect opacity="0.66" x="42.5" y="3.5" width="2" height="10" rx="1" fill="#00C1C3"/>
+                                                            <Rect opacity="0.66" x="48.5" y="1.5" width="2" height="14" rx="1" fill="#00C1C3"/>
+                                                            <Rect opacity="0.66" x="54.5" y="3.5" width="2" height="10" rx="1" fill="#00C1C3"/>
+                                                            <Rect opacity="0.66" x="60.5" y="0.5" width="2" height="16" rx="1" fill="#00C1C3"/>
+                                                            <Rect opacity="0.66" x="66.5" y="3.5" width="2" height="10" rx="1" fill="#00C1C3"/>
+                                                            <Rect opacity="0.66" x="72.5" y="6.5" width="2" height="4" rx="1" fill="#00C1C3"/>
+                                                            <Rect opacity="0.66" x="78.5" y="7.5" width="2" height="2" rx="1" fill="#00C1C3"/>
+                                                        </Svg>
+                                                        <Text style = {[styles.text, {color: item.isMyMsg? 'white': 'black',}]}>
+                                                            {item.msgSpeech?.times}
+                                                        </Text>
+                                                        </>
+                                                    )
+                                                }
+                                            </View>
+                                        {item.time && <Text style = {[styles.text, {color: '#797C7B', marginTop: vw(2)}]}>{item.time}</Text>}
+
+                                        </View>
+                                        {item.msgSpeech?.speeds && <View style = {{width: vw(9.4), height: vw(9.4), justifyContent: 'center', alignItems: 'center'}}>
+                                            <Text style = {styles.text}>{item.msgSpeech?.speeds}</Text>
+                                        </View>}
+                                    </View>
+                                }
+                            /> */}
+                            <Animated.ScrollView style =  {{width: vw(90), marginLeft: vw(5),}}
+                                showsVerticalScrollIndicator={false}
+                            >
+                                {
+                                    msgData.map((item, index)  => 
+                                        item.date ?
+                                            <Text key = {index} style = {[styles.name, {width: vw(90), marginTop: vw(3.1), textAlign: 'center', marginBottom: vw(3.9)}]}>
+                                                {item.date}
+                                            </Text>
+                                            :
+                                            <View key = {index} style = {{ marginTop: vw(3.3), flexDirection: 'row', justifyContent: item.isMyMsg ? 'flex-end' : 'flex-stat'}}>
+                                                {item.avatar && <Image source = {item.avatar} style = {{width: vw(9.7), height: vw(9.7), marginRight: vw(3), border: vw(5)}}/>}
+                                                <View style = {{flexDirection: 'column', alignItems: item.isMyMsg ? 'flex-end' : 'flex-stat'}}>
+                                                    <View style = {{ maxWidth: item.msgImg? vw(75) : vw(58.3), flexDirection: 'row', borderRadius: vw(5), padding: item.msgImg ? 0 : vw(2.5), paddingLeft: item.msgImg ? 0 : item.msgImg ? 0 : vw(5), paddingRight: vw(5), backgroundColor: item.isMyMsg ? '#181818' : '#53FAFB', justifyContent: 'space-between'}}>
+                                                        {
+                                                            item.msgImg && 
+                                                                <View style = {{height: vw(36.11), flexDirection: 'row', justifyContent: 'space-between'}}>
+                                                                    {item.msgImg.map((items, indexs) => 
+                                                                        <ImageBackground key = {indexs} style = {{height: vw(36.11), borderRadius: vw(5), width: item.time ? vw(52.2) :vw(36.1), marginRight: item.time? 0 : vw(3), marginLeft: item.time? vw(5) : 0, }}
+                                                                            source = {items.url}
+                                                                        >
+                                                                        {
+                                                                            items.selected && <Text style = {[styles.text, {color: item.isMyMsg? 'white': 'black',}]}>
+                                                                                {items. urlData}
+                                                                            </Text>
+                                                                        }
+                                                                        </ImageBackground>
+                                                                    )}
+                                                                </View>
+                                                        }
+                                                        {
+                                                            item.message && <Text style = {[styles.text, {color: item.isMyMsg? 'white': 'black',}]}>
+                                                                {item.message}
+                                                            </Text>
+                                                        }
+                                                        {
+                                                            item.msgSpeech && (
+                                                                <>
+                                                                {
+                                                                    item.msgSpeech?.state ? 
+                                                                    <Svg width={vw(5.8)} height={vw(5.8)} viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <Path d="M10.5 20.5C16.0228 20.5 20.5 16.0228 20.5 10.5C20.5 4.97715 16.0228 0.5 10.5 0.5C4.97715 0.5 0.5 4.97715 0.5 10.5C0.5 16.0228 4.97715 20.5 10.5 20.5Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                        <Path d="M8 7.46533C8 6.98805 8 6.74941 8.09974 6.61618C8.18666 6.50007 8.31971 6.42744 8.46438 6.4171C8.63038 6.40525 8.83112 6.53429 9.23261 6.79239L13.9532 9.82706C14.3016 10.051 14.4758 10.163 14.5359 10.3054C14.5885 10.4298 14.5885 10.5702 14.5359 10.6946C14.4758 10.837 14.3016 10.949 13.9532 11.1729L9.23261 14.2076C8.83112 14.4657 8.63038 14.5948 8.46438 14.5829C8.31971 14.5726 8.18666 14.4999 8.09974 14.3838C8 14.2506 8 14.012 8 13.5347V7.46533Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                    </Svg>
+                                                                    :
+                                                                    <Svg width={vw(6.94)} height={vw(6.94)} viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <Path d="M10 15.5V9.5M15 15.5V9.5M22.5 12.5C22.5 18.0228 18.0228 22.5 12.5 22.5C6.97715 22.5 2.5 18.0228 2.5 12.5C2.5 6.97715 6.97715 2.5 12.5 2.5C18.0228 2.5 22.5 6.97715 22.5 12.5Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                    </Svg>
+                                                                }
+                                                                <Svg width={vw(22.5)} height={vw(4.7)} viewBox="0 0 81 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <Rect opacity="0.66" x="0.5" y="4.5" width="2" height="8" rx="1" fill="black"/>
+                                                                    <Rect opacity="0.66" x="6.5" y="1.5" width="2" height="14" rx="1" fill="black"/>
+                                                                    <Rect opacity="0.66" x="12.5" y="6.5" width="2" height="4" rx="1" fill="black"/>
+                                                                    <Rect opacity="0.66" x="18.5" y="0.5" width="2" height="16" rx="1" fill="black"/>
+                                                                    <Rect opacity="0.66" x="24.5" y="1.5" width="2" height="14" rx="1" fill="black"/>
+                                                                    <Rect opacity="0.66" x="30.5" y="3.5" width="2" height="10" rx="1" fill="black"/>
+                                                                    <Rect opacity="0.66" x="36.5" y="3.5" width="2" height="10" rx="1" fill="#00C1C3"/>
+                                                                    <Rect opacity="0.66" x="42.5" y="3.5" width="2" height="10" rx="1" fill="#00C1C3"/>
+                                                                    <Rect opacity="0.66" x="48.5" y="1.5" width="2" height="14" rx="1" fill="#00C1C3"/>
+                                                                    <Rect opacity="0.66" x="54.5" y="3.5" width="2" height="10" rx="1" fill="#00C1C3"/>
+                                                                    <Rect opacity="0.66" x="60.5" y="0.5" width="2" height="16" rx="1" fill="#00C1C3"/>
+                                                                    <Rect opacity="0.66" x="66.5" y="3.5" width="2" height="10" rx="1" fill="#00C1C3"/>
+                                                                    <Rect opacity="0.66" x="72.5" y="6.5" width="2" height="4" rx="1" fill="#00C1C3"/>
+                                                                    <Rect opacity="0.66" x="78.5" y="7.5" width="2" height="2" rx="1" fill="#00C1C3"/>
+                                                                </Svg>
+                                                                <Text style = {[styles.text, {color: item.isMyMsg? 'white': 'black',}]}>
+                                                                    {item.msgSpeech?.times}
+                                                                </Text>
+                                                                </>
+                                                            )
+                                                        }
+                                                    </View>
+                                                {item.time && <Text style = {[styles.text, {color: '#797C7B', marginTop: vw(2)}]}>{item.time}</Text>}
+
+                                                </View>
+                                                {item.msgSpeech?.speeds && <View style = {{width: vw(9.4), height: vw(9.4), justifyContent: 'center', alignItems: 'center'}}>
+                                                    <Text style = {styles.text}>{item.msgSpeech?.speeds}</Text>
+                                                </View>}
+                                            </View>
+                                        
+                                    )
+                                }
+                            </Animated.ScrollView>
+                            <View style = {styles.footerBar}>
+                                <View style = {{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                    <View style = {{width: vw(9.4), height: vw(9.4), justifyContent: 'center', alignItems: 'center', backgroundColor: '#7C7C7C30',borderRadius: vw(10)}}>
+                                        <Svg width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <Circle cx="15.485" cy="7.02662" r="2.0265" fill="#C4C4C4"/>
+                                        <Circle cx="8.99989" cy="2.97328" r="2.0265" fill="#F1F1F1"/>
+                                        <Circle cx="2.51527" cy="7.02662" r="2.0265" fill="#C4C4C4"/>
+                                        </Svg>
+                                    </View>
+                                    <Text style = {[styles.text,{color: '#979797', marginLeft: vw(2)}]}>Mussa OUEL is typing...</Text>
+                                </View>
+                                <View style = {{width: vw(9.4), height: vw(9.4), justifyContent: 'center', alignItems: 'center', backgroundColor: '#7C7C7C30',borderRadius: vw(10)}}>
+                                    <Svg width={vw(3.3)} height={vw(1.67)} viewBox="0 0 12 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <Path d="M1 0.5L6 5.5L11 0.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </Svg>
+                                </View>
+                            </View>
+                            <View style = {styles.sendMsgBar}>
+                                <View style = {[styles.inputBar, {borderColor: isFocused ? '#53FAFB' : '#4C4C4C'}]}>
+                                    <View style = {[styles.msgInput]}>
+                                        <TouchableOpacity
+                                            onPress = { () => setPin(!pin) }
+                                        >
+                                            <Svg width={vw(4.44)} height={vw(3.9)} viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <Path d="M14.5826 6.28048L7.77801 12.4481C6.23057 13.8506 3.72168 13.8506 2.17425 12.4481C0.626813 11.0455 0.626813 8.77146 2.17425 7.36888L8.97881 1.20129C10.0104 0.266237 11.683 0.266237 12.7147 1.20129C13.7463 2.13634 13.7463 3.65236 12.7147 4.58742L6.17693 10.5131C5.66112 10.9807 4.82483 10.9807 4.30901 10.5131C3.7932 10.0456 3.7932 9.2876 4.30901 8.82007L10.0462 3.61995" stroke={pin ? "#53FAFB" : "#4C4C4C"} stroke-linecap="round" stroke-linejoin="round"/>
+                                            </Svg>
+                                        </TouchableOpacity>
+                                        <TextInput
+                                            onFocus={() => setIsFocused(true)}
+                                            onBlur={() => setIsFocused(false)}
+                                            style={[styles.input, { color: 'white', fontSize: vw(3.3) }]}
+                                            placeholder='Type your message'
+                                            placeholderTextColor='#3F3F3F'
+                                            value={text}
+                                            onChangeText={onchangeText}
+                                            keyboardAppearance="dark"
+                                        />
+                                    </View>
+                                    <View style = {styles.msgTool}>
+                                        <TouchableOpacity
+                                            // onPress = { () => setPin(!pin) }
+                                        >
+                                            <Svg width={vw(4.44)} height={vw(4.44)} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <Path d="M14.7177 7.99998V8.77776C14.7177 12.2142 11.5677 15 7.68195 15C3.79624 15 0.64624 12.2142 0.64624 8.77776V7.99998M7.68195 11.8889C5.73909 11.8889 4.1641 10.496 4.1641 8.77776V4.1111C4.1641 2.39289 5.73909 1 7.68195 1C9.62481 1 11.1998 2.39289 11.1998 4.1111V8.77776C11.1998 10.496 9.62481 11.8889 7.68195 11.8889Z" stroke="#4C4C4C" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </Svg>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            // onPress = { () => setPin(!pin) }
+                                        >
+                                            <Svg width={vw(5.3)} height={vw(4.44)} viewBox="0 0 19 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <Path d="M1.02515 5.69901C1.02515 5.44088 1.02515 5.31181 1.03754 5.2031C1.15711 4.15462 2.11173 3.32518 3.31847 3.2213C3.44359 3.21053 3.60015 3.21053 3.91327 3.21053C4.03393 3.21053 4.09425 3.21053 4.14547 3.20783C4.79952 3.17341 5.37224 2.81475 5.61665 2.28653C5.63579 2.24516 5.65368 2.19853 5.68946 2.10526C5.72524 2.012 5.74313 1.96537 5.76227 1.924C6.00667 1.39578 6.5794 1.03711 7.23344 1.0027C7.28466 1 7.34123 1 7.45438 1H11.557C11.6702 1 11.7268 1 11.778 1.0027C12.432 1.03711 13.0048 1.39578 13.2492 1.924C13.2683 1.96537 13.2862 2.012 13.322 2.10526C13.3577 2.19853 13.3756 2.24516 13.3948 2.28653C13.6392 2.81475 14.2119 3.17341 14.8659 3.20783C14.9172 3.21053 14.9775 3.21053 15.0981 3.21053C15.4113 3.21053 15.5678 3.21053 15.693 3.2213C16.8997 3.32518 17.8543 4.15462 17.9739 5.2031C17.9863 5.31181 17.9863 5.44088 17.9863 5.69901V11.4632C17.9863 12.7012 17.9863 13.3202 17.709 13.793C17.4651 14.209 17.0759 14.5471 16.5971 14.7591C16.0529 15 15.3405 15 13.9156 15H5.09582C3.67095 15 2.95851 15 2.41429 14.7591C1.93557 14.5471 1.54636 14.209 1.30244 13.793C1.02515 13.3202 1.02515 12.7012 1.02515 11.4632V5.69901Z" stroke="#4C4C4C" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <Path d="M9.50571 11.6842C11.3792 11.6842 12.8979 10.3646 12.8979 8.73684C12.8979 7.10906 11.3792 5.78947 9.50571 5.78947C7.63224 5.78947 6.11349 7.10906 6.11349 8.73684C6.11349 10.3646 7.63224 11.6842 9.50571 11.6842Z" stroke="#4C4C4C" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </Svg>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <TouchableOpacity style = {styles.sendBtn}>
+                                        <Svg width={vw(4.44)} height={vw(4.44)} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <Path d="M6.90359 9.0962L14.6112 1.3886M6.99724 9.33702L8.92642 14.2978C9.09637 14.7348 9.18135 14.9533 9.30379 15.0171C9.40993 15.0724 9.53638 15.0725 9.64259 15.0173C9.7651 14.9536 9.85034 14.7352 10.0208 14.2984L14.8585 1.90186C15.0124 1.50753 15.0893 1.31037 15.0472 1.18439C15.0107 1.07498 14.9248 0.989118 14.8154 0.952568C14.6894 0.91048 14.4923 0.987421 14.0979 1.1413L1.70137 5.97898C1.26455 6.14945 1.04614 6.23468 0.982492 6.3572C0.927315 6.46341 0.927389 6.58985 0.982692 6.69599C1.04649 6.81844 1.26499 6.90341 1.70201 7.07336L6.66277 9.00255C6.75148 9.03704 6.79583 9.05429 6.83318 9.08094C6.86629 9.10455 6.89524 9.1335 6.91885 9.1666C6.94549 9.20395 6.96274 9.24831 6.99724 9.33702Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </Svg>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </ImageBackground>
+                    </View>
+                </Animated.View>
             </View>
         </SafeAreaView>
     );
@@ -1256,7 +1439,7 @@ const styles = StyleSheet.create({
     },
     footer: {
         position: 'absolute',
-        bottom: vw(5.56),
+        top: vh(95.56),
         width: vw(92.2),
         left: vw(3.9),
         aspectRatio: 332/73,
@@ -1271,6 +1454,15 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         height: vw(12.5)
+    },
+    footerBar: {
+        width: vw(90),
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginLeft: vw(5),
+        position: 'absolute',
+        bottom: vw(10),
     },
     button: {
         justifyContent: 'center',
@@ -1302,7 +1494,47 @@ const styles = StyleSheet.create({
         fontFamily: 'TT Firs Neue Trial Regular',
         fontSize: vw(3.3),
         color: 'white'
-    }
+    },
+    sendMsgBar: {
+        marginLeft: vw(5),
+        width: vw(90),
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: vw(3)
+    },
+    inputBar: {
+        width: vw(77.8),
+        aspectRatio: 280/40,
+        borderRadius: vw(10),
+        backgroundColor: '#181818',
+        borderWidth: vw(0.3),
+        borderColor: '#4C4C4C',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingLeft: vw(2),
+        paddingRight: vw(2),
+        justifyContent: 'space-between'
+    },
+    msgInput: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        width: vw(60.2),
+    },
+    msgTool: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: vw(10.7)
+    },
+    sendBtn: {
+        width: vw(11.1),
+        height: vw(11.1),
+        backgroundColor: '#53FAFB',
+        borderRadius: vw(7),
+        marginLeft: vw(6),
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
 });
 
 export default ChatMore;

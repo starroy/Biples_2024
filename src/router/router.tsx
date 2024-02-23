@@ -43,11 +43,12 @@ import GroupAccount from '../pages/landing/profile/groupAccount';
 import Documents from '../pages/landing/profile/documents';
 import MediaView from '../pages/landing/profile/mediaView';
 import Members from '../pages/landing/profile/members';
-import NoChat from '../pages/landing/profile/chat/noChat';
-import Chats from '../pages/landing/profile/chat/chats';
-import Calling from '../pages/landing/profile/chat/calling';
-import ChatMore from '../pages/landing/profile/chat/chatMore';
-import ChatConversation from '../pages/landing/profile/chat/chatConversation';
+import NoChat from '../pages/landing/chat/noChat';
+import Chats from '../pages/landing/chat/chats';
+import Calling from '../pages/landing/chat/calling';
+import ChatMore from '../pages/landing/chat/chatMore';
+import ChatConversation from '../pages/landing/chat/chatConversation';
+import ChatCalling from '../pages/landing/chat/chatCalling';
 import HomeApp from './home';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -288,6 +289,16 @@ function StackRouter() {
       <Stack.Screen
         name = 'Calling'
         component = { Calling }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'ChatCalling'
+        component = { ChatCalling }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'MainCommunity'
+        component = { MainCommunity }
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

@@ -54,7 +54,10 @@ import MediaView from "./src/pages/landing/profile/mediaView";
 import Members from "./src/pages/landing/profile/members";
 import NoChat from "./src/pages/landing/chat/noChat";
 import Chats from "./src/pages/landing/chat/chats";
+import ChatMore from "./src/pages/landing/chat/chatMore";
+import ChatCalling from "./src/pages/landing/chat/chatCalling";
 import Calling from "./src/pages/landing/chat/calling";
+import MainCommunity from "./src/pages/landing/community/mainCommunity";
 import ChatConversation from "./src/pages/landing/chat/chatConversation";
 import StackRouter from './src/router/router';
 import {NavigationContainer} from '@react-navigation/native';
@@ -64,6 +67,7 @@ import CreateAccountLoading from './src/pages/register/createAccountLoading';
 import Basic from './drag'
 import Item from './animation'
 import Home from './blur'
+// import ChatMore from './src/pages/landing/chat/chatMore';
 // const Stack = createNativeStackNavigator();
 
 
@@ -74,7 +78,7 @@ function App() {
       // </NavigationContainer>
     
     <View style={styles.container}>
-      <Calling/>
+      <MainCommunity/>
     </View>
   );
 }

@@ -159,7 +159,7 @@ const FriendProfile = ({navigation}) => {
         setShowBlur(false);
         let timerId;
         timerId = setTimeout(() => {
-            navigation.navigate('GroupAccount');
+            navigation.navigate('NoChat');
         }, 30); // Adjust the delay as needed
         return () => {
         clearTimeout(timerId);

@@ -228,7 +228,7 @@ const Topics = ({ navigation }) => {
         let timerId;
         timerId = setTimeout(() => {
             setSelected('Chat');
-            navigation.navigate('GroupAccount');
+            navigation.navigate('NoChat');
           }, 30); // Adjust the delay as needed
           return () => {
             clearTimeout(timerId);

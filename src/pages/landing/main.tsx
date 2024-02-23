@@ -446,7 +446,7 @@ const Main = ({ navigation }) => {
                         <TouchableOpacity style = {styles.footerIcon}
                             onPress = {() => {
                                 setSelected('Chat')
-                                navigation.navigate('GroupAccount');
+                                navigation.navigate('NoChat');
                                 setShowBlur(false)
                             }}
                         >

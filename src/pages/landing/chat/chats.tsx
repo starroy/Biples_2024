@@ -141,22 +141,22 @@ const Chats = ({ navigation }) => {
     
         return () => backHandler.remove();
     }, []);
-    // useFocusEffect(
-    //     React.useCallback(() => {
-    //     let timerId;
-    //     setSelected('Home');
+    useFocusEffect(
+        React.useCallback(() => {
+        let timerId;
+        setSelected('Home');
             
-    //     if (!showBlur) {
-    //         timerId = setTimeout(() => {
-    //         setShowBlur(true);
-    //         }, 500); // Adjust the delay as needed
-    //     }
-    //     //   console.log(showBlur)
-    //     return () => {
-    //         clearTimeout(timerId);
-    //     };
-    //     }, [showBlur])
-    // );
+        if (!showBlur) {
+            timerId = setTimeout(() => {
+            setShowBlur(true);
+            }, 500); // Adjust the delay as needed
+        }
+        //   console.log(showBlur)
+        return () => {
+            clearTimeout(timerId);
+        };
+        }, [showBlur])
+    );
     const renderBlurView = () => {
         return (
                 <BlurView
@@ -236,6 +236,16 @@ const Chats = ({ navigation }) => {
         // return () => {
         //     clearTimeout(timerId);
         // };
+    }
+    const handleChatMore = () => {
+        setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+            navigation.navigate('ChatMore');
+          }, 30); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
     }
     return(
         <SafeAreaView>
@@ -408,7 +418,9 @@ const Chats = ({ navigation }) => {
                             <View style = {styles.pinArray}>
                                 {
                                     pinnedChat.map((item, index) => 
-                                        <View key = {index} style = {styles.dataItem}>
+                                        <TouchableOpacity key = {index} style = {styles.dataItem}
+                                            onPress = {handleChatMore}
+                                        >
                                             <View style = {styles.datas}>
                                                 <View style = {[styles.avatars, {width: vw(11.1), height: vw(11.1)}]}>
                                                     <Image source = {item.avatar}
@@ -483,7 +495,7 @@ const Chats = ({ navigation }) => {
                                                     }
                                                 </View>
                                             </View>
-                                        </View>
+                                        </TouchableOpacity>
                                     )
                                 }
                             </View>

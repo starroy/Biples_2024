@@ -216,6 +216,7 @@ const Calling = ({ navigation }) => {
             newState.chat = !(newState.chat);
             return newState}
         );
+        navigation.navigate('ChatCalling');
     };
     return(
         <SafeAreaView {...panResponder.panHandlers}>
