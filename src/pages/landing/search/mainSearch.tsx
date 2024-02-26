@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState. useEffect, useReft} from 'react';
 import {
     ImageBackground, 
     View, 
@@ -400,6 +400,63 @@ const styles = StyleSheet.create({
         borderColor: '#323232',
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    footer: {
+        bottom: vw(5.56),
+        width: vw(92.2),
+        aspectRatio: 332/73,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        borderRadius: vw(5),
+        overflow: 'hidden',
+        backgroundColor: '#36363690'
+    },
+    footerIcon: {
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        height: vw(12.5)
+    },
+    button: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: vw(13.5),
+        backgroundColor: '#E9E9E921',
+        flexDirection: 'row'
+    },
+    footerText: {
+        fontFamily: 'TT Firs Neue Trial Regular',
+        fontSize: vw(3.3),
+        color: 'white'
+    },
+    imageStyle: {
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      bottom: 0,
+      right: 0,
+      resizeMode: 'cover',
+      width: null,
+      height: null,
+    },
+    blurViewStyle: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        left: 0,
+        bottom: 0,
+        width: vw(92.2),
+        height: vw(20)
+    },
+    ftBtn: {
+        width: vw(41.67),
+        aspectRatio: 150/40,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: vw(0.3),
+        borderRadius: vw(10),
+        borderColor: '#323232',
     },
 });
 

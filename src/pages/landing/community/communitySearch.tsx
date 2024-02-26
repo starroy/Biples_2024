@@ -17,48 +17,45 @@ import { vh, vw } from 'react-native-css-vh-vw'
 import Svg, { Path, Circle } from 'react-native-svg'
 import { TouchableHighlight } from 'react-native';
 
-const FriendSearchLoading = ({navigation}) => {
+const CommunitySearch = ({navigation}) => {
     
     const [isFoucsed, setIsFocused] = useState(false);
     const [text, setText] = useState('');
     const [isLoading, setLoading] = useState(false);
     const [recentSearch, setRecentSearch] = useState([
         {
-            avatar: require('../../../../assets/images/avatar0.png'),
-            unreadMsg: 12,
-            online: 'on',
-            match: false,
-            name: 'Yazid'
+            avatar: require('../../../../assets/images/avatar2.png'),
+            name: 'Dream for All Members'
         },
         {
-            avatar: require('../../../../assets/images/card7.png'),
-            unreadMsg: 0,
-            online: 'on',
-            match: false,
-            name: 'Elrollx'
+            avatar: require('../../../../assets/images/avatar1.png'),
+            name: 'Dream for All Members'
         },
         {
-            avatar: require('../../../../assets/images/card10.png'),
-            unreadMsg: 12,
-            online: 'out',
-            match: false,
-            name: 'Toyaw'
+            avatar: require('../../../../assets/images/avatar2.png'),
+            name: 'Dream for All Members'
         },
         {
-            avatar: require('../../../../assets/images/card1.png'),
-            unreadMsg: 0,
-            online: 'on',
-            match: false,
-            name: 'Lithoy'
+            avatar: require('../../../../assets/images/avatar1.png'),
+            name: 'Dream for All Members'
         },
         {
-            avatar: require('../../../../assets/images/card2.png'),
-            unreadMsg: 12,
-            online: 'off',
-            match: false,
-            name: 'Fereom'
+            avatar: require('../../../../assets/images/avatar2.png'),
+            name: 'Dream for All Members'
         },
-    ])
+        {
+            avatar: require('../../../../assets/images/avatar1.png'),
+            name: 'Dream for All Members'
+        },
+    ]);
+    const communitiesArray = [
+        {avatar: require('../../../../assets/images/avatar1.png')},
+        {avatar: require('../../../../assets/images/avatar2.png')},
+        {avatar: require('../../../../assets/images/avatar1.png')},
+        {avatar: require('../../../../assets/images/avatar2.png')},
+        {avatar: require('../../../../assets/images/avatar1.png')},
+        {avatar: require('../../../../assets/images/avatar2.png')},
+    ];
     handleText = (texts):[string] => {
         setText(texts);
         setRecentSearch(prevSearch =>
@@ -94,9 +91,9 @@ const FriendSearchLoading = ({navigation}) => {
                     <View style = {styles.headerBar}>
                         <TouchableOpacity
                             style = {styles.prevButton}
-                            onPress = { () => 
-                                navigation.navigate('FriendSearch')
-                            }
+                            // onPress = { () => 
+                                // navigation.navigate('FriendSearch')
+                            // }
                         >
                             <Svg width={vw(2)} height={vw(3.3)} viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <Path d="M6 1L1 6L6 11" fill="#181818"/>
@@ -119,9 +116,9 @@ const FriendSearchLoading = ({navigation}) => {
                                 keyboardType = 'default'
                             />
                             <TouchableOpacity style={styles.speech}
-                                onPress={() =>
-                                    navigation.navigate('SpeechInput')
-                                }
+                                // onPress={() =>
+                                //     navigation.navigate('SpeechInput')
+                                // }
                             >
                                 <Svg width={vw(2.8)} height={vw(3)} viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <Path d="M9 5.5V6C9 8.20914 7.20914 10 5 10C2.79086 10 1 8.20914 1 6V5.5M5 8C3.89543 8 3 7.10457 3 6V3C3 1.89543 3.89543 1 5 1C6.10457 1 7 1.89543 7 3V6C7 7.10457 6.10457 8 5 8Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
@@ -144,45 +141,24 @@ const FriendSearchLoading = ({navigation}) => {
                     </View>
                 </View>
                 <View style = {styles.body}>
-                    <View style = {styles.recentSearchBar}>
-                    {
-                        recentSearch.map((item, index) => 
-                        <TouchableOpacity key={index} style = {styles.recentSearch}
-                            onPress = {() => navigation.navigate('GroupAccount')}
-                        >
-                            {
-                                item.match ?
-                                    <View style = {styles.itemSize}>
-                                        <View style = {[styles.itemSize, {width: vw(16.7), backgroundColor: '#53FAFB20'}]}>
-                                            <View style = {[styles.itemSize, {width: vw(13), backgroundColor: '#53FAFB'}]}>
-                                                <Image source = {item.avatar}
-                                                    style = {styles.itemAvatar}
-                                                />
-                                            </View>
-                                        </View>
-                                    </View>
-                                    :
-                                    <View style = {[styles.itemSize, {width: 13.3, height: vw(19.4), backgroundColor: 'transparent'}]}>
-                                        <Image source = {item.avatar}
-                                            style = {styles.itemAvatar}
-                                        />
-                                        <View style = {[styles.online, {backgroundColor: item.online == 'on' ? '#53FAFB' : item.online == 'out' ? '#FCC145' : '#B0B0B0'}]}/>
-                                        {
-                                            item.unreadMsg != 0 ?
-                                            <Text style = {styles.unread}>
-                                                {item.unreadMsg}
-                                            </Text>
-                                            :
-                                            null
-                                        }
-                                    </View>
-                            }
-                            <Text style = {styles.avatarName}>
-                                {item.name}
-                            </Text>
-                        </TouchableOpacity>
-                        )
-                    }
+                    <View style = {[styles.communitiesr, {marginLeft: vw(3), marginTop: vw(3)}]}>
+                    
+                    <FlatList
+                        style = {{width: vw(90)}}
+                        data={communitiesArray}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={({ item }) =>
+                            <View style ={{flexDirection: 'column', alignItems: 'center',}}>
+                                <Image 
+                                    source = {item.avatar}
+                                    style={{width: vw(13.9), height: vw(13.9), marginLeft: vw(2.8), marginRight: vw(4.4),borderRadius: vw(3) }}
+                                    resizeMode="cover"
+                                />
+                                <Text style = {[styles.title, {fontSize: vw(2.2), marginTop: vw(3), textAlign: 'center', marginRight: vw(1)}]}>Dream for{'\n'}All Members</Text>
+                            </View>
+                        }
+                    />
                     </View>
                 </View>
                 <View style = {styles.footer}>
@@ -296,26 +272,18 @@ const styles = StyleSheet.create({
         color: '#656565',
     },
     recentSearchBar: {
-        width: vw(90),
+        width: vw(80),
         height: vw(25.3),
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-    communities: {
-        width: vw(95),
-        aspectRatio: 360/55,
-        marginBottom: vw(7.5),
-        flexDirection: 'row', 
-        justifyContent: 'center', 
+        justifyContent: 'flex-start',
         alignItems: 'center',
-        marginLeft: vw(5),
-        marginRight: vw(0),
+        left: vw(3)
     },
     recentSearch: {
         width: vw(19.4),
         height: vw(25.3),
         flexDirection: 'column',
+        justifyContent: 'space-between'
         
     },
     itemSize: {
@@ -370,4 +338,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default FriendSearchLoading;
+export default CommunitySearch;

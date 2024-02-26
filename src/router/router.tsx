@@ -49,6 +49,15 @@ import Calling from '../pages/landing/chat/calling';
 import ChatMore from '../pages/landing/chat/chatMore';
 import ChatConversation from '../pages/landing/chat/chatConversation';
 import ChatCalling from '../pages/landing/chat/chatCalling';
+import MainCommunity from '../pages/landing/community/mainCommunity';
+import CommunitySearch from '../pages/landing/community/communitySearch';
+import CreateCommunity from '../pages/landing/community/createCommunity';
+import CommunityRegister from '../pages/landing/community/communityRegister';
+import CommunityImgRegister from '../pages/landing/community/communityImgRegister';
+import CommunityInfoRegister from '../pages/landing/community/communityInfoRegister';
+import ChannelSetting from '../pages/landing/community/channelSetting';
+import MemberPermission from '../pages/landing/community/memberPermission';
+import MyCommunity from '../pages/landing/community/myCommunity';
 import HomeApp from './home';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -299,6 +308,46 @@ function StackRouter() {
       <Stack.Screen
         name = 'MainCommunity'
         component = { MainCommunity }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'CommunitySearch'
+        component = { CommunitySearch }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'CreateCommunity'
+        component = { CreateCommunity }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'CommunityRegister'
+        component = { CommunityRegister }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'CommunityImgRegister'
+        component = { CommunityImgRegister }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'CommunityInfoRegister'
+        component = { CommunityInfoRegister }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'ChannelSetting'
+        component = { ChannelSetting }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'MemberPermission'
+        component = { MemberPermission }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'MyCommunity'
+        component = { MyCommunity }
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

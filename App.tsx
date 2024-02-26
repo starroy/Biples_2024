@@ -58,6 +58,14 @@ import ChatMore from "./src/pages/landing/chat/chatMore";
 import ChatCalling from "./src/pages/landing/chat/chatCalling";
 import Calling from "./src/pages/landing/chat/calling";
 import MainCommunity from "./src/pages/landing/community/mainCommunity";
+import CommunitySearch from "./src/pages/landing/community/communitySearch";
+import CreateCommunity from "./src/pages/landing/community/createCommunity";
+import CommunityRegister from "./src/pages/landing/community/communityRegister";
+import CommunityImgRegister from "./src/pages/landing/community/communityImgRegister";
+import CommunityInfoRegister from "./src/pages/landing/community/communityInfoRegister";
+import ChannelSetting from "./src/pages/landing/community/channelSetting";
+import MemberPermission from "./src/pages/landing/community/memberPermission";
+import MyCommunity from "./src/pages/landing/community/myCommunity";
 import ChatConversation from "./src/pages/landing/chat/chatConversation";
 import StackRouter from './src/router/router';
 import {NavigationContainer} from '@react-navigation/native';
@@ -78,7 +86,7 @@ function App() {
       // </NavigationContainer>
     
     <View style={styles.container}>
-      <MainCommunity/>
+      <MyCommunity/>
     </View>
   );
 }

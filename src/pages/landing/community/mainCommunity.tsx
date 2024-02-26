@@ -33,7 +33,7 @@ import {
 } from 'react-native-confirmation-code-field';
 import PhoneInput from 'react-native-phone-input'; 
 import RadialGradient from 'react-native-radial-gradient';
-import { backgroundColor } from 'react-native';
+// import { backgroundColor, TouchableOpacity } from 'react-native';
 
 const MainCommunity = ({ navigation }) => {
 
@@ -43,6 +43,7 @@ const MainCommunity = ({ navigation }) => {
     const [blurType, setBlurType] = useState('light');
     const [selected, setSelected] = useState('Community');
     const [isSeeSelected, setIsSeeSelected] = useState(false);
+    const [isTopTrand, setIsTopTrand] = useState(false);
     const windowWidth = useWindowDimensions().width;
     const user = {
         avatar: require('../../../../assets/images/avatar.jpg'),
@@ -80,6 +81,7 @@ const MainCommunity = ({ navigation }) => {
             ],
             mutalNum: '+239',
             mutalText: 'Mutual Friends Joined',
+            isShowMore: false,
         },
         {
             backavatar: require('../../../../assets/images/communityBackground.png'),
@@ -94,6 +96,7 @@ const MainCommunity = ({ navigation }) => {
             ],
             mutalNum: '+239',
             mutalText: 'Mutual Friends Joined',
+            isShowMore: false,
         },
         {
             backavatar: require('../../../../assets/images/communityBackground2.png'),
@@ -108,8 +111,10 @@ const MainCommunity = ({ navigation }) => {
             ],
             mutalNum: '+239',
             mutalText: 'Mutual Friends Joined',
+            isShowMore: false,
         },
-    ]
+    ];
+    const [topData, setTopData] = useState(topArray);
     const helloMessage = "Good Morning!";
     const communitiesArray = [
         {avatar: require('../../../../assets/images/avatar1.png')},
@@ -262,7 +267,7 @@ const MainCommunity = ({ navigation }) => {
                             </ImageBackground>
                         </View>
                     </View>
-                    <ScrollView>
+                    <ScrollView showsVerticalScrollIndicator={false}>
                     <View style = {styles.myCommunities}>
                         <View style = {{justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', marginBottom: vw(3.33), paddingLeft: vw(5), paddingRight: vw(5)}}>
                             <Text style = {styles.title}>
@@ -316,7 +321,7 @@ const MainCommunity = ({ navigation }) => {
                             </View>)
                         }    
                     </View>
-                    <View style = {[styles.recommended, {marginTop: vw(2)}]}>
+                    {isTopTrand && <View style = {[styles.recommended, {marginTop: vw(2)}]}>
                         <View style = {{justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', marginBottom: vw(4.44), paddingRight: vw(5)}}>
                             <Text style = {styles.title}>
                                 Top Trading
@@ -326,21 +331,26 @@ const MainCommunity = ({ navigation }) => {
                             </Text>
                         </View> 
                         {
-                            topArray.map((item, index) =>
-                            <View key = {index} style = {[styles.advert, {marginBottom: vw(5), flexDirection: 'column', aspectRatio: 320/300}]}>
+                            topData.map((item, index) =>
+                            <TouchableOpacity key = {index} style = {[styles.advert, {marginBottom: vw(5), flexDirection: 'column', aspectRatio: item.isShowMore ? 320/300 : 320/126, borderWidth: vw(0.3), borderColor: '#323232', borderRadius: vw(5),justifyContent: 'flex-start'}]}
+                                onPress = {() =>  setTopData(prev =>{
+                                    const newState = [...prev];
+                                    newState[index].isShowMore = !(newState[index].isShowMore);
+                                    return newState}
+                            )}>
                                 <ImageBackground 
                                     source = {item.backavatar}
-                                    style = {[styles.advert, {paddingLeft: vw(4.5),paddingTop: vw(4.8), paddingRight: vw(3.3), paddingBottom: vw(5.3), flexDirection: 'column' }]}
+                                    style = {[styles.advert, {paddingLeft: vw(4.5),paddingTop: vw(4.8), paddingRight: vw(3.3), paddingBottom: vw(5.3), flexDirection: item.isShowMore ? 'row' : 'column', justifyContent: 'flex-start', alignItems: 'flex-end' }]}
                                 >
                                     <Image source = {item.avatar}/>
-                                    <View style = {styles.mainContent}>
+                                    <View style = {[styles.mainContent, {marginLeft: item.isShowMore ? vw(6) : 0}]}>
                                         <Text style = {styles.middleTitle}>
                                             New NFTs Go{'\n'}
                                             Through to friends.
                                         </Text>
                                     </View>
                                 </ImageBackground>
-                                <View style = {styles.description}>
+                                {item.isShowMore &&<View style = {styles.description}>
                                     <View style = {styles.dspTxt}>
                                         <View style = {{width: vw(76.9)}}>
                                             <Text style = {styles.viewAll}>
@@ -358,58 +368,60 @@ const MainCommunity = ({ navigation }) => {
                                         </Svg>
                                     </View>
                                     <View style = {styles.members}>
-                                        <View styles = {{}}>
+                                        <View style = {{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: vw(35.3), height: vw(8.3), borderRadius: vw(5), borderWidth: vw(0.3), borderColor: '#323232'}}>
                                             <Svg width={vw(3.6)} height={vw(3.3)} viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <Path d="M8.9 1.27515C9.78903 1.7083 10.4 2.60773 10.4 3.64706C10.4 4.68639 9.78903 5.58582 8.9 6.01896M10.1 9.09788C11.0069 9.5002 11.8235 10.1559 12.5 11M0.5 11C1.66789 9.54269 3.25351 8.64706 5 8.64706C6.74649 8.64706 8.33211 9.54269 9.5 11M7.7 3.64706C7.7 5.10899 6.49117 6.29412 5 6.29412C3.50883 6.29412 2.3 5.10899 2.3 3.64706C2.3 2.18513 3.50883 1 5 1C6.49117 1 7.7 2.18513 7.7 3.64706Z" stroke="#B0B0B0" stroke-linecap="round" stroke-linejoin="round"/>
                                             </Svg>
-                                            <Text style = {styles.viewAll}>
+                                            <Text style = {[styles.viewAll,{marginLeft: vw(2)}]}>
                                                 {item.members}
                                             </Text>
                                         </View>
-                                        <View styles = {{}}>
+                                        <View style = {{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginLeft: vw(2), height: vw(8.3)}}>
                                             <Svg width={vw(2.2)} height={vw(2.2)} viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <Circle cx={vw(1.1)} cy={vw(1.1)} r={vw(1.1)} fill="#53FAFB"/>
                                             </Svg>
-                                            <Text style = {[styles.viewAll, {color: 'white'}]}>
+                                            <Text style = {[styles.viewAll, {color: 'white', marginLeft: vw(2)}]}>
                                                 {item.online}
                                             </Text>
                                         </View>
                                     </View>
-                                    <View style = {{flexDirection: 'row', justifyContent: 'space-between', width: vw(90), height: vw(5.6), marginLeft: vw(5), marginTop: vw(5.6)}}>
-                                        <View style = {{position: 'relative'}}>
+                                    <View style = {{flexDirection: 'row', justifyContent: 'space-between', width: vw(80), height: vw(8.3), marginTop: vw(2)}}>
+                                        <View style = {{position: 'relative', flexDirection: 'row'}}>
                                             {item.avatars.map((items, indexes) => 
-                                                <Image source = {items} style = {styles.imgStyle}/>
+                                                <Image key = {indexes} source = {items} style = {[styles.imgStyle,{bottom: vw(0), left: indexes*vw(6.1)}]}/>
                                             )}
                                             <View>
-                                                <Text style = {{marginLeft: vw(30.4), fontFamily: 'TT Firs Neue Trial Medium', fontSize: vw(3.3), color: 'white', marginTop: vw(0.2)}}>
+                                                <Text style = {{marginLeft: vw(22.4), fontFamily: 'TT Firs Neue Trial Medium', fontSize: vw(3.3), color: 'white', marginTop: vw(0.2)}}>
                                                     {item.mutalNum}
                                                 </Text>
-                                                <Text style = {{marginLeft: vw(30.4), fontFamily: 'TT Firs Neue Trial Medium', fontSize: vw(2.2), color: '#888888', marginTop: vw(0.2)}}>
+                                                <Text style = {{marginLeft: vw(22.4), fontFamily: 'TT Firs Neue Trial Medium', fontSize: vw(2.2), color: '#888888', marginTop: vw(0.2)}}>
                                                     {item.mutalText}
                                                 </Text>
                                             </View>
                                         </View>
                                         <CustomRoundedButton
-                                            title="Add Member"
+                                            title="Join Now"
                                             width={vw(25.83)}
                                             height={vw(8.3)}
-                                            backgroundColor="#53FAFB10"  
-                                            color='white'
+                                            backgroundColor="#53FAFB"  
+                                            color='black'
                                             fontSize={vw(2.8)}
                                             // onPress={handleAddMember}
                                         />
                                     </View>
-                                </View>
-                            </View>)
+                                </View>}
+                            </TouchableOpacity>)
                         }    
-                    </View>
-                    <View style = {{alignItems: 'center', marginTop: vw(2)}}>
+                    </View>}
+                    {!isTopTrand && <TouchableOpacity style = {{alignItems: 'center', marginTop: vw(2)}}
+                        onPress = {() => setIsTopTrand(true)}
+                    >
                         <View style = {styles.ftBtn}>
                             <Text style = {[styles.viewAll, {fontSize: vw(3.9)}]}>
                                 See more
                             </Text>
                         </View>
-                    </View>
+                    </TouchableOpacity>}
 
                     </ScrollView>
                     <View style = {{height: vw(20)}}/>
@@ -677,21 +689,29 @@ const styles = StyleSheet.create({
     description: {
         width: vw(80),
         marginLeft: vw(5),
+        marginTop: vw(6.7),
         flexDirection: 'column',
-        justifyContent: 'space-around',
         alignItems: 'flex-start'
     },
     dspTxt: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
+        marginTop: vw(0)
     },
     members: {
         flexDirection: 'row',
         height: vw(8.33),
         justifyContent: 'flex-start',
-        alignItems: 'center'
+        alignItems: 'center', 
+        marginTop: vw(3.9)
     },
+    imgStyle: {
+        width: vw(8.3),
+        height: vw(8.3),
+        borderRadius: vw(5),
+        position: 'absolute'
+    }
 });
 
 export default MainCommunity;
