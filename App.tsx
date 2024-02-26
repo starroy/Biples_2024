@@ -73,6 +73,7 @@ import BuyLoading from "./src/pages/landing/marketPlace/buyLoading";
 import Ranking from "./src/pages/landing/marketPlace/ranking";
 import NFTs from "./src/pages/landing/marketPlace/nfts";
 import Tickets from "./src/pages/landing/marketPlace/tickets";
+import CreateTickets from "./src/pages/landing/marketPlace/createTickets";
 import ChatConversation from "./src/pages/landing/chat/chatConversation";
 import StackRouter from './src/router/router';
 import {NavigationContainer} from '@react-navigation/native';
@@ -93,7 +94,7 @@ function App() {
       // </NavigationContainer>
     
     <View style={styles.container}>
-      <Tickets/>
+      <CreateTickets/>
     </View>
   );
 }
