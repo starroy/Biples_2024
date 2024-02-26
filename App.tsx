@@ -66,6 +66,13 @@ import CommunityInfoRegister from "./src/pages/landing/community/communityInfoRe
 import ChannelSetting from "./src/pages/landing/community/channelSetting";
 import MemberPermission from "./src/pages/landing/community/memberPermission";
 import MyCommunity from "./src/pages/landing/community/myCommunity";
+import MainNFTs from "./src/pages/landing/marketPlace/mainNFTs";
+import Buy from "./src/pages/landing/marketPlace/buy";
+import BuyConfirm from "./src/pages/landing/marketPlace/buyConfirm";
+import BuyLoading from "./src/pages/landing/marketPlace/buyLoading";
+import Ranking from "./src/pages/landing/marketPlace/ranking";
+import NFTs from "./src/pages/landing/marketPlace/nfts";
+import Tickets from "./src/pages/landing/marketPlace/tickets";
 import ChatConversation from "./src/pages/landing/chat/chatConversation";
 import StackRouter from './src/router/router';
 import {NavigationContainer} from '@react-navigation/native';
@@ -86,7 +93,7 @@ function App() {
       // </NavigationContainer>
     
     <View style={styles.container}>
-      <MyCommunity/>
+      <Tickets/>
     </View>
   );
 }

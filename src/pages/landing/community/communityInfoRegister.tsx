@@ -60,7 +60,7 @@ const CommunityInfoRegister = ({ navigation }) => {
                     <TouchableOpacity 
                         style = {styles.prevButton}
                         onPress = {() => 
-                            navigation.navigate('BackLogin')
+                            navigation.goBack()
                         }
                     >
                         <Svg width={windowWidth*0.02} height={0.033*windowWidth} viewBox='0 0 7 12' fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -137,7 +137,9 @@ const CommunityInfoRegister = ({ navigation }) => {
                     <View style = {styles.bodyBottom}>
                         <View style = {styles.privateStyle}>
                             <View style = {styles.privBtn}>
-                                <View style = {styles.privInfo}>
+                                <TouchableOpacity style = {styles.privInfo}
+                                    onPress = { () => navigation.navigate('ChannelSetting') }
+                                >
                                     <Svg width={vw(5.8)} height={vw(5.8)} viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <Path d="M10.5 20.5C16.0228 20.5 20.5 16.0228 20.5 10.5C20.5 4.97715 16.0228 0.5 10.5 0.5C4.97715 0.5 0.5 4.97715 0.5 10.5C0.5 16.0228 4.97715 20.5 10.5 20.5Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                                         <Path d="M12.2316 11.6947C12.161 11.4831 12.1257 11.3772 12.1276 11.2907C12.1295 11.1996 12.1417 11.1519 12.1836 11.0711C12.2235 10.9942 12.33 10.895 12.5432 10.6967C13.1318 10.149 13.5 9.36747 13.5 8.5C13.5 6.84315 12.1569 5.5 10.5 5.5C8.84315 5.5 7.5 6.84315 7.5 8.5C7.5 9.36747 7.86818 10.149 8.45681 10.6967C8.66996 10.895 8.77653 10.9942 8.81639 11.0711C8.85832 11.1519 8.87049 11.1996 8.87242 11.2907C8.87426 11.3772 8.83898 11.4831 8.76844 11.6947L7.85099 14.447C7.73249 14.8025 7.67324 14.9803 7.70877 15.1218C7.73987 15.2456 7.81718 15.3529 7.92484 15.4216C8.04783 15.5 8.2352 15.5 8.60994 15.5H12.3901C12.7648 15.5 12.9522 15.5 13.0752 15.4216C13.1828 15.3529 13.2601 15.2456 13.2912 15.1218C13.3268 14.9803 13.2675 14.8025 13.149 14.447L12.2316 11.6947Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
@@ -145,7 +147,7 @@ const CommunityInfoRegister = ({ navigation }) => {
                                     <Text style = {[styles.subtitle, {color:'white', marginTop: 0, marginLeft: vw(2)}]}>
                                         Private Channel
                                     </Text>
-                                </View>
+                                </TouchableOpacity>
                                 <Svg width={vw(2)} height={vw(3.1)} viewBox="0 0 7 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <Path d="M1 10.5L6 5.5L1 0.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                                 </Svg>
@@ -201,9 +203,9 @@ const CommunityInfoRegister = ({ navigation }) => {
                     <View style = {{ width: vw(100), alignItems: 'center'}}>
                         <TouchableOpacity 
                             style = {[styles.footerBtn, {backgroundColor: '#53FAFB', borderRadius:vw(3), width: vw(90), aspectRatio: 320/45}]}
-                        // onPress={() => {
-                        //     setLoadingNumber(loadingNumber+1)
-                        // }}
+                        onPress={() => {
+                            navigation.navigate('MainCommunity');
+                        }}
                         >
                             <Text style = {[styles.maintitle, {fontSize: vw(5), color: 'black'}]}>Create</Text>
                         </TouchableOpacity>

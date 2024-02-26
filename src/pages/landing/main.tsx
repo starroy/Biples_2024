@@ -231,6 +231,17 @@ const Main = ({ navigation }) => {
             clearTimeout(timerId);
           };
     }
+    const navigateAndAnimateCommunity = () => {
+        // setShowBlurs(true);
+            setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+        navigation.navigate('Community');
+          }, 30); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
+    }
     return (
         <SafeAreaView>
             <StatusBar 
@@ -432,8 +443,8 @@ const Main = ({ navigation }) => {
                         <TouchableOpacity style = {styles.footerIcon}
                             onPress = {() => {
                                 setSelected('Community');
-                                // navigation.navigate('GroupAccount');
-                                // setShowBlur(false)
+                                navigation.navigate('MainCommunity');
+                                setShowBlur(false)
                             }}
                         >
                             <Svg width={vw(5.6)} height={vw(5.6)} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -58,6 +58,13 @@ import CommunityInfoRegister from '../pages/landing/community/communityInfoRegis
 import ChannelSetting from '../pages/landing/community/channelSetting';
 import MemberPermission from '../pages/landing/community/memberPermission';
 import MyCommunity from '../pages/landing/community/myCommunity';
+import MainNFTs from '../pages/landing/marketPlace/mainNFTs';
+import Ranking from '../pages/landing/marketPlace/ranking';
+import Buy from '../pages/landing/marketPlace/buy';
+import BuyConfirm from '../pages/landing/marketPlace/buyConfirm';
+import NFTs from '../pages/landing/marketPlace/NFTs';
+import Tickets from '../pages/landing/marketPlace/tickets';
+import BuyLoading from '../pages/landing/marketPlace/buyLoading';
 import HomeApp from './home';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -348,6 +355,41 @@ function StackRouter() {
       <Stack.Screen
         name = 'MyCommunity'
         component = { MyCommunity }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'MainNFTs'
+        component = { MainNFTs }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Buy'
+        component = { Buy }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'BuyConfirm'
+        component = { BuyConfirm }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'BuyLoading'
+        component = { BuyLoading }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Ranking'
+        component = { Ranking }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'NFTs'
+        component = { NFTs }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Tickets'
+        component = { Tickets }
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

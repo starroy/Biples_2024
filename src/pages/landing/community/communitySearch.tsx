@@ -91,9 +91,9 @@ const CommunitySearch = ({navigation}) => {
                     <View style = {styles.headerBar}>
                         <TouchableOpacity
                             style = {styles.prevButton}
-                            // onPress = { () => 
-                                // navigation.navigate('FriendSearch')
-                            // }
+                            onPress = { () => 
+                                navigation.goBack()
+                            }
                         >
                             <Svg width={vw(2)} height={vw(3.3)} viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <Path d="M6 1L1 6L6 11" fill="#181818"/>
@@ -149,14 +149,16 @@ const CommunitySearch = ({navigation}) => {
                         horizontal
                         showsHorizontalScrollIndicator={false}
                         renderItem={({ item }) =>
-                            <View style ={{flexDirection: 'column', alignItems: 'center',}}>
+                            <TouchableOpacity style ={{flexDirection: 'column', alignItems: 'center',}}
+                                onPress ={ () => navigation.navigate('CreateCommunity') }
+                            >
                                 <Image 
                                     source = {item.avatar}
                                     style={{width: vw(13.9), height: vw(13.9), marginLeft: vw(2.8), marginRight: vw(4.4),borderRadius: vw(3) }}
                                     resizeMode="cover"
                                 />
                                 <Text style = {[styles.title, {fontSize: vw(2.2), marginTop: vw(3), textAlign: 'center', marginRight: vw(1)}]}>Dream for{'\n'}All Members</Text>
-                            </View>
+                            </TouchableOpacity>
                         }
                     />
                     </View>

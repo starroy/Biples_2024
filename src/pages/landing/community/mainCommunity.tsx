@@ -140,22 +140,22 @@ const MainCommunity = ({ navigation }) => {
   
       return () => backHandler.remove();
     }, []);
-    // useFocusEffect(
-    //     React.useCallback(() => {
-    //       let timerId;
-    //       setSelected('Home');
+    useFocusEffect(
+        React.useCallback(() => {
+          let timerId;
+          setSelected('Community');
             
-    //       if (!showBlur) {
-    //         timerId = setTimeout(() => {
-    //           setShowBlur(true);
-    //         }, 500); // Adjust the delay as needed
-    //       }
-    //     //   console.log(showBlur)
-    //       return () => {
-    //         clearTimeout(timerId);
-    //       };
-    //     }, [showBlur])
-    //   );
+          if (!showBlur) {
+            timerId = setTimeout(() => {
+              setShowBlur(true);
+            }, 500); // Adjust the delay as needed
+          }
+        //   console.log(showBlur)
+          return () => {
+            clearTimeout(timerId);
+          };
+        }, [showBlur])
+      );
     const renderBlurView = () => {
         return (
             <BlurView
@@ -178,6 +178,38 @@ const MainCommunity = ({ navigation }) => {
           return () => {
             clearTimeout(timerId);
           };
+    };
+    const navigateChat = () => {
+        
+        setSelected('Chat')
+        setShowBlur(false)
+        timerId = setTimeout(() => {
+        navigation.navigate('NoChat');
+          }, 30); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
+    }
+    const navigateHome = () => {
+        
+        setSelected('Home')
+        setShowBlur(false)
+        timerId = setTimeout(() => {
+        navigation.navigate('Main');
+          }, 30); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
+    }
+    const navigateMyCommunity = () => {
+        setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+        navigation.navigate('MyCommunity');
+          }, 30); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
     }
     return (
         <SafeAreaView>
@@ -195,9 +227,9 @@ const MainCommunity = ({ navigation }) => {
                         <View style = {styles.notification}>
                             <TouchableOpacity 
                                 style = {{width: vw(9.4), aspectRatio: 1/1, borderRadius: vw(5), backgroundColor: "#212121", justifyContent: 'center', alignItems: 'center'}}
-                            //     onPress = { () => {navigation.navigate('MainSearch'); 
-                            //     setShowBlur(false)
-                            // } }
+                                onPress = { () => {navigation.navigate('CommunitySearch'); 
+                                setShowBlur(false)
+                            } }
                             >
                                 <Svg width={vw(9.4)} height={vw(9.4)} viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <Path d="M23.375 23.375L20.8959 20.8958M22.6667 16.6458C22.6667 19.971 19.971 22.6667 16.6458 22.6667C13.3206 22.6667 10.625 19.971 10.625 16.6458C10.625 13.3206 13.3206 10.625 16.6458 10.625C19.971 10.625 22.6667 13.3206 22.6667 16.6458Z" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -273,7 +305,9 @@ const MainCommunity = ({ navigation }) => {
                             <Text style = {styles.title}>
                                 My Communitites
                             </Text>
-                            <Text style = {styles.viewAll}>
+                            <Text style = {styles.viewAll}
+                                onPress = {navigateMyCommunity}
+                            >
                                 View All
                             </Text>
                         </View>
@@ -340,7 +374,7 @@ const MainCommunity = ({ navigation }) => {
                             )}>
                                 <ImageBackground 
                                     source = {item.backavatar}
-                                    style = {[styles.advert, {paddingLeft: vw(4.5),paddingTop: vw(4.8), paddingRight: vw(3.3), paddingBottom: vw(5.3), flexDirection: item.isShowMore ? 'row' : 'column', justifyContent: 'flex-start', alignItems: 'flex-end' }]}
+                                    style = {[styles.advert, {paddingLeft: vw(4.5),paddingTop: vw(4.8), paddingRight: vw(3.3), paddingBottom: vw(5.3), flexDirection: item.isShowMore ? 'row' : 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }]}
                                 >
                                     <Image source = {item.avatar}/>
                                     <View style = {[styles.mainContent, {marginLeft: item.isShowMore ? vw(6) : 0}]}>
@@ -436,8 +470,7 @@ const MainCommunity = ({ navigation }) => {
                         {showBlur ? renderBlurView() : null}
                         {/* {renderBlurView()} */}
                         <TouchableOpacity style = {styles.footerIcon}
-                            onPress = {() => 
-                                setSelected('Home')
+                            onPress = {navigateHome
                             }
                         >
                             <Svg width={vw(5)} height={vw(5)} viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -462,11 +495,7 @@ const MainCommunity = ({ navigation }) => {
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style = {styles.footerIcon}
-                            onPress = {() => {
-                                setSelected('Chat')
-                                navigation.navigate('NoChat');
-                                setShowBlur(false)
-                            }}
+                            onPress = {navigateChat}
                         >
                             <Svg width={vw(5.6)} height={vw(5.6)} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <G clip-path="url(#clip0_175_4353)">

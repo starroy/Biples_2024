@@ -1,4 +1,4 @@
-import React, {useState. useEffect, useReft} from 'react';
+import React, {useState, useEffect, useReft} from 'react';
 import {
     ImageBackground, 
     View, 

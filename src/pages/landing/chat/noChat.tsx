@@ -46,7 +46,7 @@ const NoChat = ({ navigation }) => {
     useFocusEffect(
         React.useCallback(() => {
         let timerId;
-        setSelected('Home');
+        setSelected('Chat');
             
         if (!showBlur) {
             timerId = setTimeout(() => {

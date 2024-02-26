@@ -56,7 +56,7 @@ const CommunityRegister = ({ navigation }) => {
                     <TouchableOpacity 
                         style = {styles.prevButton}
                         onPress = {() => 
-                            navigation.navigate('BackLogin')
+                            navigation.goBack()
                         }
                     >
                         <Svg width={windowWidth*0.02} height={0.033*windowWidth} viewBox='0 0 7 12' fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -121,9 +121,9 @@ const CommunityRegister = ({ navigation }) => {
                     <View style = {{marginTop: vw(30.55), width: vw(100), alignItems: 'center'}}>
                         <TouchableOpacity 
                             style = {[styles.footerBtn, {backgroundColor: name != '' || description!='' ? '#53FAFB': '#212121', borderRadius:vw(3), width: vw(90), aspectRatio: 320/45}]}
-                        // onPress={() => {
-                        //     setLoadingNumber(loadingNumber+1)
-                        // }}
+                            onPress={() => {
+                                navigation.navigate('CommunityImgRegister');
+                            }}
                         >
                             <Text style = {[styles.maintitle, {fontSize: vw(5), color: '#878787'}]}>Next</Text>
                         </TouchableOpacity>

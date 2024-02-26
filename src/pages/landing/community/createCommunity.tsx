@@ -71,7 +71,7 @@ const CreateCommunity = ({ navigation }) => {
                     <TouchableOpacity 
                         style = {styles.prevButton}
                         onPress = {() => 
-                            navigation.navigate('BackLogin')
+                            navigation.goBack()
                         }
                     >
                         <Svg width={windowWidth*0.02} height={0.033*windowWidth} viewBox='0 0 7 12' fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -122,9 +122,9 @@ const CreateCommunity = ({ navigation }) => {
                     </TouchableOpacity>
                     <TouchableOpacity 
                         style = {[styles.footerBtn, {backgroundColor: '#53FAFB'}]}
-                    // onPress={() => {
-                    //     setLoadingNumber(loadingNumber+1)
-                    // }}
+                        onPress={() => {
+                            navigation.navigate('CommunityRegister');
+                        }}
                     >
                         <Text style = {[styles.text, {color: 'black'}]}>Next</Text>
                     </TouchableOpacity>
