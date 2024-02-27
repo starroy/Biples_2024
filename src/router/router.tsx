@@ -64,7 +64,13 @@ import Buy from '../pages/landing/marketPlace/buy';
 import BuyConfirm from '../pages/landing/marketPlace/buyConfirm';
 import NFTs from '../pages/landing/marketPlace/NFTs';
 import Tickets from '../pages/landing/marketPlace/tickets';
+import CreateTickets from '../pages/landing/marketPlace/createTickets';
+import Details from '../pages/landing/marketPlace/details';
 import BuyLoading from '../pages/landing/marketPlace/buyLoading';
+import level1 from '../pages/avatar/level1';
+import level5 from '../pages/avatar/level5';
+import level5Lock from '../pages/avatar/level5Lock';
+import Overview from '../pages/overview';
 import HomeApp from './home';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -390,6 +396,36 @@ function StackRouter() {
       <Stack.Screen
         name = 'Tickets'
         component = { Tickets }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'CreateTickets'
+        component = { CreateTickets }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Details'
+        component = { Details }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Level1'
+        component = { Level1 }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Level5'
+        component = { Level5 }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Level5Lock'
+        component = { Level5Lock }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Overview'
+        component = { Overview }
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

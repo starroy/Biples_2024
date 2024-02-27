@@ -75,6 +75,11 @@ import NFTs from "./src/pages/landing/marketPlace/nfts";
 import Tickets from "./src/pages/landing/marketPlace/tickets";
 import CreateTickets from "./src/pages/landing/marketPlace/createTickets";
 import ChatConversation from "./src/pages/landing/chat/chatConversation";
+import Details from "./src/pages/landing/marketPlace/details";
+import Level1 from "./src/pages/avatar/level1";
+import Level5 from "./src/pages/avatar/level5";
+import Level5Lock from "./src/pages/avatar/level5Lock";
+import Overview from "./src/pages/overview";
 import StackRouter from './src/router/router';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -94,7 +99,7 @@ function App() {
       // </NavigationContainer>
     
     <View style={styles.container}>
-      <CreateTickets/>
+      <Overview/>
     </View>
   );
 }

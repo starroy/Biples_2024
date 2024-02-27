@@ -15,7 +15,8 @@ import {
     Animated,
     findNodeHandle,
     Dimensions,
-    BackHandler
+    BackHandler,
+    Modal
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { vh, vw } from 'react-native-css-vh-vw';
@@ -25,9 +26,9 @@ import CustomFriendCard from '../../../components/customFriendCard';
 import { ListItem } from 'react-native-elements';
 import { SwipeListView, Sw} from 'react-native-swipe-list-view';
 import { NavigationRouteContext } from '@react-navigation/native';
-
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 const GroupAccount = ({navigation}) => {
-    
+    const statusBarHeight = getStatusBarHeight();
     const SCREEN_WIDTH = Dimensions.get('window').width;
     const SCREEN_HEIGHT = Dimensions.get('window').height;
     const [routerName, setRouterName] = ['GroupAccount']
@@ -289,6 +290,7 @@ const GroupAccount = ({navigation}) => {
             selected: false,
         },
     ]);
+    const [showModal, setShowModal] = useState(false);
     const [state, setState] = useState('Media');
     const [nftAvatars, setNftAvatars] = useState(data);
     const [documentData, setDocumentData] = useState(document);
@@ -720,21 +722,21 @@ const GroupAccount = ({navigation}) => {
   
       return () => backHandler.remove();
     }, []);
-    useFocusEffect(
-        React.useCallback(() => {
-          let timerId;
+    // useFocusEffect(
+    //     React.useCallback(() => {
+    //       let timerId;
     
-          if (!showBlur) {
-            timerId = setTimeout(() => {
-              setShowBlur(true);
-            }, 500); // Adjust the delay as needed
-          }
+    //       if (!showBlur) {
+    //         timerId = setTimeout(() => {
+    //           setShowBlur(true);
+    //         }, 500); // Adjust the delay as needed
+    //       }
     
-          return () => {
-            clearTimeout(timerId);
-          };
-        }, [showBlur])
-      );
+    //       return () => {
+    //         clearTimeout(timerId);
+    //       };
+    //     }, [showBlur])
+    //   );
     // useEffect(() => {
     //     const switchPage = setTimeout(() => {
     //         setShowBlur(!showBlur);
@@ -791,17 +793,6 @@ const GroupAccount = ({navigation}) => {
             clearTimeout(timerId);
             };
     }
-    const handleNavigateChat = () => {
-        
-        setSelected('Chat')
-        let timerId;
-        timerId = setTimeout(() => {
-            navigation.navigate('NoChat');
-        }, 30); // Adjust the delay as needed
-        return () => {
-        clearTimeout(timerId);
-        };
-    }
     return (
         <SafeAreaView
         {...panResponder.panHandlers}>
@@ -837,6 +828,39 @@ const GroupAccount = ({navigation}) => {
                         </TouchableOpacity>
                     </View>
                 </View>
+                <Modal visible={showModal} transparent={true}>
+                    <TouchableOpacity style={styles.modalContainer}
+                        onPress = {() => setShowModal(false)}
+                    >
+                    <StatusBar translucent backgroundColor = '#00000040'/>
+                        <View style = {[styles.modal, {marginTop: (vw(53)-statusBarHeight)}]}>
+                            <View style = {styles.modalItem}>
+                                <Svg width={vw(3.3)} height={vw(3.6)} viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <Path d="M4.12948 1.12023C4.67755 0.71894 5.32833 0.5 6 0.5C6.88406 0.5 7.7319 0.879285 8.35702 1.55442C8.98214 2.22955 9.33333 3.14522 9.33333 4.1C9.33333 5.36046 9.48344 6.35073 9.69356 7.11945M2.81037 3.05434C2.71592 3.39036 2.66667 3.74244 2.66667 4.1C2.66667 5.95411 2.23359 7.22358 1.74981 8.06325C1.34174 8.77153 1.1377 9.12566 1.14518 9.22446C1.15346 9.33384 1.17492 9.37556 1.25654 9.44095C1.33025 9.5 1.66255 9.5 2.32714 9.5H8.77778M4.5301 11.9C4.92184 12.2734 5.43642 12.5 6 12.5C6.56358 12.5 7.07816 12.2734 7.4699 11.9M11 11.9L1 1.1" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                                </Svg>
+                                <Text style = {[styles.text, {color:'white', fontSize: vw(3.3), marginLeft: vw(3)}]}>
+                                &nbsp;&nbsp;Unfollow&nbsp;&nbsp;
+                                </Text>
+                            </View>
+                            <View style = {styles.modalItem}>
+                                <Svg width={vw(3.9)} height={vw(3.1)} viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <Path d="M5.8 3V2.375M5.8 5.8125V5.1875M5.8 8.625V8M2.92 0.5H11.08C11.7521 0.5 12.0881 0.5 12.3448 0.636242C12.5706 0.756084 12.7542 0.947309 12.8692 1.18251C13 1.4499 13 1.79993 13 2.5V3.3125C11.8402 3.3125 10.9 4.29188 10.9 5.5C10.9 6.70812 11.8402 7.6875 13 7.6875V8.5C13 9.20007 13 9.5501 12.8692 9.81749C12.7542 10.0527 12.5706 10.2439 12.3448 10.3638C12.0881 10.5 11.7521 10.5 11.08 10.5H2.92C2.24794 10.5 1.91191 10.5 1.65521 10.3638C1.42942 10.2439 1.24584 10.0527 1.13079 9.81749C1 9.5501 1 9.20007 1 8.5V7.6875C2.1598 7.6875 3.1 6.70812 3.1 5.5C3.1 4.29188 2.1598 3.3125 1 3.3125V2.5C1 1.79993 1 1.4499 1.13079 1.18251C1.24584 0.947309 1.42942 0.756084 1.65521 0.636242C1.91191 0.5 2.24794 0.5 2.92 0.5Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                                </Svg>
+                                <Text style = {[styles.text, {color:'white', fontSize: vw(3.3), marginLeft: vw(3)}]}>
+                                &nbsp;&nbsp;Open Ticket&nbsp;&nbsp;
+                                </Text>
+                            </View>
+                            <View style = {styles.modalItem}>
+                                <Svg width={vw(3.6)} height={vw(2.8)} viewBox="0 0 13 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <Path d="M6.5 4.11258V6.33429M6.5 8.556H6.50536M5.75797 1.2753L1.35039 9.16605C1.10592 9.60372 0.983683 9.82256 1.00175 10.0022C1.01751 10.1588 1.0967 10.3012 1.2196 10.3938C1.36052 10.5 1.60449 10.5 2.09242 10.5H10.9076C11.3955 10.5 11.6395 10.5 11.7804 10.3938C11.9033 10.3012 11.9825 10.1588 11.9982 10.0022C12.0163 9.82256 11.8941 9.60372 11.6496 9.16605L7.24203 1.2753C6.99843 0.839197 6.87663 0.621146 6.71773 0.547911C6.57912 0.48403 6.42088 0.48403 6.28227 0.547911C6.12337 0.621146 6.00157 0.839197 5.75797 1.2753Z" stroke="#FF5252" stroke-linecap="round" stroke-linejoin="round"/>
+                                </Svg>
+                                <Text style = {[styles.text, {color:'#FF5252', fontSize: vw(3.3), marginLeft: vw(3)}]}>
+                                &nbsp;&nbsp;Report&nbsp;&nbsp;
+                                </Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+                </Modal>
                 <Animated.View style = {[styles.body, {transform: [{ translateY: screenY }, ],}]}
                     showsVerticalScrollIndicator={false}
                 >
@@ -864,9 +888,13 @@ const GroupAccount = ({navigation}) => {
                                             <TouchableOpacity 
                                                 key = {index}
                                                 style = {[styles.btnStyle, {backgroundColor: index == 0? '#53FAFB' : '#FFFFFF10'}]}
-                                                onPress = {() => {navigation.navigate(item.navigationName),
-                                                    setRouterName(item.navigationName)
+                                                onPress = {() => {
+                                                    // navigation.navigate(item.navigationName),
+                                                    // setRouterName(item.navigationName)
                                                     setShowBlur(false);
+                                                    if (item.name == 'message') {
+                                                        setShowModal(true);
+                                                    }
                                                 }}
                                             >
                                                 {item.avatar}
@@ -1095,7 +1123,8 @@ const GroupAccount = ({navigation}) => {
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style = {styles.footerIcon}
-                        onPress = {handleNavigateChat
+                        onPress = {() => 
+                            setSelected('Chat')
                         }
                     >
                         <Svg width={vw(5.6)} height={vw(5.6)} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1497,7 +1526,33 @@ const styles = StyleSheet.create({
         fontFamily: 'TT Firs Neue Trial Regular',
         fontSize: vw(3.3),
         color: 'white'
-    }
+    },
+    modalContainer: {
+        backgroundColor: '#00000090',
+        width: vw(100),
+        height: '100%',
+        position: 'absolute',
+        top: 0,
+        padding: vw(5),
+        alignItems: 'flex-end'
+    },
+    modal: {
+        marginTop: vw(40),
+        width: vw(44.44),
+        height: vw(30.56),
+        backgroundColor: '#6C434B',
+        borderRadius: vw(5.6),
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+        alignItmes: 'flex-start',
+        paddingTop: vw(2),
+        paddingBottom: vw(2)
+    },
+    modalItem: {
+        marginLeft: vw(8),
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
 });
 
 export default GroupAccount;
