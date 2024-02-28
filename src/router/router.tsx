@@ -46,6 +46,8 @@ import Members from '../pages/landing/profile/members';
 import NoChat from '../pages/landing/chat/noChat';
 import Chats from '../pages/landing/chat/chats';
 import Calling from '../pages/landing/chat/calling';
+import GroupCall from '../pages/landing/chat/groupCall';
+import GroupChat from '../pages/landing/chat/groupChat';
 import ChatMore from '../pages/landing/chat/chatMore';
 import ChatConversation from '../pages/landing/chat/chatConversation';
 import ChatCalling from '../pages/landing/chat/chatCalling';
@@ -426,6 +428,16 @@ function StackRouter() {
       <Stack.Screen
         name = 'Overview'
         component = { Overview }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'GroupCall'
+        component = { GroupCall }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'GroupChat'
+        component = { GroupChat }
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

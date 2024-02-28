@@ -57,6 +57,8 @@ import Chats from "./src/pages/landing/chat/chats";
 import ChatMore from "./src/pages/landing/chat/chatMore";
 import ChatCalling from "./src/pages/landing/chat/chatCalling";
 import Calling from "./src/pages/landing/chat/calling";
+import GroupCall from "./src/pages/landing/chat/groupCall";
+import GroupChat from "./src/pages/landing/chat/groupChat";
 import MainCommunity from "./src/pages/landing/community/mainCommunity";
 import CommunitySearch from "./src/pages/landing/community/communitySearch";
 import CreateCommunity from "./src/pages/landing/community/createCommunity";
@@ -85,7 +87,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import CreateAccountLoading from './src/pages/register/createAccountLoading';
 // import Font from './font';
-import Basic from './drag'
+import ProgressBar from './drag'
 import Item from './animation'
 import Home from './blur'
 // import ChatMore from './src/pages/landing/chat/chatMore';
@@ -94,13 +96,13 @@ import Home from './blur'
 
 function App() {
   return (
-      // <NavigationContainer style = {styles.container}>
-      //     <StackRouter/>
-      // </NavigationContainer>
+      <NavigationContainer style = {styles.container}>
+          <StackRouter/>
+      </NavigationContainer>
     
-    <View style={styles.container}>
-      <Overview/>
-    </View>
+    // <View style={styles.container}>
+    //   <GroupChat/>
+    // </View>
   );
 }
 

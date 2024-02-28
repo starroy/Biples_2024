@@ -956,7 +956,7 @@ const ChatMore = ({ navigation }) => {
                 <Animated.View style = {{transform: [{ translateY: screenY }], position: 'relative'}}>
                     <View style = {styles.chatBackStyle}>
                         <ImageBackground source = {require('../../../../assets/images/chatBackground.png')}
-                            style = {styles.chatBackImg}
+                            
                         >
                             <View style = {styles.topBar}/>
                             <TouchableOpacity style = {[styles.dataItem, {marginLeft: vw(5), marginTop: vw(8.05), marginBottom: vw(5.8)}]}
