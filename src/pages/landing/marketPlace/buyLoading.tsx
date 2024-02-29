@@ -34,6 +34,15 @@ const BuyLoading = ({ navigation }) => {
 
     useremail = "yazidelkherrati@gmail.com";
 
+    const [loadingState, setLoadingState] = useState(false);
+    useEffect(() => {
+        const switchPage = setTimeout(() => {
+            console.log('time is ended');
+            navigation.navigate('Tickets');
+        }, 3000); // 10 seconds in milliseconds
+
+        return () => clearTimeout(switchPage);
+    }, []);
     return (
         <View style={styles.container}>
             <StatusBar 

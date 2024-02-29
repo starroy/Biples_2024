@@ -612,28 +612,28 @@ const Details = ({navigation}) => {
   
       return () => backHandler.remove();
     }, []);
-    // useFocusEffect(
-    //     React.useCallback(() => {
-    //       let timerId;
+    useFocusEffect(
+        React.useCallback(() => {
+          let timerId;
     
-    //       if (!showBlur) {
-    //         timerId = setTimeout(() => {
-    //           setShowBlur(true);
-    //         }, 500); // Adjust the delay as needed
-    //       }
+          if (!showBlur) {
+            timerId = setTimeout(() => {
+              setShowBlur(true);
+            }, 500); // Adjust the delay as needed
+          }
     
-    //       return () => {
-    //         clearTimeout(timerId);
-    //       };
-    //     }, [showBlur])
-    //   );
-    // useEffect(() => {
-    //     const switchPage = setTimeout(() => {
-    //         setShowBlur(!showBlur);
-    //     }, 3); // 10 seconds in milliseconds
-    //     console.log(showBlur);
-    //     return () => clearTimeout(switchPage);
-    //   }, [NavigationRouteContext]);
+          return () => {
+            clearTimeout(timerId);
+          };
+        }, [showBlur])
+      );
+    useEffect(() => {
+        const switchPage = setTimeout(() => {
+            setShowBlur(!showBlur);
+        }, 3); // 10 seconds in milliseconds
+        console.log(showBlur);
+        return () => clearTimeout(switchPage);
+      }, [NavigationRouteContext]);
     const renderBlurView = () => {
         // console.log(viewRef);
         return (
@@ -685,10 +685,35 @@ const Details = ({navigation}) => {
     }
     const handleNavigateChat = () => {
         
-        setSelected('Chat')
+        setSelected('Chat');
+        setShowBlur(false);
         let timerId;
         timerId = setTimeout(() => {
             navigation.navigate('NoChat');
+        }, 30); // Adjust the delay as needed
+        return () => {
+        clearTimeout(timerId);
+        };
+    }
+    const handleNavigateCommunity = () => {
+        
+        setSelected('Community');
+        setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+            navigation.navigate('MainCommunity');
+        }, 30); // Adjust the delay as needed
+        return () => {
+        clearTimeout(timerId);
+        };
+    }
+    const navigateCollet = () => {
+        
+        setSelected('Community');
+        setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+            navigation.navigate('Buy');
         }, 30); // Adjust the delay as needed
         return () => {
         clearTimeout(timerId);
@@ -701,11 +726,20 @@ const Details = ({navigation}) => {
                 <View style = {[styles.header, {zIndex: allView == 1 ? 1 : 0}]}>
                     {allView == 0 && 
                         sortBtn.map((item, index) => 
-                            item.selected && 
+                        <View key={index}
+                            style = {{
+                                position: 'absolute',
+                                top: 0,
+                                width: vw(100),
+                                height: vw(70)
+                            }}
+                        >
+                            {item.selected && 
                             <Image source = {item.backImg}
                             style = {styles.backImage}
                             blurRadius={25}
-                            />
+                            />}
+                        </View>
                         )
                     }
                     <View style = {styles.headerBar}>
@@ -910,7 +944,9 @@ const Details = ({navigation}) => {
                                         <TouchableOpacity style = {[styles.OpacityBtn, {width: vw(38.3)}]}>
                                             <Text style = {[styles.btnText, {fontSize: vw(3.5)}]}> Place a Bid</Text>
                                         </TouchableOpacity>
-                                        <TouchableOpacity style = {[styles.OpacityBtn, {width: vw(38.3), backgroundColor: '#53FAFB'}]}>
+                                        <TouchableOpacity style = {[styles.OpacityBtn, {width: vw(38.3), backgroundColor: '#53FAFB'}]}
+                                            onPress = {navigateCollet}
+                                        >
                                             <Text style = {[styles.btnText, {fontSize: vw(3.5), color: 'black', fontFamily: 'TT Firs Neue Trial DemiBold'}]}> Collect Now!</Text>
                                         </TouchableOpacity>
                                     </View>
@@ -933,7 +969,9 @@ const Details = ({navigation}) => {
                                                     <Path d="M0.395313 0.3H7.59531V1.5H0.395313V0.3Z" fill="white"/>
                                                 </Svg>
                                         </TouchableOpacity>
-                                        <TouchableOpacity style = {[styles.OpacityBtn, {width: vw(38.3), backgroundColor: '#53FAFB'}]}>
+                                        <TouchableOpacity style = {[styles.OpacityBtn, {width: vw(38.3), backgroundColor: '#53FAFB'}]}
+                                            onPress = {navigateCollet}
+                                        >
                                             <Text style = {[styles.btnText, {fontSize: vw(3.5), color: 'black', fontFamily: 'TT Firs Neue Trial DemiBold'}]}>Buy Now!</Text>
                                         </TouchableOpacity>
                                     </View>
@@ -950,7 +988,9 @@ const Details = ({navigation}) => {
                                         <TouchableOpacity style = {[styles.OpacityBtn, {width: vw(38.3), justifyContent: 'space-around'}]}>
                                             <Text style = {[styles.btnText, {fontSize: vw(3.5)}]}>Place a Bid</Text>
                                         </TouchableOpacity>
-                                        <TouchableOpacity style = {[styles.OpacityBtn, {width: vw(38.3), backgroundColor: '#53FAFB'}]}>
+                                        <TouchableOpacity style = {[styles.OpacityBtn, {width: vw(38.3), backgroundColor: '#53FAFB'}]}
+                                            onPress = {navigateCollet}
+                                        >
                                             <Text style = {[styles.btnText, {fontSize: vw(3.5), color: 'black', fontFamily: 'TT Firs Neue Trial DemiBold'}]}>Buy Now!</Text>
                                         </TouchableOpacity>
                                     </View>
@@ -1048,9 +1088,7 @@ const Details = ({navigation}) => {
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style = {styles.footerIcon}
-                        onPress = {() => 
-                            setSelected('Community')
-                        }
+                        onPress = {handleNavigateCommunity}
                     >
                         <Svg width={vw(5.6)} height={vw(5.6)} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <Path d="M15 13.1974C16.2132 13.8069 17.2534 14.785 18.0127 16.008C18.163 16.2502 18.2382 16.3713 18.2642 16.539C18.317 16.8798 18.084 17.2988 17.7666 17.4336C17.6104 17.5 17.4347 17.5 17.0833 17.5M13.3333 9.6102C14.5681 8.99657 15.4167 7.72238 15.4167 6.25C15.4167 4.77762 14.5681 3.50343 13.3333 2.8898M11.6667 6.25C11.6667 8.32107 9.98772 10 7.91665 10C5.84559 10 4.16665 8.32107 4.16665 6.25C4.16665 4.17893 5.84559 2.5 7.91665 2.5C9.98772 2.5 11.6667 4.17893 11.6667 6.25ZM2.13268 15.782C3.46127 13.7871 5.5578 12.5 7.91665 12.5C10.2755 12.5 12.372 13.7871 13.7006 15.782C13.9917 16.219 14.1372 16.4375 14.1205 16.7166C14.1074 16.9339 13.9649 17.2 13.7913 17.3313C13.5683 17.5 13.2615 17.5 12.648 17.5H3.18528C2.5718 17.5 2.26505 17.5 2.04202 17.3313C1.86836 17.2 1.72589 16.9339 1.71285 16.7166C1.69609 16.4375 1.84162 16.219 2.13268 15.782Z" stroke={selected == 'Community'? '#53FAFB' : "#9D9D9D"} stroke-linecap="round" stroke-linejoin="round"/>
@@ -1101,8 +1139,6 @@ const styles = StyleSheet.create({
     backImage: {
         width: '100%',
         height: vw(70),
-        position: 'absolute',
-        top: 0,
         opacity: 1
         // top: (0-vw(28.1)),
         // zIndex: -4

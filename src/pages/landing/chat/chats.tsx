@@ -131,7 +131,7 @@ const Chats = ({ navigation }) => {
     
           setTimeout(() => {
             navigation.goBack();
-            setSelected('Home');
+            setSelected('Chat');
           }, 300); // Delay the back action by one second
     
           return true; // Prevent default behavior (i.e. exit the app)
@@ -144,7 +144,7 @@ const Chats = ({ navigation }) => {
     useFocusEffect(
         React.useCallback(() => {
         let timerId;
-        setSelected('Home');
+        setSelected('Chat');
             
         if (!showBlur) {
             timerId = setTimeout(() => {
@@ -157,6 +157,17 @@ const Chats = ({ navigation }) => {
         };
         }, [showBlur])
     );
+    const navigateAndAnimateCommunity = () => {
+        // setShowBlurs(true);
+            setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+        navigation.navigate('MainCommunity');
+          }, 30); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
+    }
     const renderBlurView = () => {
         return (
                 <BlurView
@@ -405,7 +416,9 @@ const Chats = ({ navigation }) => {
                         }
                     </View>
                     <ScrollView 
-                    showsVerticalScrollIndicator={false}>
+                    showsVerticalScrollIndicator={false}
+                    style = {{marginBottom: vw(17)}}
+                    >
                         <View style = {styles.pinnedStyle}>
                             <View style = {styles.startConvBtn}>
                                 <Svg width={vw(3.6)} height={vw(3.6)} viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -512,7 +525,13 @@ const Chats = ({ navigation }) => {
                             <View style = {styles.pinArray}>
                                 {
                                     allChat.map((item, index) => 
-                                        <View key = {index} style = {styles.dataItem}>
+                                        <TouchableOpacity key = {index} style = {styles.dataItem}
+                                            onPress = {() =>{
+                                                setSelected('Community');
+                                                navigation.navigate('ChatConversation');
+                                                setShowBlur(false);}
+                                            }
+                                        >
                                             <View style = {styles.datas}>
                                                 <View style = {[styles.avatars, {width: vw(11.1), height: vw(11.1)}]}>
                                                     <Image source = {item.avatar}
@@ -587,7 +606,7 @@ const Chats = ({ navigation }) => {
                                                     }
                                                 </View>
                                             </View>
-                                        </View>
+                                        </TouchableOpacity>
                                     )
                                 }
                             </View>
@@ -613,11 +632,7 @@ const Chats = ({ navigation }) => {
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style = {styles.footerIcon}
-                        onPress = {() => {
-                            setSelected('Community');
-                            // navigation.navigate('GroupAccount');
-                            // setShowBlur(false);
-                        }}
+                        onPress = {navigateAndAnimateCommunity}
                     >
                         <Svg width={vw(5.6)} height={vw(5.6)} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <Path d="M15 13.1974C16.2132 13.8069 17.2534 14.785 18.0127 16.008C18.163 16.2502 18.2382 16.3713 18.2642 16.539C18.317 16.8798 18.084 17.2988 17.7666 17.4336C17.6104 17.5 17.4347 17.5 17.0833 17.5M13.3333 9.6102C14.5681 8.99657 15.4167 7.72238 15.4167 6.25C15.4167 4.77762 14.5681 3.50343 13.3333 2.8898M11.6667 6.25C11.6667 8.32107 9.98772 10 7.91665 10C5.84559 10 4.16665 8.32107 4.16665 6.25C4.16665 4.17893 5.84559 2.5 7.91665 2.5C9.98772 2.5 11.6667 4.17893 11.6667 6.25ZM2.13268 15.782C3.46127 13.7871 5.5578 12.5 7.91665 12.5C10.2755 12.5 12.372 13.7871 13.7006 15.782C13.9917 16.219 14.1372 16.4375 14.1205 16.7166C14.1074 16.9339 13.9649 17.2 13.7913 17.3313C13.5683 17.5 13.2615 17.5 12.648 17.5H3.18528C2.5718 17.5 2.26505 17.5 2.04202 17.3313C1.86836 17.2 1.72589 16.9339 1.71285 16.7166C1.69609 16.4375 1.84162 16.219 2.13268 15.782Z" stroke={selected == 'Community'? '#53FAFB' : "#9D9D9D"} stroke-linecap="round" stroke-linejoin="round"/>

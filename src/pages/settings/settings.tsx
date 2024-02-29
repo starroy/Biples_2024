@@ -159,7 +159,9 @@ const Settings = ({ navigation }) => {
                                     </Text>
                                 </View>
                             </View>
-                            <View style = {styles.wallet}>
+                            <TouchableOpacity style = {styles.wallet}
+                                // onPress = {navigation.navigate('Overview')}
+                            >
                                 <Svg width={vw(4.2)} height={vw(3.3)} viewBox="0 0 15 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <Path d="M14 3.8125H1M1 6.3125H3.30534C3.65646 6.3125 3.83203 6.3125 4.00179 6.3416C4.15247 6.36742 4.29947 6.41022 4.43974 6.4691C4.59778 6.53543 4.74385 6.62907 5.036 6.81635L5.414 7.05865C5.70615 7.24593 5.85222 7.33957 6.01026 7.4059C6.15053 7.46478 6.29753 7.50758 6.44821 7.5334C6.61797 7.5625 6.79354 7.5625 7.14466 7.5625H7.85534C8.20646 7.5625 8.38203 7.5625 8.55179 7.5334C8.70247 7.50758 8.84946 7.46478 8.98974 7.4059C9.14778 7.33957 9.29385 7.24593 9.586 7.05865L9.96399 6.81635C10.2561 6.62907 10.4022 6.53543 10.5603 6.4691C10.7005 6.41022 10.8475 6.36742 10.9982 6.3416C11.168 6.3125 11.3435 6.3125 11.6947 6.3125H14M1 3L1 9C1 9.70006 1 10.0501 1.14169 10.3175C1.26633 10.5527 1.4652 10.7439 1.70981 10.8638C1.9879 11 2.35193 11 3.08 11L11.92 11C12.6481 11 13.0121 11 13.2902 10.8638C13.5348 10.7439 13.7337 10.5527 13.8583 10.3175C14 10.0501 14 9.70007 14 9V3C14 2.29994 14 1.9499 13.8583 1.68251C13.7337 1.44731 13.5348 1.25608 13.2902 1.13624C13.0121 1 12.6481 1 11.92 1L3.08 1C2.35193 1 1.9879 1 1.70981 1.13624C1.4652 1.25608 1.26633 1.44731 1.14169 1.68251C1 1.9499 1 2.29993 1 3Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
                                 </Svg>
@@ -167,7 +169,7 @@ const Settings = ({ navigation }) => {
                                 <Text style = {[styles.userfont, {fontSize: vw(2.8), color: "black"}]}>
                                     {user.wallet}
                                 </Text>
-                            </View>
+                            </TouchableOpacity>
                         </View>
                         <Text style= {{marginTop: vw(8.1), marginBottom:vw(5.6), fontFamily: 'TT Firs Neue Trial Medium', fontSize: vw(3.9), color: '#4C4C4C'}}>
                             Promoted
@@ -278,7 +280,7 @@ const Settings = ({ navigation }) => {
                                     navigation = {navigation}
                                     title = {item}
                                     avatarName = {index+14}
-                                    navigateName = ''
+                                    navigateName = 'Overview'
                                 />
                             )
                         }

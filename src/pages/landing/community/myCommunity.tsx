@@ -14,7 +14,8 @@ import {
     BackHandler,
     Animated,
     Dimensions,
-    PanResponder
+    PanResponder,
+    Touchable
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { vh, vw } from 'react-native-css-vh-vw';
@@ -206,6 +207,16 @@ const MyCommunity = ({ navigation }) => {
             clearTimeout(timerId);
           };
     }
+    const navigateHome = () => {
+        setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+            navigation.navigate('Main');
+        }, 300); // Adjust the delay as needed
+        return () => {
+        clearTimeout(timerId);
+        };
+    }
     const handleChatView = (item) => {
     }
     const handleChatHidden = () => {
@@ -296,8 +307,9 @@ const MyCommunity = ({ navigation }) => {
                                 keyboardType = 'default'
                             />
                             <TouchableOpacity style={styles.speech}
-                                onPress={() =>
-                                    navigation.navigate('SpeechInput')
+                                onPress={() =>{
+                                    navigation.navigate('SpeechInput');
+                                    setShowBlur(false);}
                                 }
                             >
                                 <Svg width={vw(2.8)} height={vw(3)} viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -307,9 +319,9 @@ const MyCommunity = ({ navigation }) => {
                         </View> 
                         <TouchableOpacity
                             style = {[styles.prevButton, {backgroundColor: '#53FAFB'}]}
-                            onPress = { () => 
-                                navigation.navigate('MainSearch')
-                            }
+                            // onPress = { () => 
+                            //     navigation.navigate('MainSearch')
+                            // }
                         >
                             <Svg width={vw(4.44)} height={vw(3.33)} viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <Path d="M0.928589 2.85714L10.3572 2.85714M10.3572 2.85714C10.3572 4.15896 11.4125 5.21429 12.7143 5.21429C14.0161 5.21429 15.0714 4.15896 15.0714 2.85714C15.0714 1.55533 14.0161 0.5 12.7143 0.5C11.4125 0.5 10.3572 1.55533 10.3572 2.85714ZM5.64287 9.14286L15.0714 9.14286M5.64287 9.14286C5.64287 10.4447 4.58755 11.5 3.28573 11.5C1.98392 11.5 0.928589 10.4447 0.928589 9.14286C0.928589 7.84104 1.98392 6.78571 3.28573 6.78571C4.58755 6.78571 5.64287 7.84104 5.64287 9.14286Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
@@ -321,7 +333,7 @@ const MyCommunity = ({ navigation }) => {
                             Result
                         </Text>
                         <Text style = {[styles.titles, {color: '#53FAFB', fontSize: vw(3.3)}]}
-                            onPress = {() => {setFilter([]); navigation.navigate('SearchResultNone')}}
+                            // onPress = {() => {setFilter([]); navigation.navigate('SearchResultNone')}}
                         >
                             Clear All
                         </Text>
@@ -392,9 +404,7 @@ const MyCommunity = ({ navigation }) => {
                         {showBlur ? renderBlurView() : null}
                         {/* {renderBlurView()} */}
                         <TouchableOpacity style = {styles.footerIcon}
-                            onPress = {() => 
-                                setSelected('Home')
-                            }
+                            onPress = {navigateHome}
                         >
                             <Svg width={vw(5)} height={vw(5)} viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <Path d="M6.50008 16.5V10.3333C6.50008 9.86662 6.50008 9.63327 6.59091 9.45501C6.67081 9.29821 6.79829 9.17072 6.95509 9.09083C7.13335 9 7.36671 9 7.83342 9H10.1668C10.6335 9 10.8668 9 11.0451 9.09083C11.2019 9.17072 11.3294 9.29821 11.4093 9.45501C11.5001 9.63327 11.5001 9.86662 11.5001 10.3333V16.5M0.666748 6.91667L8.20008 1.26667C8.48697 1.0515 8.63041 0.943924 8.78794 0.902454C8.927 0.865849 9.07317 0.865849 9.21222 0.902454C9.36976 0.943924 9.5132 1.05151 9.80008 1.26667L17.3334 6.91667M2.33342 5.66667V13.8333C2.33342 14.7668 2.33342 15.2335 2.51507 15.59C2.67486 15.9036 2.92983 16.1586 3.24343 16.3183C3.59995 16.5 4.06666 16.5 5.00008 16.5H13.0001C13.9335 16.5 14.4002 16.5 14.7567 16.3183C15.0703 16.1586 15.3253 15.9036 15.4851 15.59C15.6668 15.2335 15.6668 14.7668 15.6668 13.8333V5.66667L10.6001 1.86667C10.0263 1.43634 9.73944 1.22118 9.42436 1.13824C9.14625 1.06503 8.85392 1.06503 8.57581 1.13824C8.26073 1.22118 7.97385 1.43634 7.40008 1.86667L2.33342 5.66667Z" stroke={selected == 'Home'? '#53FAFB' : "#9D9D9D"} stroke-linecap="round" stroke-linejoin="round"/>
@@ -453,7 +463,7 @@ const MyCommunity = ({ navigation }) => {
                                 <Path d="M12.5 5L7.5 10L12.5 15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                             </Svg>
                         </TouchableOpacity>
-                        <TouchableOpacity style = {[styles.dataItem, {marginLeft: vw(5), marginTop: vw(8.05), marginBottom: vw(5.8)}]}
+                        <View style = {[styles.dataItem, {marginLeft: vw(5), marginTop: vw(8.05), marginBottom: vw(5.8)}]}
                             // onPress = {handleChatHidden}
                         >
                             <View style = {styles.datas}>
@@ -493,13 +503,15 @@ const MyCommunity = ({ navigation }) => {
                                     <Path d="M21.1794 4.43137C21.1794 3.82555 21.1794 3.52265 21.0596 3.38238C20.9557 3.26068 20.7998 3.19609 20.6402 3.20865C20.4563 3.22312 20.2421 3.43731 19.8138 3.86569L16.1794 7.5L19.8138 11.1343C20.2421 11.5627 20.4563 11.7769 20.6402 11.7914C20.7998 11.8039 20.9557 11.7393 21.0596 11.6176C21.1794 11.4774 21.1794 11.1744 21.1794 10.5686V4.43137Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                                     <Path d="M1.17944 5.3C1.17944 3.61984 1.17944 2.77976 1.50642 2.13803C1.79404 1.57354 2.25299 1.1146 2.81747 0.82698C3.45921 0.5 4.29929 0.5 5.97944 0.5H11.3794C13.0596 0.5 13.8997 0.5 14.5414 0.82698C15.1059 1.1146 15.5648 1.57354 15.8525 2.13803C16.1794 2.77976 16.1794 3.61984 16.1794 5.3V9.7C16.1794 11.3802 16.1794 12.2202 15.8525 12.862C15.5648 13.4265 15.1059 13.8854 14.5414 14.173C13.8997 14.5 13.0596 14.5 11.3794 14.5H5.97944C4.29929 14.5 3.45921 14.5 2.81747 14.173C2.25299 13.8854 1.79404 13.4265 1.50642 12.862C1.17944 12.2202 1.17944 11.3802 1.17944 9.7V5.3Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                                 </Svg>
-                                <Svg width="4" height="13" viewBox="0 0 4 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <Path d="M1.86694 5.8125C1.48725 5.8125 1.17944 6.1203 1.17944 6.5C1.17944 6.8797 1.48725 7.1875 1.86694 7.1875C2.24664 7.1875 2.55444 6.8797 2.55444 6.5C2.55444 6.1203 2.24664 5.8125 1.86694 5.8125Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <Path d="M1.86694 10.625C1.48725 10.625 1.17944 10.9328 1.17944 11.3125C1.17944 11.6922 1.48725 12 1.86694 12C2.24664 12 2.55444 11.6922 2.55444 11.3125C2.55444 10.9328 2.24664 10.625 1.86694 10.625Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <Path d="M1.86694 1C1.48725 1 1.17944 1.3078 1.17944 1.6875C1.17944 2.0672 1.48725 2.375 1.86694 2.375C2.24664 2.375 2.55444 2.0672 2.55444 1.6875C2.55444 1.3078 2.24664 1 1.86694 1Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
-                                </Svg>
+                                <TouchableOpacity onPress = {() => {navigation.navigate('GroupChat'); setShowBlur(false)}}>
+                                    <Svg width={vw(1.1)} height={vw(3.6)} viewBox="0 0 4 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <Path d="M1.86694 5.8125C1.48725 5.8125 1.17944 6.1203 1.17944 6.5C1.17944 6.8797 1.48725 7.1875 1.86694 7.1875C2.24664 7.1875 2.55444 6.8797 2.55444 6.5C2.55444 6.1203 2.24664 5.8125 1.86694 5.8125Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <Path d="M1.86694 10.625C1.48725 10.625 1.17944 10.9328 1.17944 11.3125C1.17944 11.6922 1.48725 12 1.86694 12C2.24664 12 2.55444 11.6922 2.55444 11.3125C2.55444 10.9328 2.24664 10.625 1.86694 10.625Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <Path d="M1.86694 1C1.48725 1 1.17944 1.3078 1.17944 1.6875C1.17944 2.0672 1.48725 2.375 1.86694 2.375C2.24664 2.375 2.55444 2.0672 2.55444 1.6875C2.55444 1.3078 2.24664 1 1.86694 1Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </Svg>
+                                </TouchableOpacity>
                             </View>
-                        </TouchableOpacity>
+                        </View>
                         <View style = {styles.channels}>
                             <View style = {{width: vw(100)}}>
                                 <Text style = {[styles.maintitle, {fontSize: vw(5.6), marginLeft: vw(5), marginTop: vw(10)}]}>
@@ -510,7 +522,19 @@ const MyCommunity = ({ navigation }) => {
                                         channel.map((item, index) => 
                                             <View key = {index}>
                                             <View style = {styles.customChannel}>
-                                                <View style = {[styles.channelBox, {width: item.mute? vw(56.7) : vw(69.1), backgroundColor: item.back}]}>
+                                                <TouchableOpacity style = {[styles.channelBox, {width: item.mute? vw(56.7) : vw(69.1), backgroundColor: item.back}]}
+                                                    // onPress = { () => {
+                                                    //     if (item.name =='Private Channel) {
+                                                    //     setShowBlur(false);
+                                                    //     let timerId;
+                                                    //     timerId = setTimeout(() => {
+                                                    //         navigation.navigate('MemberPermission');
+                                                    //     }, 300); // Adjust the delay as needed
+                                                    //     return () => {
+                                                    //     clearTimeout(timerId);
+                                                    //     };}}
+                                                    // }
+                                                >
                                                     <View style ={styles.boxinter}>
                                                         {item.img}
                                                         <Text style = {[styles.subtitle, {marginTop: 0, marginLeft: vw(3), color: 'white', fontSize: vw(3.9)}]}>
@@ -527,7 +551,7 @@ const MyCommunity = ({ navigation }) => {
                                                             <Path d="M7.5 15L12.5 10L7.5 5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                                                         </Svg>
                                                     }
-                                                </View>
+                                                </TouchableOpacity>
                                                 {item.mute && 
                                                     <View style = {{width: vw(9.42), height: vw(9.42), borderRadius: vw(5), backgroundColor: '#53FAFB', justifyContent: 'center', alignItems: 'center' }}>
                                                         <Svg width={vw(4.4)} height={vw(3.9)} viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">

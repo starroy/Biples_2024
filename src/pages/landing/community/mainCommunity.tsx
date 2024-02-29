@@ -161,7 +161,7 @@ const MainCommunity = ({ navigation }) => {
             <BlurView
                 viewRef={viewRef}
                 style={styles.blurViewStyle}
-                blurRadius={3}
+                blurRadius={1}
                 blurType={blurType}
                 // blurRadius={10}
                 downsampleFactor={10}
@@ -211,6 +211,47 @@ const MainCommunity = ({ navigation }) => {
             clearTimeout(timerId);
           };
     }
+    const navigateNFTs = () => {
+        setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+        navigation.navigate('MainNFTs');
+          }, 30); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
+    }
+    const navigateCreate = () => {
+        setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+        navigation.navigate('CreateCommunity');
+          }, 30); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
+    }
+    const handleMember = () => {
+        setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+        navigation.navigate('MemberPermission');
+          }, 30); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
+    }
+    // const navigateAndAnimateChat = () => {
+    //     // setShowBlurs(true);
+    //         setShowBlur(false);
+    //     let timerId;
+    //     timerId = setTimeout(() => {
+    //     navigation.navigate('NoChat');
+    //       }, 30); // Adjust the delay as needed
+    //       return () => {
+    //         clearTimeout(timerId);
+    //       };
+    // }
     return (
         <SafeAreaView>
             <StatusBar 
@@ -240,6 +281,7 @@ const MainCommunity = ({ navigation }) => {
                                 // onPress = { () => {navigation.navigate('Notifications'); 
                                 // setShowBlur(false)
                             // } }
+                                onPress ={navigateCreate}
                             >
                                 <Svg width={vw(4.44)} height={vw(4.44)} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <Path d="M8 15.5V0.5M0.5 8H15.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
@@ -271,7 +313,7 @@ const MainCommunity = ({ navigation }) => {
                                     </Text>
                                     <TouchableOpacity
                                         style={[styles.button, { width: vw(21.1), height: vw(6.4), fontFamily: 'Neue-Metana' }]}
-                                        // onPress={onPress}
+                                        onPress={navigateNFTs}
                                     >
                                         <Svg width={vw(1.8)} height={vw(2)} viewBox="0 0 6 7" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <Path d="M0.5 6.18722C0.5 6.55949 0.5 6.74562 0.571313 6.84822C0.63344 6.93761 0.728397 6.99292 0.831191 6.9996C0.949185 7.00727 1.09148 6.90402 1.37606 6.69753L5.07944 4.01031C5.31459 3.83968 5.43216 3.75437 5.47314 3.64684C5.50896 3.55283 5.50896 3.44717 5.47314 3.35316C5.43216 3.24563 5.31459 3.16032 5.07944 2.98969L1.37606 0.302474C1.09148 0.0959778 0.949185 -0.00726986 0.831191 0.000398159C0.728397 0.00707865 0.63344 0.0623918 0.571313 0.151778C0.5 0.254382 0.5 0.440515 0.5 0.812781V6.18722Z" fill="#D9D9D9"/>
@@ -440,7 +482,7 @@ const MainCommunity = ({ navigation }) => {
                                             backgroundColor="#53FAFB"  
                                             color='black'
                                             fontSize={vw(2.8)}
-                                            // onPress={handleAddMember}
+                                            onPress={handleMember}
                                         />
                                     </View>
                                 </View>}
@@ -586,7 +628,7 @@ const styles = StyleSheet.create({
     // },
     body: {
         marginTop: vw(27.5),
-        marginBottom: vw(10)
+        marginBottom: vw(6)
     },
     myCommunities: {
         width: vw(100),

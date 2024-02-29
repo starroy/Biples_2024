@@ -70,7 +70,9 @@ const Buy = ({ navigation }) => {
                         <TouchableOpacity style = {[styles.OpacityBtn, {width: vw(38.3)}]}>
                             <Text style = {[styles.btnText, {fontSize: vw(3.5)}]}> Cancel</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style = {[styles.OpacityBtn, {width: vw(38.3), backgroundColor: '#53FAFB'}]}>
+                        <TouchableOpacity style = {[styles.OpacityBtn, {width: vw(38.3), backgroundColor: '#53FAFB'}]}
+                            onPress = {() => navigation.navigate('BuyConfirm')}
+                        >
                             <Text style = {[styles.btnText, {fontSize: vw(3.5), color: 'black', fontFamily: 'TT Firs Neue Trial DemiBold'}]}> Confirm</Text>
                         </TouchableOpacity>
                     </View>

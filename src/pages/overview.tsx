@@ -70,7 +70,7 @@ const Settings = ({ navigation }) => {
                     <TouchableOpacity 
                         style = {styles.prevButton}
                         onPress = {() => 
-                            navigation.navigate('Main')
+                            navigation.navigate('Settings')
                         }
                     >
                         <Svg width={vw(5)} height={vw(5)} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

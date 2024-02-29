@@ -160,22 +160,22 @@ const Ranking = ({ navigation }) => {
   
       return () => backHandler.remove();
     }, []);
-    // useFocusEffect(
-    //     React.useCallback(() => {
-    //       let timerId;
-    //       setSelected('Community');
+    useFocusEffect(
+        React.useCallback(() => {
+          let timerId;
+          setSelected('Community');
             
-    //       if (!showBlur) {
-    //         timerId = setTimeout(() => {
-    //           setShowBlur(true);
-    //         }, 500); // Adjust the delay as needed
-    //       }
-    //     //   console.log(showBlur)
-    //       return () => {
-    //         clearTimeout(timerId);
-    //       };
-    //     }, [showBlur])
-    //   );
+          if (!showBlur) {
+            timerId = setTimeout(() => {
+              setShowBlur(true);
+            }, 500); // Adjust the delay as needed
+          }
+        //   console.log(showBlur)
+          return () => {
+            clearTimeout(timerId);
+          };
+        }, [showBlur])
+      );
     const renderBlurView = () => {
         return (
             <BlurView
@@ -231,6 +231,14 @@ const Ranking = ({ navigation }) => {
             clearTimeout(timerId);
           };
     }
+    const navigateBack = () => {
+        setShowBlur(false);
+  
+        setTimeout(() => {
+          navigation.goBack();
+          setSelected('Home');
+        }, 300);
+    }
     return (
         <SafeAreaView>
             <StatusBar 
@@ -241,9 +249,7 @@ const Ranking = ({ navigation }) => {
                     <View style = {styles.userInfo}>
                         <TouchableOpacity 
                             style = {{width: vw(9.4), aspectRatio: 1/1, borderRadius: vw(5), backgroundColor: "#212121", justifyContent: 'center', alignItems: 'center'}}
-                            // onPress = { () => {navigation.navigate('CommunitySearch'); 
-                            // setShowBlur(false)
-                        // } }
+                            onPress = {navigateBack}
                         >
                             <Svg width={vw(2)} height={vw(3.3)} viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <Path d="M6 1L1 6L6 11" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
@@ -257,9 +263,9 @@ const Ranking = ({ navigation }) => {
                         <View style = {styles.notification}>
                             <TouchableOpacity 
                                 style = {{width: vw(9.4), aspectRatio: 1/1, borderRadius: vw(5), backgroundColor: "#212121", justifyContent: 'center', alignItems: 'center'}}
-                                onPress = { () => {navigation.navigate('CommunitySearch'); 
-                                setShowBlur(false)
-                            } }
+                            //     onPress = { () => {navigation.navigate('CommunitySearch'); 
+                            //     setShowBlur(false)
+                            // } }
                             >
                                 <Svg width={vw(9.4)} height={vw(9.4)} viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <Path d="M23.375 23.375L20.8959 20.8958M22.6667 16.6458C22.6667 19.971 19.971 22.6667 16.6458 22.6667C13.3206 22.6667 10.625 19.971 10.625 16.6458C10.625 13.3206 13.3206 10.625 16.6458 10.625C19.971 10.625 22.6667 13.3206 22.6667 16.6458Z" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -291,7 +297,36 @@ const Ranking = ({ navigation }) => {
                         </View>
                     </View>
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        <FlatList
+                        {
+                            rankingArray.map((item, index) =>
+                                <View key ={index} style = {{width: vw(90), padding: vw(3.3), backgroundColor: '#39393938', borderRadius: vw(10), flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: vw(2.8)}}>
+                                <View style = {{flexDirection: 'row', alignItems: 'center'}}>
+                                    <Text style = {[styles.userfont, {color: 'white', fontSize: vw(3.3), color: 'white', marginRight: vw(2)}]}>1</Text>
+                                    
+                                        <Image source = {item.avatar}
+                                            style = {{width: vw(7.5), height: vw(7.5)}}
+                                        />
+                                    <View style = {styles.info}>
+                                        <Text style = {[styles.userfont, {color: 'white', fontSize: vw(3.3)}]}>{item.name}</Text>
+                                        <Text style = {[styles.userfont, {color: '#4B4B4B', fontSize: vw(2.2)}]}>{item.email}</Text>
+                                    </View>
+                                </View>
+                                <View style = {{backgroundColor: '#53FAFB10', width: vw(12.92), height: vw(6), justifyContent: 'center', alignItems: 'center', borderRadius: vw(5), flexDirection: 'row'}}>
+                                    <Svg width={vw(2)} height={vw(1.1)} viewBox="0 0 7 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <Path fill-rule="evenodd" clip-rule="evenodd" d="M1.04322 2.93612L3.58164 0.693843C3.73741 0.556246 3.98997 0.556246 4.14574 0.693843L6.68416 2.93612C6.83993 3.07371 6.83993 3.2968 6.68416 3.4344C6.52839 3.572 6.27584 3.572 6.12007 3.4344L3.86369 1.44127L1.60731 3.4344C1.45154 3.572 1.19899 3.572 1.04322 3.4344C0.887449 3.2968 0.887449 3.07371 1.04322 2.93612Z" fill="#50FFFF"/>
+                                    </Svg>
+                                    <Text style = {[styles.userfont, {color: '#53FAFB', fontSize: vw(2.8), marginLeft: 0, padding: vw(1)}]}>{item.percent}%</Text>
+                                </View>
+                                <View style = {{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                                    <Svg width={vw(3.9)} height={vw(2.8)} viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <Path d="M10.2842 2.43087H0.647217L3.0853 0H12.7222L10.2842 2.43087ZM10.2842 10H0.647217L3.0853 7.57033H12.7222M3.0853 6.21544H12.7222L10.2842 3.78456H0.647217" fill="#50FFFF"/>
+                                    </Svg>
+                                    <Text style = {[styles.userfont, {color: 'white', fontSize: vw(3.9), marginLeft: vw(2)}]}>{item.sol} SOL</Text>
+                                </View>
+                            </View>
+                        )
+                        }
+                        {/* <FlatList
                             data={rankingArray}
                             horizontal = {false}
                             showsHorizontalScrollIndicator={false}
@@ -322,7 +357,7 @@ const Ranking = ({ navigation }) => {
                                     </View>
                                 </View>
                             }
-                        />
+                        /> */}
                         <View style = {{height: vw(20)}}/>
                     </ScrollView>
                 </View>
@@ -347,11 +382,7 @@ const Ranking = ({ navigation }) => {
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style = {styles.footerIcon}
-                            onPress = {() => {
-                                setSelected('Community');
-                                // navigation.navigate('GroupAccount');
-                                // setShowBlur(false)
-                            }}
+                            onPress = {navigateMyCommunity}
                         >
                             <Svg width={vw(5.6)} height={vw(5.6)} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <Path d="M15 13.1974C16.2132 13.8069 17.2534 14.785 18.0127 16.008C18.163 16.2502 18.2382 16.3713 18.2642 16.539C18.317 16.8798 18.084 17.2988 17.7666 17.4336C17.6104 17.5 17.4347 17.5 17.0833 17.5M13.3333 9.6102C14.5681 8.99657 15.4167 7.72238 15.4167 6.25C15.4167 4.77762 14.5681 3.50343 13.3333 2.8898M11.6667 6.25C11.6667 8.32107 9.98772 10 7.91665 10C5.84559 10 4.16665 8.32107 4.16665 6.25C4.16665 4.17893 5.84559 2.5 7.91665 2.5C9.98772 2.5 11.6667 4.17893 11.6667 6.25ZM2.13268 15.782C3.46127 13.7871 5.5578 12.5 7.91665 12.5C10.2755 12.5 12.372 13.7871 13.7006 15.782C13.9917 16.219 14.1372 16.4375 14.1205 16.7166C14.1074 16.9339 13.9649 17.2 13.7913 17.3313C13.5683 17.5 13.2615 17.5 12.648 17.5H3.18528C2.5718 17.5 2.26505 17.5 2.04202 17.3313C1.86836 17.2 1.72589 16.9339 1.71285 16.7166C1.69609 16.4375 1.84162 16.219 2.13268 15.782Z" stroke={selected == 'Community'? '#53FAFB' : "#9D9D9D"} stroke-linecap="round" stroke-linejoin="round"/>

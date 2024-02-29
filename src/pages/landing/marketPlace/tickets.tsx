@@ -243,9 +243,9 @@ const Tickets = ({ navigation }) => {
                         <View style = {styles.notification}>
                             <TouchableOpacity 
                                 style = {{width: vw(9.4), aspectRatio: 1/1, borderRadius: vw(5), backgroundColor: "#212121", justifyContent: 'center', alignItems: 'center'}}
-                                onPress = { () => {navigation.navigate('CommunitySearch'); 
-                                setShowBlur(false)
-                            } }
+                            //     onPress = { () => {navigation.navigate('CommunitySearch'); 
+                            //     setShowBlur(false)
+                            // } }
                             >
                                 <Svg width={vw(9.4)} height={vw(9.4)} viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <Path d="M23.375 23.375L20.8959 20.8958M22.6667 16.6458C22.6667 19.971 19.971 22.6667 16.6458 22.6667C13.3206 22.6667 10.625 19.971 10.625 16.6458C10.625 13.3206 13.3206 10.625 16.6458 10.625C19.971 10.625 22.6667 13.3206 22.6667 16.6458Z" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -253,12 +253,12 @@ const Tickets = ({ navigation }) => {
                             </TouchableOpacity>
                             <TouchableOpacity 
                                 style = {{width: vw(9.4), aspectRatio: 1/1, borderRadius: vw(5), backgroundColor: "#53FAFB", justifyContent: 'center', alignItems: 'center'}}
-                                // onPress = { () => {navigation.navigate('Notifications'); 
+                                onPress = { () => {navigation.navigate('CreateTickets'); 
                                 // setShowBlur(false)
-                            // } }
+                            } }
                             >
-                                <Svg width={vw(4.44)} height={vw(3.3)} viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <Path d="M0.928589 2.85714L10.3572 2.85714M10.3572 2.85714C10.3572 4.15896 11.4125 5.21429 12.7143 5.21429C14.0161 5.21429 15.0714 4.15896 15.0714 2.85714C15.0714 1.55533 14.0161 0.5 12.7143 0.5C11.4125 0.5 10.3572 1.55533 10.3572 2.85714ZM5.64287 9.14286L15.0714 9.14286M5.64287 9.14286C5.64287 10.4447 4.58755 11.5 3.28573 11.5C1.98392 11.5 0.928589 10.4447 0.928589 9.14286C0.928589 7.84104 1.98392 6.78571 3.28573 6.78571C4.58755 6.78571 5.64287 7.84104 5.64287 9.14286Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                <Svg width={vw(4.44)} height={vw(4.44)} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <Path d="M8 15.5V0.5M0.5 8H15.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
                                 </Svg>
                             </TouchableOpacity>
                         </View>

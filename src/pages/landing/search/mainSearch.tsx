@@ -410,7 +410,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: vw(5),
         overflow: 'hidden',
-        backgroundColor: '#36363690'
+        position: 'absolute'
     },
     footerIcon: {
         flexDirection: 'column',

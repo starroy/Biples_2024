@@ -528,7 +528,7 @@ const GroupChat = ({ navigation }) => {
         }).start();        
     }
     const handleCall = () => {
-        navigation.navigate('Calling')
+        navigation.navigate('GroupCall')
     }
     return(
         <SafeAreaView>
@@ -537,7 +537,7 @@ const GroupChat = ({ navigation }) => {
                 <View>
                     <View style = {styles.chatBackStyle}>
                         <View style = {styles.topBar}/>
-                        <TouchableOpacity style = {[styles.dataItem, {marginLeft: vw(5), marginTop: vw(8.05), marginBottom: vw(5.8)}]}
+                        <View style = {[styles.dataItem, {marginLeft: vw(5), marginTop: vw(8.05), marginBottom: vw(5.8)}]}
                             onPress = {handleChatHidden}
                         >
                             <View style = {styles.datas}>
@@ -583,7 +583,7 @@ const GroupChat = ({ navigation }) => {
                                     <Path d="M1.86694 1C1.48725 1 1.17944 1.3078 1.17944 1.6875C1.17944 2.0672 1.48725 2.375 1.86694 2.375C2.24664 2.375 2.55444 2.0672 2.55444 1.6875C2.55444 1.3078 2.24664 1 1.86694 1Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
                                 </Svg>
                             </View>
-                        </TouchableOpacity>
+                        </View>
                         <ScrollView style =  {{width: vw(90), marginLeft: vw(5), marginBottom: vw(65)}}
                             showsVerticalScrollIndicator={false}
                         >

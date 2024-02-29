@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { vh, vw } from 'react-native-css-vh-vw';
 import Svg, { Path } from 'react-native-svg';
+// import { TouchableOpacity } from 'react-native';
 
 
 const Level1 = ({ navigation }) => {
@@ -27,11 +28,13 @@ const Level1 = ({ navigation }) => {
                     <ImageBackground source = {require('../../../assets/images/level1.png')}
                         style = {styles.imgback}
                     >
-                        <View style = {styles.cross}>
+                        <TouchableOpacity style = {styles.cross}
+                            onPress = {() => navigation.goBack()}
+                        >
                             <Svg width={vw(3.9)} height={vw(3.9)} viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <Path d="M13 1L1 13M1 1L13 13" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                             </Svg>
-                        </View>
+                        </TouchableOpacity>
                         <Text style = {styles.text}>
                             Congratulations!{'\n'}
                             You've got an egg into next level

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createRef } from "react";
+import React, { useState, useEffect, createRef, useRef } from "react";
 import {
     ImageBackground, 
     View, 
@@ -14,6 +14,7 @@ import {
     InteractionManager,
     findNodeHandle,
     BackHandler,
+    PanResponder,
     Dimensions,
     TextInput,
     Animated
@@ -22,7 +23,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { BlurView } from '@react-native-community/blur';
 import { vh, vw } from 'react-native-css-vh-vw';
 import Svg, { Path, Circle, ClipPath, G, Defs, Rect } from 'react-native-svg';
-// import { TouchableOpacity } from 'react-native';r
+// import { TouchableOpacity, View } from 'react-native';r
 
 const ChatMore = ({ navigation }) => {
     const backgroundImageRef = createRef();
@@ -261,6 +262,7 @@ const ChatMore = ({ navigation }) => {
         onlineState: 'online',
         time: 'Active Now'
     });
+    const [isVoice, setIsVoice] = useState(false);
     const [screenY, setScreenY] = useState(new Animated.Value(0));
     const [msgData, setMsgData] = useState(chatModalData);
     const [isCalled, setIsCalled] = useState (callingData);
@@ -282,7 +284,7 @@ const ChatMore = ({ navigation }) => {
     
           setTimeout(() => {
             navigation.goBack();
-            setSelected('Home');
+            setSelected('Chat');
           }, 300); // Delay the back action by one second
     
           return true; // Prevent default behavior (i.e. exit the app)
@@ -295,28 +297,28 @@ const ChatMore = ({ navigation }) => {
     const onchangeText = (text) => {
         setText(text);
     }
-    // useFocusEffect(
-    //     React.useCallback(() => {
-    //     let timerId;
-    //     setSelected('Home');
+    useFocusEffect(
+        React.useCallback(() => {
+        let timerId;
+        setSelected('Chat');
             
-    //     if (!showBlur) {
-    //         timerId = setTimeout(() => {
-    //         setShowBlur(true);
-    //         }, 500); // Adjust the delay as needed
-    //     }
-    //     //   console.log(showBlur)
-    //     return () => {
-    //         clearTimeout(timerId);
-    //     };
-    //     }, [showBlur])
-    // );
+        if (!showBlur) {
+            timerId = setTimeout(() => {
+            setShowBlur(true);
+            }, 500); // Adjust the delay as needed
+        }
+        //   console.log(showBlur)
+        return () => {
+            clearTimeout(timerId);
+        };
+        }, [showBlur])
+    );
     const renderBlurView = () => {
         return (
                 <BlurView
                     viewRef={viewRef}
                     style={styles.blurViewStyle}
-                    blurRadius={3}
+                    blurRadius={1}
                     blurType={blurType}
                     // blurRadius={10}
                     downsampleFactor={10}
@@ -394,11 +396,48 @@ const ChatMore = ({ navigation }) => {
     const handleChatView = () => {
         setAllView(1)
         Animated.timing(screenY, {
-            toValue: -1.07*screenHegiht,
+            toValue: -1.35*screenHegiht,
             duration: 50,
             useNativeDriver: true,
         }).start();
     }
+    
+    const navigateAndAnimateCommunity = () => {
+        // setShowBlurs(true);
+            setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+        navigation.navigate('MainCommunity');
+          }, 30); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
+    }
+    
+    const panResponder = useRef(
+        PanResponder.create({
+            onMoveShouldSetPanResponder: (evt, gestureState) => {
+                // console.log('onMoveShouldSetPanResponder', evt, gestureState);
+                return Math.abs(gestureState.dy) > 5;
+            },
+            onPanResponderRelease: (evt, gestureState) => {
+                let num =0
+                // console.log('onPanResponderRelease', evt, gestureState);
+                if (gestureState.dy > 0){
+                    console.log('down');
+                    setAllView(0);
+                    Animated.timing(screenY, {
+                    toValue: 0 * screenHegiht,
+                    duration: 50,
+                    useNativeDriver: true,
+                    }).start();   
+                }
+                else {
+                    console.log('up');
+            }
+        }
+        })
+    ).current;
     const handleChatHidden = () => {
         setAllView(0);
         Animated.timing(screenY, {
@@ -407,8 +446,10 @@ const ChatMore = ({ navigation }) => {
         useNativeDriver: true,
         }).start();        
     }
+    const hgt = vh(105);
     const handleCall = () => {
         navigation.navigate('Calling')
+        setShowBlur(false);
     }
     return(
         <SafeAreaView>
@@ -567,7 +608,7 @@ const ChatMore = ({ navigation }) => {
                     </View>
                     <ScrollView 
                         showsVerticalScrollIndicator={false}
-                        style = {{paddingBottom: vw(60)}}
+                        style = {{marginBottom: vw(70)}}
                     >
                         <View style = {[styles.archievedBtn]}>
                             <View style = {{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
@@ -904,7 +945,6 @@ const ChatMore = ({ navigation }) => {
                                 )
                             }
                         </View>
-                        <View style = {{height: vw(40)}}/>
                     </ScrollView>
                 </View>
                 <View style = {[styles.footer, {position: 'absolute', overflow: 'hidden'}]}>
@@ -925,11 +965,7 @@ const ChatMore = ({ navigation }) => {
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style = {styles.footerIcon}
-                        onPress = {() => {
-                            setSelected('Community');
-                            // navigation.navigate('GroupAccount');
-                            // setShowBlur(false);
-                        }}
+                        onPress = {navigateAndAnimateCommunity}
                     >
                         <Svg width={vw(5.6)} height={vw(5.6)} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <Path d="M15 13.1974C16.2132 13.8069 17.2534 14.785 18.0127 16.008C18.163 16.2502 18.2382 16.3713 18.2642 16.539C18.317 16.8798 18.084 17.2988 17.7666 17.4336C17.6104 17.5 17.4347 17.5 17.0833 17.5M13.3333 9.6102C14.5681 8.99657 15.4167 7.72238 15.4167 6.25C15.4167 4.77762 14.5681 3.50343 13.3333 2.8898M11.6667 6.25C11.6667 8.32107 9.98772 10 7.91665 10C5.84559 10 4.16665 8.32107 4.16665 6.25C4.16665 4.17893 5.84559 2.5 7.91665 2.5C9.98772 2.5 11.6667 4.17893 11.6667 6.25ZM2.13268 15.782C3.46127 13.7871 5.5578 12.5 7.91665 12.5C10.2755 12.5 12.372 13.7871 13.7006 15.782C13.9917 16.219 14.1372 16.4375 14.1205 16.7166C14.1074 16.9339 13.9649 17.2 13.7913 17.3313C13.5683 17.5 13.2615 17.5 12.648 17.5H3.18528C2.5718 17.5 2.26505 17.5 2.04202 17.3313C1.86836 17.2 1.72589 16.9339 1.71285 16.7166C1.69609 16.4375 1.84162 16.219 2.13268 15.782Z" stroke={selected == 'Community'? '#53FAFB' : "#9D9D9D"} stroke-linecap="round" stroke-linejoin="round"/>
@@ -953,14 +989,16 @@ const ChatMore = ({ navigation }) => {
 
                     </TouchableOpacity>
                 </View>
-                <Animated.View style = {{transform: [{ translateY: screenY }], position: 'relative'}}>
+                <Animated.View 
+                    {...panResponder.panHandlers}
+                    style = {{transform: [{ translateY: screenY }],}}
+                >
                     <View style = {styles.chatBackStyle}>
                         <ImageBackground source = {require('../../../../assets/images/chatBackground.png')}
-                            
                         >
                             <View style = {styles.topBar}/>
-                            <TouchableOpacity style = {[styles.dataItem, {marginLeft: vw(5), marginTop: vw(8.05), marginBottom: vw(5.8)}]}
-                                onPress = {handleChatHidden}
+                            <View style = {[styles.dataItem, {marginLeft: vw(5), marginTop: vw(8.05), marginBottom: vw(5.8)}]}
+                                // onPress = {handleChatHidden}
                             >
                                 <View style = {styles.datas}>
                                     <View style = {[styles.avatars, {width: vw(11.1), height: vw(11.1), backgroundColor: 'transparent'}]}>
@@ -1023,102 +1061,20 @@ const ChatMore = ({ navigation }) => {
                                         <Path d="M1.86694 1C1.48725 1 1.17944 1.3078 1.17944 1.6875C1.17944 2.0672 1.48725 2.375 1.86694 2.375C2.24664 2.375 2.55444 2.0672 2.55444 1.6875C2.55444 1.3078 2.24664 1 1.86694 1Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
                                     </Svg>
                                 </View>
-                            </TouchableOpacity>
-                            
-                            {/* <FlatList
-                                style = {{width: vw(90), marginLeft: vw(5)}}
-                                data={msgData}
-                                horizontal ={false}
-                                showsVerticalScrollIndicator={false}
-                                renderItem={({ item, index }) =>
-                                    item.date ?
-                                    <Text key = {index} style = {[styles.name, {width: vw(90), marginTop: vw(3.1), textAlign: 'center', marginBottom: vw(3.9)}]}>
-                                        {item.date}
-                                    </Text>
-                                    :
-                                    <View key = {index} style = {{ marginTop: vw(3.3), flexDirection: 'row', justifyContent: item.isMyMsg ? 'flex-end' : 'flex-stat'}}>
-                                        {item.avatar && <Image source = {item.avatar} style = {{width: vw(9.7), height: vw(9.7), marginRight: vw(3), border: vw(5)}}/>}
-                                        <View style = {{flexDirection: 'column', alignItems: item.isMyMsg ? 'flex-end' : 'flex-stat'}}>
-                                            <View style = {{ maxWidth: item.msgImg? vw(75) : vw(58.3), flexDirection: 'row', borderRadius: vw(5), padding: item.msgImg ? 0 : vw(2.5), paddingLeft: item.msgImg ? 0 : item.msgImg ? 0 : vw(5), paddingRight: vw(5), backgroundColor: item.isMyMsg ? '#181818' : '#53FAFB', justifyContent: 'space-between'}}>
-                                                {
-                                                    item.msgImg && 
-                                                        <View style = {{height: vw(36.11), flexDirection: 'row', justifyContent: 'space-between'}}>
-                                                            {item.msgImg.map((items, indexs) => 
-                                                                <ImageBackground key = {indexs} style = {{height: vw(36.11), borderRadius: vw(5), width: item.time ? vw(52.2) :vw(36.1), marginRight: item.time? 0 : vw(3), marginLeft: item.time? vw(5) : 0, }}
-                                                                    source = {items.url}
-                                                                >
-                                                                {
-                                                                    items.selected && <Text style = {[styles.text, {color: item.isMyMsg? 'white': 'black',}]}>
-                                                                        {items. urlData}
-                                                                    </Text>
-                                                                }
-                                                                </ImageBackground>
-                                                            )}
-                                                        </View>
-                                                }
-                                                {
-                                                    item.message && <Text style = {[styles.text, {color: item.isMyMsg? 'white': 'black',}]}>
-                                                        {item.message}
-                                                    </Text>
-                                                }
-                                                {
-                                                    item.msgSpeech && (
-                                                        <>
-                                                        {
-                                                            item.msgSpeech?.state ? 
-                                                            <Svg width={vw(5.8)} height={vw(5.8)} viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                <Path d="M10.5 20.5C16.0228 20.5 20.5 16.0228 20.5 10.5C20.5 4.97715 16.0228 0.5 10.5 0.5C4.97715 0.5 0.5 4.97715 0.5 10.5C0.5 16.0228 4.97715 20.5 10.5 20.5Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-                                                                <Path d="M8 7.46533C8 6.98805 8 6.74941 8.09974 6.61618C8.18666 6.50007 8.31971 6.42744 8.46438 6.4171C8.63038 6.40525 8.83112 6.53429 9.23261 6.79239L13.9532 9.82706C14.3016 10.051 14.4758 10.163 14.5359 10.3054C14.5885 10.4298 14.5885 10.5702 14.5359 10.6946C14.4758 10.837 14.3016 10.949 13.9532 11.1729L9.23261 14.2076C8.83112 14.4657 8.63038 14.5948 8.46438 14.5829C8.31971 14.5726 8.18666 14.4999 8.09974 14.3838C8 14.2506 8 14.012 8 13.5347V7.46533Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-                                                            </Svg>
-                                                            :
-                                                            <Svg width={vw(6.94)} height={vw(6.94)} viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                <Path d="M10 15.5V9.5M15 15.5V9.5M22.5 12.5C22.5 18.0228 18.0228 22.5 12.5 22.5C6.97715 22.5 2.5 18.0228 2.5 12.5C2.5 6.97715 6.97715 2.5 12.5 2.5C18.0228 2.5 22.5 6.97715 22.5 12.5Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-                                                            </Svg>
-                                                        }
-                                                        <Svg width={vw(22.5)} height={vw(4.7)} viewBox="0 0 81 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <Rect opacity="0.66" x="0.5" y="4.5" width="2" height="8" rx="1" fill="black"/>
-                                                            <Rect opacity="0.66" x="6.5" y="1.5" width="2" height="14" rx="1" fill="black"/>
-                                                            <Rect opacity="0.66" x="12.5" y="6.5" width="2" height="4" rx="1" fill="black"/>
-                                                            <Rect opacity="0.66" x="18.5" y="0.5" width="2" height="16" rx="1" fill="black"/>
-                                                            <Rect opacity="0.66" x="24.5" y="1.5" width="2" height="14" rx="1" fill="black"/>
-                                                            <Rect opacity="0.66" x="30.5" y="3.5" width="2" height="10" rx="1" fill="black"/>
-                                                            <Rect opacity="0.66" x="36.5" y="3.5" width="2" height="10" rx="1" fill="#00C1C3"/>
-                                                            <Rect opacity="0.66" x="42.5" y="3.5" width="2" height="10" rx="1" fill="#00C1C3"/>
-                                                            <Rect opacity="0.66" x="48.5" y="1.5" width="2" height="14" rx="1" fill="#00C1C3"/>
-                                                            <Rect opacity="0.66" x="54.5" y="3.5" width="2" height="10" rx="1" fill="#00C1C3"/>
-                                                            <Rect opacity="0.66" x="60.5" y="0.5" width="2" height="16" rx="1" fill="#00C1C3"/>
-                                                            <Rect opacity="0.66" x="66.5" y="3.5" width="2" height="10" rx="1" fill="#00C1C3"/>
-                                                            <Rect opacity="0.66" x="72.5" y="6.5" width="2" height="4" rx="1" fill="#00C1C3"/>
-                                                            <Rect opacity="0.66" x="78.5" y="7.5" width="2" height="2" rx="1" fill="#00C1C3"/>
-                                                        </Svg>
-                                                        <Text style = {[styles.text, {color: item.isMyMsg? 'white': 'black',}]}>
-                                                            {item.msgSpeech?.times}
-                                                        </Text>
-                                                        </>
-                                                    )
-                                                }
-                                            </View>
-                                        {item.time && <Text style = {[styles.text, {color: '#797C7B', marginTop: vw(2)}]}>{item.time}</Text>}
-
-                                        </View>
-                                        {item.msgSpeech?.speeds && <View style = {{width: vw(9.4), height: vw(9.4), justifyContent: 'center', alignItems: 'center'}}>
-                                            <Text style = {styles.text}>{item.msgSpeech?.speeds}</Text>
-                                        </View>}
-                                    </View>
-                                }
-                            /> */}
-                            <Animated.ScrollView style =  {{width: vw(90), marginLeft: vw(5),}}
+                            </View>
+                            <ScrollView style =  {{width: vw(90), marginLeft: vw(5), marginBottom: vw(128)}}
                                 showsVerticalScrollIndicator={false}
                             >
                                 {
                                     msgData.map((item, index)  => 
-                                        item.date ?
+                                        <View key={index}>
+                                            {item.date ?
                                             <Text key = {index} style = {[styles.name, {width: vw(90), marginTop: vw(3.1), textAlign: 'center', marginBottom: vw(3.9)}]}>
                                                 {item.date}
                                             </Text>
                                             :
                                             <View key = {index} style = {{ marginTop: vw(3.3), flexDirection: 'row', justifyContent: item.isMyMsg ? 'flex-end' : 'flex-stat'}}>
-                                                {item.avatar && <Image source = {item.avatar} style = {{width: vw(9.7), height: vw(9.7), marginRight: vw(3), border: vw(5)}}/>}
+                                                {item.avatar && <Image source = {item.avatar} style = {{width: vw(9.7), height: vw(9.7), marginRight: vw(3), borderRadius: vw(5)}}/>}
                                                 <View style = {{flexDirection: 'column', alignItems: item.isMyMsg ? 'flex-end' : 'flex-stat'}}>
                                                     <View style = {{ maxWidth: item.msgImg? vw(75) : vw(58.3), flexDirection: 'row', borderRadius: vw(5), padding: item.msgImg ? 0 : vw(2.5), paddingLeft: item.msgImg ? 0 : item.msgImg ? 0 : vw(5), paddingRight: vw(5), backgroundColor: item.isMyMsg ? '#181818' : '#53FAFB', justifyContent: 'space-between'}}>
                                                         {
@@ -1185,74 +1141,124 @@ const ChatMore = ({ navigation }) => {
                                                 {item.msgSpeech?.speeds && <View style = {{width: vw(9.4), height: vw(9.4), justifyContent: 'center', alignItems: 'center'}}>
                                                     <Text style = {styles.text}>{item.msgSpeech?.speeds}</Text>
                                                 </View>}
-                                            </View>
-                                        
+                                            </View>}
+                                        </View>    
                                     )
                                 }
-                            </Animated.ScrollView>
-                            <View style = {styles.footerBar}>
-                                <View style = {{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                    <View style = {{width: vw(9.4), height: vw(9.4), justifyContent: 'center', alignItems: 'center', backgroundColor: '#7C7C7C30',borderRadius: vw(10)}}>
-                                        <Svg width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <Circle cx="15.485" cy="7.02662" r="2.0265" fill="#C4C4C4"/>
-                                        <Circle cx="8.99989" cy="2.97328" r="2.0265" fill="#F1F1F1"/>
-                                        <Circle cx="2.51527" cy="7.02662" r="2.0265" fill="#C4C4C4"/>
-                                        </Svg>
-                                    </View>
-                                    <Text style = {[styles.text,{color: '#979797', marginLeft: vw(2)}]}>Mussa OUEL is typing...</Text>
-                                </View>
+                                
+                                <View style = {{height: vw(20)}}/>
+                            </ScrollView>
+                        </ImageBackground>
+                    </View>
+                    <View style = {styles.foot}>
+                        <View style = {styles.footerBar}>
+                            <View style = {{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                                 <View style = {{width: vw(9.4), height: vw(9.4), justifyContent: 'center', alignItems: 'center', backgroundColor: '#7C7C7C30',borderRadius: vw(10)}}>
-                                    <Svg width={vw(3.3)} height={vw(1.67)} viewBox="0 0 12 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <Path d="M1 0.5L6 5.5L11 0.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <Svg width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <Circle cx="15.485" cy="7.02662" r="2.0265" fill="#C4C4C4"/>
+                                    <Circle cx="8.99989" cy="2.97328" r="2.0265" fill="#F1F1F1"/>
+                                    <Circle cx="2.51527" cy="7.02662" r="2.0265" fill="#C4C4C4"/>
                                     </Svg>
                                 </View>
+                                <Text style = {[styles.text,{color: '#979797', marginLeft: vw(2)}]}>Mussa OUEL is typing...</Text>
                             </View>
-                            <View style = {styles.sendMsgBar}>
-                                <View style = {[styles.inputBar, {borderColor: isFocused ? '#53FAFB' : '#4C4C4C'}]}>
-                                    <View style = {[styles.msgInput]}>
-                                        <TouchableOpacity
-                                            onPress = { () => setPin(!pin) }
-                                        >
-                                            <Svg width={vw(4.44)} height={vw(3.9)} viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <Path d="M14.5826 6.28048L7.77801 12.4481C6.23057 13.8506 3.72168 13.8506 2.17425 12.4481C0.626813 11.0455 0.626813 8.77146 2.17425 7.36888L8.97881 1.20129C10.0104 0.266237 11.683 0.266237 12.7147 1.20129C13.7463 2.13634 13.7463 3.65236 12.7147 4.58742L6.17693 10.5131C5.66112 10.9807 4.82483 10.9807 4.30901 10.5131C3.7932 10.0456 3.7932 9.2876 4.30901 8.82007L10.0462 3.61995" stroke={pin ? "#53FAFB" : "#4C4C4C"} stroke-linecap="round" stroke-linejoin="round"/>
-                                            </Svg>
-                                        </TouchableOpacity>
-                                        <TextInput
-                                            onFocus={() => setIsFocused(true)}
-                                            onBlur={() => setIsFocused(false)}
-                                            style={[styles.input, { color: 'white', fontSize: vw(3.3) }]}
-                                            placeholder='Type your message'
-                                            placeholderTextColor='#3F3F3F'
-                                            value={text}
-                                            onChangeText={onchangeText}
-                                            keyboardAppearance="dark"
-                                        />
-                                    </View>
-                                    <View style = {styles.msgTool}>
-                                        <TouchableOpacity
-                                            // onPress = { () => setPin(!pin) }
-                                        >
-                                            <Svg width={vw(4.44)} height={vw(4.44)} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <Path d="M14.7177 7.99998V8.77776C14.7177 12.2142 11.5677 15 7.68195 15C3.79624 15 0.64624 12.2142 0.64624 8.77776V7.99998M7.68195 11.8889C5.73909 11.8889 4.1641 10.496 4.1641 8.77776V4.1111C4.1641 2.39289 5.73909 1 7.68195 1C9.62481 1 11.1998 2.39289 11.1998 4.1111V8.77776C11.1998 10.496 9.62481 11.8889 7.68195 11.8889Z" stroke="#4C4C4C" stroke-linecap="round" stroke-linejoin="round"/>
-                                            </Svg>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity
-                                            // onPress = { () => setPin(!pin) }
-                                        >
-                                            <Svg width={vw(5.3)} height={vw(4.44)} viewBox="0 0 19 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <Path d="M1.02515 5.69901C1.02515 5.44088 1.02515 5.31181 1.03754 5.2031C1.15711 4.15462 2.11173 3.32518 3.31847 3.2213C3.44359 3.21053 3.60015 3.21053 3.91327 3.21053C4.03393 3.21053 4.09425 3.21053 4.14547 3.20783C4.79952 3.17341 5.37224 2.81475 5.61665 2.28653C5.63579 2.24516 5.65368 2.19853 5.68946 2.10526C5.72524 2.012 5.74313 1.96537 5.76227 1.924C6.00667 1.39578 6.5794 1.03711 7.23344 1.0027C7.28466 1 7.34123 1 7.45438 1H11.557C11.6702 1 11.7268 1 11.778 1.0027C12.432 1.03711 13.0048 1.39578 13.2492 1.924C13.2683 1.96537 13.2862 2.012 13.322 2.10526C13.3577 2.19853 13.3756 2.24516 13.3948 2.28653C13.6392 2.81475 14.2119 3.17341 14.8659 3.20783C14.9172 3.21053 14.9775 3.21053 15.0981 3.21053C15.4113 3.21053 15.5678 3.21053 15.693 3.2213C16.8997 3.32518 17.8543 4.15462 17.9739 5.2031C17.9863 5.31181 17.9863 5.44088 17.9863 5.69901V11.4632C17.9863 12.7012 17.9863 13.3202 17.709 13.793C17.4651 14.209 17.0759 14.5471 16.5971 14.7591C16.0529 15 15.3405 15 13.9156 15H5.09582C3.67095 15 2.95851 15 2.41429 14.7591C1.93557 14.5471 1.54636 14.209 1.30244 13.793C1.02515 13.3202 1.02515 12.7012 1.02515 11.4632V5.69901Z" stroke="#4C4C4C" stroke-linecap="round" stroke-linejoin="round"/>
-                                                <Path d="M9.50571 11.6842C11.3792 11.6842 12.8979 10.3646 12.8979 8.73684C12.8979 7.10906 11.3792 5.78947 9.50571 5.78947C7.63224 5.78947 6.11349 7.10906 6.11349 8.73684C6.11349 10.3646 7.63224 11.6842 9.50571 11.6842Z" stroke="#4C4C4C" stroke-linecap="round" stroke-linejoin="round"/>
-                                            </Svg>
-                                        </TouchableOpacity>
-                                    </View>
-                                    <TouchableOpacity style = {styles.sendBtn}>
+                            <View style = {{width: vw(9.4), height: vw(9.4), justifyContent: 'center', alignItems: 'center', backgroundColor: '#7C7C7C30',borderRadius: vw(10)}}>
+                                <Svg width={vw(3.3)} height={vw(1.67)} viewBox="0 0 12 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <Path d="M1 0.5L6 5.5L11 0.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                                </Svg>
+                            </View>
+                        </View>
+                        <View style = {styles.sendMsgBar}>
+                            { !isVoice ? 
+                            <View style = {[styles.inputBar, {borderColor: isFocused ? '#53FAFB' : '#4C4C4C'}]}>
+                                <View style = {[styles.msgInput]}>
+                                    <TouchableOpacity
+                                        onPress = { () => setPin(!pin) }
+                                    >
+                                        <Svg width={vw(4.44)} height={vw(3.9)} viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <Path d="M14.5826 6.28048L7.77801 12.4481C6.23057 13.8506 3.72168 13.8506 2.17425 12.4481C0.626813 11.0455 0.626813 8.77146 2.17425 7.36888L8.97881 1.20129C10.0104 0.266237 11.683 0.266237 12.7147 1.20129C13.7463 2.13634 13.7463 3.65236 12.7147 4.58742L6.17693 10.5131C5.66112 10.9807 4.82483 10.9807 4.30901 10.5131C3.7932 10.0456 3.7932 9.2876 4.30901 8.82007L10.0462 3.61995" stroke={pin ? "#53FAFB" : "#4C4C4C"} stroke-linecap="round" stroke-linejoin="round"/>
+                                        </Svg>
+                                    </TouchableOpacity>
+                                    <TextInput
+                                        onFocus={() => setIsFocused(true)}
+                                        onBlur={() => setIsFocused(false)}
+                                        style={[styles.input, { color: 'white', fontSize: vw(3.3) }]}
+                                        placeholder='Type your message'
+                                        placeholderTextColor='#3F3F3F'
+                                        value={text}
+                                        onChangeText={onchangeText}
+                                        keyboardAppearance="dark"
+                                    />
+                                </View>
+                                <View style = {styles.msgTool}>
+                                    <TouchableOpacity
+                                        onPress = { () => setIsVoice(!isVoice) }
+                                    >
                                         <Svg width={vw(4.44)} height={vw(4.44)} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <Path d="M6.90359 9.0962L14.6112 1.3886M6.99724 9.33702L8.92642 14.2978C9.09637 14.7348 9.18135 14.9533 9.30379 15.0171C9.40993 15.0724 9.53638 15.0725 9.64259 15.0173C9.7651 14.9536 9.85034 14.7352 10.0208 14.2984L14.8585 1.90186C15.0124 1.50753 15.0893 1.31037 15.0472 1.18439C15.0107 1.07498 14.9248 0.989118 14.8154 0.952568C14.6894 0.91048 14.4923 0.987421 14.0979 1.1413L1.70137 5.97898C1.26455 6.14945 1.04614 6.23468 0.982492 6.3572C0.927315 6.46341 0.927389 6.58985 0.982692 6.69599C1.04649 6.81844 1.26499 6.90341 1.70201 7.07336L6.66277 9.00255C6.75148 9.03704 6.79583 9.05429 6.83318 9.08094C6.86629 9.10455 6.89524 9.1335 6.91885 9.1666C6.94549 9.20395 6.96274 9.24831 6.99724 9.33702Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <Path d="M14.7177 7.99998V8.77776C14.7177 12.2142 11.5677 15 7.68195 15C3.79624 15 0.64624 12.2142 0.64624 8.77776V7.99998M7.68195 11.8889C5.73909 11.8889 4.1641 10.496 4.1641 8.77776V4.1111C4.1641 2.39289 5.73909 1 7.68195 1C9.62481 1 11.1998 2.39289 11.1998 4.1111V8.77776C11.1998 10.496 9.62481 11.8889 7.68195 11.8889Z" stroke="#4C4C4C" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </Svg>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        // onPress = { () => setPin(!pin) }
+                                    >
+                                        <Svg width={vw(5.3)} height={vw(4.44)} viewBox="0 0 19 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <Path d="M1.02515 5.69901C1.02515 5.44088 1.02515 5.31181 1.03754 5.2031C1.15711 4.15462 2.11173 3.32518 3.31847 3.2213C3.44359 3.21053 3.60015 3.21053 3.91327 3.21053C4.03393 3.21053 4.09425 3.21053 4.14547 3.20783C4.79952 3.17341 5.37224 2.81475 5.61665 2.28653C5.63579 2.24516 5.65368 2.19853 5.68946 2.10526C5.72524 2.012 5.74313 1.96537 5.76227 1.924C6.00667 1.39578 6.5794 1.03711 7.23344 1.0027C7.28466 1 7.34123 1 7.45438 1H11.557C11.6702 1 11.7268 1 11.778 1.0027C12.432 1.03711 13.0048 1.39578 13.2492 1.924C13.2683 1.96537 13.2862 2.012 13.322 2.10526C13.3577 2.19853 13.3756 2.24516 13.3948 2.28653C13.6392 2.81475 14.2119 3.17341 14.8659 3.20783C14.9172 3.21053 14.9775 3.21053 15.0981 3.21053C15.4113 3.21053 15.5678 3.21053 15.693 3.2213C16.8997 3.32518 17.8543 4.15462 17.9739 5.2031C17.9863 5.31181 17.9863 5.44088 17.9863 5.69901V11.4632C17.9863 12.7012 17.9863 13.3202 17.709 13.793C17.4651 14.209 17.0759 14.5471 16.5971 14.7591C16.0529 15 15.3405 15 13.9156 15H5.09582C3.67095 15 2.95851 15 2.41429 14.7591C1.93557 14.5471 1.54636 14.209 1.30244 13.793C1.02515 13.3202 1.02515 12.7012 1.02515 11.4632V5.69901Z" stroke="#4C4C4C" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <Path d="M9.50571 11.6842C11.3792 11.6842 12.8979 10.3646 12.8979 8.73684C12.8979 7.10906 11.3792 5.78947 9.50571 5.78947C7.63224 5.78947 6.11349 7.10906 6.11349 8.73684C6.11349 10.3646 7.63224 11.6842 9.50571 11.6842Z" stroke="#4C4C4C" stroke-linecap="round" stroke-linejoin="round"/>
                                         </Svg>
                                     </TouchableOpacity>
                                 </View>
+                                <TouchableOpacity style = {styles.sendBtn}>
+                                    <Svg width={vw(4.44)} height={vw(4.44)} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <Path d="M6.90359 9.0962L14.6112 1.3886M6.99724 9.33702L8.92642 14.2978C9.09637 14.7348 9.18135 14.9533 9.30379 15.0171C9.40993 15.0724 9.53638 15.0725 9.64259 15.0173C9.7651 14.9536 9.85034 14.7352 10.0208 14.2984L14.8585 1.90186C15.0124 1.50753 15.0893 1.31037 15.0472 1.18439C15.0107 1.07498 14.9248 0.989118 14.8154 0.952568C14.6894 0.91048 14.4923 0.987421 14.0979 1.1413L1.70137 5.97898C1.26455 6.14945 1.04614 6.23468 0.982492 6.3572C0.927315 6.46341 0.927389 6.58985 0.982692 6.69599C1.04649 6.81844 1.26499 6.90341 1.70201 7.07336L6.66277 9.00255C6.75148 9.03704 6.79583 9.05429 6.83318 9.08094C6.86629 9.10455 6.89524 9.1335 6.91885 9.1666C6.94549 9.20395 6.96274 9.24831 6.99724 9.33702Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </Svg>
+                                </TouchableOpacity>
                             </View>
-                        </ImageBackground>
+                            :
+                            <View style = {[styles.inputBar, {borderColor: isFocused ? '#53FAFB' : '#4C4C4C'}]}>
+                                <TouchableOpacity
+                                    onPress = { () => setPin(!pin) }
+                                >
+                                    <Svg width={vw(4.44)} height={vw(3.9)} viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <Path d="M14.5826 6.28048L7.77801 12.4481C6.23057 13.8506 3.72168 13.8506 2.17425 12.4481C0.626813 11.0455 0.626813 8.77146 2.17425 7.36888L8.97881 1.20129C10.0104 0.266237 11.683 0.266237 12.7147 1.20129C13.7463 2.13634 13.7463 3.65236 12.7147 4.58742L6.17693 10.5131C5.66112 10.9807 4.82483 10.9807 4.30901 10.5131C3.7932 10.0456 3.7932 9.2876 4.30901 8.82007L10.0462 3.61995" stroke={pin ? "#53FAFB" : "#4C4C4C"} stroke-linecap="round" stroke-linejoin="round"/>
+                                    </Svg>
+                                </TouchableOpacity>
+                                <View style = {[styles.msgInput]}>
+                                    <TextInput
+                                        onFocus={() => setIsFocused(true)}
+                                        onBlur={() => setIsFocused(false)}
+                                        style={[styles.input, { color: 'white', fontSize: vw(3.3) }]}
+                                        placeholder='Type your message'
+                                        placeholderTextColor='#3F3F3F'
+                                        value={text}
+                                        onChangeText={onchangeText}
+                                        keyboardAppearance="dark"
+                                    />
+                                </View>
+                                <View style = {styles.msgTool}>
+                                    <TouchableOpacity
+                                        // onPress = { () => setPin(!pin) }
+                                    >
+                                        <Svg width={vw(4.44)} height={vw(4.44)} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <Path d="M14.7177 7.99998V8.77776C14.7177 12.2142 11.5677 15 7.68195 15C3.79624 15 0.64624 12.2142 0.64624 8.77776V7.99998M7.68195 11.8889C5.73909 11.8889 4.1641 10.496 4.1641 8.77776V4.1111C4.1641 2.39289 5.73909 1 7.68195 1C9.62481 1 11.1998 2.39289 11.1998 4.1111V8.77776C11.1998 10.496 9.62481 11.8889 7.68195 11.8889Z" stroke="#4C4C4C" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </Svg>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        // onPress = { () => setPin(!pin) }
+                                    >
+                                        <Svg width={vw(5.3)} height={vw(4.44)} viewBox="0 0 19 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <Path d="M1.02515 5.69901C1.02515 5.44088 1.02515 5.31181 1.03754 5.2031C1.15711 4.15462 2.11173 3.32518 3.31847 3.2213C3.44359 3.21053 3.60015 3.21053 3.91327 3.21053C4.03393 3.21053 4.09425 3.21053 4.14547 3.20783C4.79952 3.17341 5.37224 2.81475 5.61665 2.28653C5.63579 2.24516 5.65368 2.19853 5.68946 2.10526C5.72524 2.012 5.74313 1.96537 5.76227 1.924C6.00667 1.39578 6.5794 1.03711 7.23344 1.0027C7.28466 1 7.34123 1 7.45438 1H11.557C11.6702 1 11.7268 1 11.778 1.0027C12.432 1.03711 13.0048 1.39578 13.2492 1.924C13.2683 1.96537 13.2862 2.012 13.322 2.10526C13.3577 2.19853 13.3756 2.24516 13.3948 2.28653C13.6392 2.81475 14.2119 3.17341 14.8659 3.20783C14.9172 3.21053 14.9775 3.21053 15.0981 3.21053C15.4113 3.21053 15.5678 3.21053 15.693 3.2213C16.8997 3.32518 17.8543 4.15462 17.9739 5.2031C17.9863 5.31181 17.9863 5.44088 17.9863 5.69901V11.4632C17.9863 12.7012 17.9863 13.3202 17.709 13.793C17.4651 14.209 17.0759 14.5471 16.5971 14.7591C16.0529 15 15.3405 15 13.9156 15H5.09582C3.67095 15 2.95851 15 2.41429 14.7591C1.93557 14.5471 1.54636 14.209 1.30244 13.793C1.02515 13.3202 1.02515 12.7012 1.02515 11.4632V5.69901Z" stroke="#4C4C4C" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <Path d="M9.50571 11.6842C11.3792 11.6842 12.8979 10.3646 12.8979 8.73684C12.8979 7.10906 11.3792 5.78947 9.50571 5.78947C7.63224 5.78947 6.11349 7.10906 6.11349 8.73684C6.11349 10.3646 7.63224 11.6842 9.50571 11.6842Z" stroke="#4C4C4C" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </Svg>
+                                    </TouchableOpacity>
+                                </View>
+                                <TouchableOpacity style = {styles.sendBtn}>
+                                    <Svg width={vw(4.44)} height={vw(4.44)} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <Path d="M6.90359 9.0962L14.6112 1.3886M6.99724 9.33702L8.92642 14.2978C9.09637 14.7348 9.18135 14.9533 9.30379 15.0171C9.40993 15.0724 9.53638 15.0725 9.64259 15.0173C9.7651 14.9536 9.85034 14.7352 10.0208 14.2984L14.8585 1.90186C15.0124 1.50753 15.0893 1.31037 15.0472 1.18439C15.0107 1.07498 14.9248 0.989118 14.8154 0.952568C14.6894 0.91048 14.4923 0.987421 14.0979 1.1413L1.70137 5.97898C1.26455 6.14945 1.04614 6.23468 0.982492 6.3572C0.927315 6.46341 0.927389 6.58985 0.982692 6.69599C1.04649 6.81844 1.26499 6.90341 1.70201 7.07336L6.66277 9.00255C6.75148 9.03704 6.79583 9.05429 6.83318 9.08094C6.86629 9.10455 6.89524 9.1335 6.91885 9.1666C6.94549 9.20395 6.96274 9.24831 6.99724 9.33702Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </Svg>
+                                </TouchableOpacity>
+                            </View>
+                            }
+                        </View>
                     </View>
                 </Animated.View>
             </View>
@@ -1339,6 +1345,8 @@ const styles = StyleSheet.create({
     body: {
         width: vw(100),
         marginTop: vw(60),
+        height: vh(110),
+        // marginBottom: vw(30)
         // flexDirection: 'column',
         // alignItems: 'center'
     },
@@ -1422,7 +1430,8 @@ const styles = StyleSheet.create({
         width: vw(100),
         borderTopRightRadius: vw(5),
         borderTopLeftRadius: vw(5),
-        overflow: 'hidden'
+        overflow: 'hidden',
+        marginBottom: vw(10)
     },
     topBar: {
         width: vw(22.2), 
@@ -1461,8 +1470,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginLeft: vw(5),
-        position: 'absolute',
-        bottom: vw(10),
     },
     button: {
         justifyContent: 'center',
@@ -1500,7 +1507,7 @@ const styles = StyleSheet.create({
         width: vw(90),
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: vw(3)
+        marginTop: vw(3),
     },
     inputBar: {
         width: vw(77.8),
@@ -1534,6 +1541,12 @@ const styles = StyleSheet.create({
         marginLeft: vw(6),
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    foot: {
+        position: 'absolute',
+        bottom: vw(45),
+        width: vw(100),
+        height: vw(30),
     },
 });
 

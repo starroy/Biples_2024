@@ -90,7 +90,7 @@ const Calling = ({ navigation }) => {
     const [allView, setAllView] = useState(0);
     const [screenY, setScreenY] = useState(new Animated.Value(0));
     const [text, setText] = useState(text);
-    const opacityAnimation = useRef(new Animated.Value(1)).current;
+    const opacityAnimation = useRef(new Animated.Value(0)).current;
     const panResponder = useRef(
         PanResponder.create({
             onMoveShouldSetPanResponder: (evt, gestureState) => {
@@ -227,7 +227,9 @@ const Calling = ({ navigation }) => {
                 >
                     <Animated.View style = {[styles.boxes, { opacity: opacityAnimation}]}/>
                     <View style = {styles.header}>
-                        {!callState.addPeople ? <TouchableOpacity style = {styles.backIcon}>
+                        {!callState.addPeople ? <TouchableOpacity style = {styles.backIcon}
+                            onPress = {()=> navigation.goBack()}
+                        >
                                 <Svg width={vw(2)} height={vw(3.3)} viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <Path d="M6 1L1 6L6 11" fill="#181818"/>
                                     <Path d="M6 1L1 6L6 11" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>

@@ -37,21 +37,51 @@ const screenWidth = Dimensions.get('window').width;
 const numColumns = 3;
 
 const imageList = [
-    { id: '1', source: require('../../../assets/images/image1.png') },
-    { id: '2', source: require('../../../assets/images/image2.png') },
-    { id: '3', source: require('../../../assets/images/image3.png') },
-    { id: '4', source: require('../../../assets/images/image1.png') },
-    { id: '5', source: require('../../../assets/images/image2.png') },
-    { id: '6', source: require('../../../assets/images/image3.png') },
-    { id: '7', source: require('../../../assets/images/image1.png') },
-    { id: '8', source: require('../../../assets/images/image2.png') },
-    { id: '9', source: require('../../../assets/images/image3.png') },
-    { id: '10', source: require('../../../assets/images/image1.png') },
-    { id: '11', source: require('../../../assets/images/image2.png') },
-    { id: '12', source: require('../../../assets/images/image3.png') },
-    { id: '13', source: require('../../../assets/images/image1.png') },
-    { id: '14', source: require('../../../assets/images/image2.png') },
-    { id: '15', source: require('../../../assets/images/image3.png') },
+    { id: '1', source: require('../../../assets/images/image1.png'),
+        level: 1
+    },
+    { id: '2', source: require('../../../assets/images/image2.png'),
+        level: 1
+    },
+    { id: '3', source: require('../../../assets/images/image3.png'),
+        level: 1
+    },
+    { id: '4', source: require('../../../assets/images/image1.png'),
+        level: 1
+    },
+    { id: '5', source: require('../../../assets/images/image2.png'),
+        level: 1
+    },
+    { id: '6', source: require('../../../assets/images/image3.png'),
+        level: 1
+    },
+    { id: '7', source: require('../../../assets/images/image1.png'),
+        level: 5
+    },
+    { id: '8', source: require('../../../assets/images/image2.png'),
+        level: 5
+    },
+    { id: '9', source: require('../../../assets/images/image3.png'),
+        level: 5
+    },
+    { id: '10', source: require('../../../assets/images/image1.png'),
+        level: 6
+    },
+    { id: '11', source: require('../../../assets/images/image2.png'),
+        level: 6
+    },
+    { id: '12', source: require('../../../assets/images/image3.png'),
+        level: 6
+    },
+    { id: '13', source: require('../../../assets/images/image1.png'),
+        level: 6
+    },
+    { id: '14', source: require('../../../assets/images/image2.png'),
+        level: 6
+    },
+    { id: '15', source: require('../../../assets/images/image3.png'),
+        level: 6
+    },
     // Add more image items as needed
 ];
 
@@ -90,10 +120,17 @@ const SelectAvatar = ({ navigation }) => {
         return (
             <TouchableOpacity onPress={() => {
                 handleModal();
-                setImage(item.source);
-                console.log(item.source);
-                
-            }}>
+                if (item.level == 1) {
+                    navigation.navigate('Level1');
+                }
+                else if (item.level == 5) {
+                    navigation.navigate('Level5');
+                }
+                else navigation.navigate('Level5Lock');
+                    setImage(item.source);
+                    console.log(item.source);
+                }}
+            >
               <Image source={item.source} style={styles.image} />
             </TouchableOpacity>
         );
@@ -386,7 +423,7 @@ const styles = StyleSheet.create({
       shadowColor: '#000',
       shadowOffset: {
         width: 0,
-        // height: vw(0.7),
+        height: vw(0.7),
       },
       shadowOpacity: 0.25,
       shadowRadius: vw(1.1),

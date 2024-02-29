@@ -414,6 +414,7 @@ const styles = StyleSheet.create({
     },
     chatBackStyle: {
         width: vw(100),
+        marginTop: vw(20),
         borderTopRightRadius: vw(5),
         borderTopLeftRadius: vw(5),
         overflow: 'hidden',

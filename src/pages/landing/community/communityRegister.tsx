@@ -88,7 +88,7 @@ const CommunityRegister = ({ navigation }) => {
                                 onFocus = {() => setIsFocusedName(true)}
                                 onBlur = {() => setIsFocusedName(false)}
                                 style={{ color: 'white', fontSize: name == '' ? vw(3.3) : vw(5) }}
-                                placeholder = 'Name is hesre'
+                                placeholder = 'name is here'
                                 placeholderTextColor='#9D9D9D'
                                 value = {name}
                                 onChangeText = {handleText}
@@ -112,7 +112,7 @@ const CommunityRegister = ({ navigation }) => {
                                 keyboardAppearance = "dark"
                                 keyboardType = 'default'
                             />
-                            <View style = {{ width: vw(90), borderBottomColor: isFocusedName ? '#53FAFB' : '#9D9D9D', height:0, borderBottomWidth: vw(0.6)}}/>
+                            <View style = {{ width: vw(90), borderBottomColor: isFocusedDesp ? '#53FAFB' : '#9D9D9D', height:0, borderBottomWidth: vw(0.6)}}/>
                             <Text style = {styles.subtitle}>
                                 The terms and conditions contained in.
                             </Text>
@@ -120,12 +120,12 @@ const CommunityRegister = ({ navigation }) => {
                     </View>
                     <View style = {{marginTop: vw(30.55), width: vw(100), alignItems: 'center'}}>
                         <TouchableOpacity 
-                            style = {[styles.footerBtn, {backgroundColor: name != '' || description!='' ? '#53FAFB': '#212121', borderRadius:vw(3), width: vw(90), aspectRatio: 320/45}]}
+                            style = {[styles.footerBtn, {backgroundColor: name != '' || description!='' ? '#53FAFB': '#212121', borderRadius:vw(3), width: vw(90), aspectRatio: 320/45, }]}
                             onPress={() => {
                                 navigation.navigate('CommunityImgRegister');
                             }}
                         >
-                            <Text style = {[styles.maintitle, {fontSize: vw(5), color: '#878787'}]}>Next</Text>
+                            <Text style = {[styles.maintitle, {fontSize: vw(5), color : name != '' || description!='' ? 'black': '#878787'}]}>Next</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

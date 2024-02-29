@@ -103,22 +103,22 @@ const NFTs = ({ navigation }) => {
   
       return () => backHandler.remove();
     }, []);
-    // useFocusEffect(
-    //     React.useCallback(() => {
-    //       let timerId;
-    //       setSelected('Community');
+    useFocusEffect(
+        React.useCallback(() => {
+          let timerId;
+          setSelected('Community');
             
-    //       if (!showBlur) {
-    //         timerId = setTimeout(() => {
-    //           setShowBlur(true);
-    //         }, 500); // Adjust the delay as needed
-    //       }
-    //     //   console.log(showBlur)
-    //       return () => {
-    //         clearTimeout(timerId);
-    //       };
-    //     }, [showBlur])
-    //   );
+          if (!showBlur) {
+            timerId = setTimeout(() => {
+              setShowBlur(true);
+            }, 500); // Adjust the delay as needed
+          }
+        //   console.log(showBlur)
+          return () => {
+            clearTimeout(timerId);
+          };
+        }, [showBlur])
+      );
     const renderBlurView = () => {
         return (
             <BlurView
@@ -174,6 +174,24 @@ const NFTs = ({ navigation }) => {
             clearTimeout(timerId);
           };
     }
+    const navigateBack = () => {
+        setShowBlur(false);
+  
+        setTimeout(() => {
+          navigation.goBack();
+          setSelected('Home');
+        }, 300);
+    }
+    const navigateDetails = () => {
+        setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+        navigation.navigate('Details');
+          }, 30); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
+    }
     return (
         <SafeAreaView>
             <StatusBar 
@@ -184,9 +202,7 @@ const NFTs = ({ navigation }) => {
                     <View style = {styles.userInfo}>
                         <TouchableOpacity 
                             style = {{width: vw(9.4), aspectRatio: 1/1, borderRadius: vw(5), backgroundColor: "#212121", justifyContent: 'center', alignItems: 'center'}}
-                            // onPress = { () => {navigation.navigate('CommunitySearch'); 
-                            // setShowBlur(false)
-                        // } }
+                            onPress = {navigateBack}
                         >
                             <Svg width={vw(2)} height={vw(3.3)} viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <Path d="M6 1L1 6L6 11" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
@@ -212,9 +228,58 @@ const NFTs = ({ navigation }) => {
                     </View>
                 </View>
                 <ScrollView style = {styles.body}
-                    showHorizontalScrollIndicator={false}
+                    showVerticalScrollIndicator={false}
                 >
-                        <FlatList
+                    {
+                        nftData.map((item, index) =>
+                            <TouchableOpacity key = {index} style = {styles.cardBack}
+                                onPress={navigateDetails}
+                            >
+                                <ImageBackground source = {item.backImg}
+                                    style = {{width: vw(90), height: vw(96)}}
+                                >
+                                    <View style = {styles.time}>
+                                        <Svg width={vw(5)} height={vw(5.3)} viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <Path d="M8.87406 4.65778V9.49992L12.1022 11.114M16.9443 9.49992C16.9443 13.957 13.3311 17.5702 8.87406 17.5702C4.417 17.5702 0.803833 13.957 0.803833 9.49992C0.803833 5.04285 4.417 1.42969 8.87406 1.42969C13.3311 1.42969 16.9443 5.04285 16.9443 9.49992Z" stroke="white" stroke-width="1.46731" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </Svg>
+                                        <Text style = {styles.text}>
+                                            10h : 29m : 00s
+                                        </Text>
+                                    </View>
+                                    <View style = {styles.cardFooter}>
+                                        <View style = {styles.nftname}>
+                                            <Text style = {[styles.title, {fontSize: vw(6.7)}]}>
+                                                {item.name}
+                                            </Text>
+                                            <Image source = {item.avatar1} style = {{marginLeft: vw(10), width: vw(9.4), height: vw(9.4), borderRadius: vw(5)}}/>
+                                        </View>
+                                        <View style = {styles.nftname}>
+                                            <View style = {styles.memberBtn}>
+                                                <Image source= {item.avatar2} style = {{marginLeft: vw(2), width: vw(7.5), height: vw(7.5), borderRadius: vw(5)}}/>
+                                                <Text style = {[styles.title, {fontSize: vw(2.2), marginLeft: vw(3)}]}>
+                                                    {item.member}
+                                                </Text>
+                                            </View>
+                                            <View style = {{flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center'}}>
+                                                <View style = {{alignItems: 'flex-end', marginRight: vw(3)}}>
+                                                    <Text style = {[styles.title, {fontSize: vw(4), marginLeft: vw(3)}]}>
+                                                        {item.price} SOL
+                                                    </Text>
+                                                    <Text style = {[styles.title, {fontSize: vw(2.8), marginLeft: vw(3)}]}>
+                                                        {item.total} USD
+                                                    </Text> 
+                                                </View>
+                                                <Svg width={vw(5.8)} height={vw(4.7)} viewBox="0 0 21 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <Path d="M16.8553 4.13245H0.472656L4.61737 0H21L16.8553 4.13245ZM16.8553 16.9999H0.472656L4.61737 12.8695H21M4.61737 10.5662H21L16.8553 6.43371H0.472656" fill="#53FAFB"/>
+                                                </Svg>
+                                            </View>
+                                        </View>
+                                    </View>
+                                </ImageBackground>
+                            </TouchableOpacity>
+                        )
+                    }
+                        {/* <FlatList
                             data={nftData}
                             horizontal = {false}
                             showVerticalScrollIndicator={false}
@@ -228,7 +293,7 @@ const NFTs = ({ navigation }) => {
                                                 <Path d="M8.87406 4.65778V9.49992L12.1022 11.114M16.9443 9.49992C16.9443 13.957 13.3311 17.5702 8.87406 17.5702C4.417 17.5702 0.803833 13.957 0.803833 9.49992C0.803833 5.04285 4.417 1.42969 8.87406 1.42969C13.3311 1.42969 16.9443 5.04285 16.9443 9.49992Z" stroke="white" stroke-width="1.46731" stroke-linecap="round" stroke-linejoin="round"/>
                                             </Svg>
                                             <Text style = {styles.text}>
-                                                {item.hour}h : {item.minute}m : {item.second}s
+                                                10h : 29m : 00s
                                             </Text>
                                         </View>
                                         <View style = {styles.cardFooter}>
@@ -236,11 +301,11 @@ const NFTs = ({ navigation }) => {
                                                 <Text style = {[styles.title, {fontSize: vw(6.7)}]}>
                                                     {item.name}
                                                 </Text>
-                                                <Image source = {item.avatar1} style = {{marginLeft: vw(10), width: vw(9.4), height: vw(9.4), bordrRadius: vw(5)}}/>
+                                                <Image source = {item.avatar1} style = {{marginLeft: vw(10), width: vw(9.4), height: vw(9.4), borderRadius: vw(5)}}/>
                                             </View>
                                             <View style = {styles.nftname}>
                                                 <View style = {styles.memberBtn}>
-                                                    <Image source= {item.avatar2} style = {{marginLeft: vw(2), width: vw(7.5), height: vw(7.5), bordrRadius: vw(5)}}/>
+                                                    <Image source= {item.avatar2} style = {{marginLeft: vw(2), width: vw(7.5), height: vw(7.5), borderRadius: vw(5)}}/>
                                                     <Text style = {[styles.title, {fontSize: vw(2.2), marginLeft: vw(3)}]}>
                                                         {item.member}
                                                     </Text>
@@ -263,13 +328,13 @@ const NFTs = ({ navigation }) => {
                                     </ImageBackground>
                                 </View>
                             }
-                        />
-                        {/* <View style = {{width: vw(100), height: vw(28.33), flexDirection: 'row', }}> */}
+                        /> */}
+                        <View style = {{width: vw(90), height: vw(28.33), flexDirection: 'row', justifyContent: 'center', marginBottom: vw(5.8)}}>
                             <View style = {styles.seeMoreBtn}>
-                                <Text style = {[styles.title, {fontSize: vw(2.8), marginLeft: vw(3)}]}>
+                                <Text style = {[styles.title, {fontSize: vw(2.8), marginLeft: vw(3), color: '#787878'}]}>
                                     See More
                                 </Text> 
-                            {/* </View> */}
+                            </View>
                         </View>
                 </ScrollView>
                 <View style = {[styles.footer, {position: 'absolute', overflow: 'hidden'}]}>
@@ -293,11 +358,7 @@ const NFTs = ({ navigation }) => {
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style = {styles.footerIcon}
-                            onPress = {() => {
-                                setSelected('Community');
-                                // navigation.navigate('GroupAccount');
-                                // setShowBlur(false)
-                            }}
+                            onPress = {navigateMyCommunity}
                         >
                             <Svg width={vw(5.6)} height={vw(5.6)} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <Path d="M15 13.1974C16.2132 13.8069 17.2534 14.785 18.0127 16.008C18.163 16.2502 18.2382 16.3713 18.2642 16.539C18.317 16.8798 18.084 17.2988 17.7666 17.4336C17.6104 17.5 17.4347 17.5 17.0833 17.5M13.3333 9.6102C14.5681 8.99657 15.4167 7.72238 15.4167 6.25C15.4167 4.77762 14.5681 3.50343 13.3333 2.8898M11.6667 6.25C11.6667 8.32107 9.98772 10 7.91665 10C5.84559 10 4.16665 8.32107 4.16665 6.25C4.16665 4.17893 5.84559 2.5 7.91665 2.5C9.98772 2.5 11.6667 4.17893 11.6667 6.25ZM2.13268 15.782C3.46127 13.7871 5.5578 12.5 7.91665 12.5C10.2755 12.5 12.372 13.7871 13.7006 15.782C13.9917 16.219 14.1372 16.4375 14.1205 16.7166C14.1074 16.9339 13.9649 17.2 13.7913 17.3313C13.5683 17.5 13.2615 17.5 12.648 17.5H3.18528C2.5718 17.5 2.26505 17.5 2.04202 17.3313C1.86836 17.2 1.72589 16.9339 1.71285 16.7166C1.69609 16.4375 1.84162 16.219 2.13268 15.782Z" stroke={selected == 'Community'? '#53FAFB' : "#9D9D9D"} stroke-linecap="round" stroke-linejoin="round"/>
@@ -391,6 +452,25 @@ const styles = StyleSheet.create({
         fontFamily: 'TT Firs Neue Trial Regular',
         fontSize: vw(4.44),
         color: '#898989',
+    },
+    cardBack: {
+        width: vw(90), 
+        height: vw(96),
+        borderRadius: vw(10),
+        overflow: 'hidden',
+        marginBottom: vw(5.8)
+    },
+    time: {
+        flexDirection: 'row',
+        marginTop: vw(5),
+        marginLeft: vw(5),
+        width: vw(34.2),
+        padding: vw(2),
+        height: vw(9.72),
+        borderRadius: vw(5),
+        backgroundColor: '#270D6320',
+        justifyContent: 'space-around',
+        alignItems: 'center'
     },
     backImg: {
         width: vw(100),
