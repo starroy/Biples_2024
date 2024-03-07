@@ -11,15 +11,18 @@ import {
     PanResponder,
     TouchableOpacity, 
     FlatList,
-    TextInput
+    TextInput,
+    Modal
 } from 'react-native'
 import { vh, vw } from 'react-native-css-vh-vw';
 import Svg, { Path, G, Circle, Rect } from 'react-native-svg';
 import CustomFriendCard from '../../../components/customFriendCard'
 import { ListItem } from 'react-native-elements';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 const MediaView = ({navigation}) => {
-    
+    const statusBarHeight = getStatusBarHeight();
+    const [showModals, setShowModals] = useState(false);
     const [selected, setSelected] = useState('Chat');
     const [sortBtn, setSortBtn] = useState([
         {
@@ -57,12 +60,42 @@ const MediaView = ({navigation}) => {
         <SafeAreaView>
             <StatusBar translucent backgroundColor = 'transparent'/>
             <View style = {styles.container}>
+                <Modal visible={showModals} transparent={true}>
+                    <TouchableOpacity style={styles.modalContainer}
+                        onPress = {() => setShowModals(false)}
+                    >
+                    <StatusBar translucent backgroundColor = '#00000090'/>
+                        <View style = {[styles.modal, {marginTop: (vw(15)-statusBarHeight), width: vw(50)}]}>
+                            <TouchableOpacity style = {[styles.modalItem,{marginLeft: vw(3)}]}
+                                onPress = {() => {navigation.navigate('Members'), setShowModals(!showModals)}}
+                            >
+                                <Text style = {[styles.text, {color:'white', fontSize: vw(3.3), marginLeft: vw(3)}]}>
+                                &nbsp;&nbsp;Members&nbsp;&nbsp;
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style = {[styles.modalItem,{marginLeft: vw(3)}]}
+                                onPress = {() => {navigation.navigate('Overview'), setShowModals(!showModals)}}
+                            >
+                                <Text style = {[styles.text, {color:'white', fontSize: vw(3.3), marginLeft: vw(3)}]}>
+                                &nbsp;&nbsp;Overview&nbsp;&nbsp;
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style = {[styles.modalItem,{marginLeft: vw(3)}]}
+                                onPress = {() => {navigation.navigate('MemberPermission'), setShowModals(!showModals)}}
+                            >
+                                <Text style = {[styles.text, {color:'white', fontSize: vw(3.3), marginLeft: vw(3), textAlign: 'center'}]}>
+                                &nbsp;&nbsp;Community Settings&nbsp;&nbsp;
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </TouchableOpacity>
+                </Modal>
                 <View style = {styles.header}>
                     <View style = {styles.headerBar}>
                         <TouchableOpacity
                             style = {[styles.prevButton, {backgroundColor: 'transparent'}]}
                             onPress = { () => 
-                                navigation.navigate('Documents')
+                                navigation.goBack()
                             }
                         >
                             <Svg width={vw(2)} height={vw(3.3)} viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -76,9 +109,9 @@ const MediaView = ({navigation}) => {
                         </View>
                         <TouchableOpacity
                             style = {[styles.prevButton, {backgroundColor: 'transparent', alignItems: 'flex-end'}]}
-                            // onPress = { () => 
-                            //     navigation.navigate('QRProfile')
-                            // }
+                            onPress = { () => 
+                                setShowModals(!showModals)
+                            }
                         >
                             <Svg width={vw(1.1)} height={vw(4.44)} viewBox="0 0 4 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <Path d="M2.125 7.25008C1.64174 7.25008 1.24999 7.64183 1.24999 8.12508C1.24999 8.60833 1.64174 9.00009 2.125 9.00009C2.60825 9.00009 3 8.60833 3 8.12508C3 7.64183 2.60825 7.25008 2.125 7.25008Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
@@ -103,7 +136,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        backgroundColor: 'black',
+        backgroundColor: '#101010',
         flexDirection: 'column',
     },
     header: {
@@ -114,7 +147,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-end',
         alignItems: 'center',
-        backgroundColor: 'black'
+        // backgroundColor: 'black'
     },
     headerBar: {
         width: vw(90),
@@ -145,7 +178,33 @@ const styles = StyleSheet.create({
     },
     image: {
         width: '100%'
-    }
+    },
+    modalContainer: {
+        backgroundColor: '#00000090',
+        width: vw(100),
+        height: '100%',
+        position: 'absolute',
+        top: 0,
+        padding: vw(5),
+        alignItems: 'flex-end'
+    },
+    modal: {
+        marginTop: vw(40),
+        width: vw(44.44),
+        height: vw(30.56),
+        backgroundColor: '#6C434B',
+        borderRadius: vw(5.6),
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+        alignItmes: 'flex-start',
+        paddingTop: vw(2),
+        paddingBottom: vw(2)
+    },
+    modalItem: {
+        marginLeft: vw(8),
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
 });
 
 export default MediaView;

@@ -209,7 +209,7 @@ const CommunityInfoRegister = ({ navigation }) => {
                             <TouchableOpacity 
                                 style = {[styles.footerBtn, {backgroundColor: '#53FAFB', borderRadius:vw(3), width: vw(90), aspectRatio: 320/45}]}
                                 onPress={() => {
-                                    navigation.navigate('MainCommunity');
+                                    navigation.navigate('CommunityEmpty');
                             }}
                             >
                                 <Text style = {[styles.maintitle, {fontSize: vw(5), color: 'black'}]}>Create</Text>
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
     container: {
         width: vw(101),
         height: '100%',
-        backgroundColor: '#0E0E0E',
+        backgroundColor: '#101010',
         flexDirection: 'column',
     },
     titleBar: {
@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
         paddingLeft: vw(5),
         paddingRight: vw(5),
         borderRadius: vw(5),
-        backgroundColor: '#131313',
+        backgroundColor: '#202020',
     },
     privInfo: {
         flexDirection: 'row',

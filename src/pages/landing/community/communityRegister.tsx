@@ -122,7 +122,8 @@ const CommunityRegister = ({ navigation }) => {
                         <TouchableOpacity 
                             style = {[styles.footerBtn, {backgroundColor: name != '' || description!='' ? '#53FAFB': '#212121', borderRadius:vw(3), width: vw(90), aspectRatio: 320/45, }]}
                             onPress={() => {
-                                navigation.navigate('CommunityImgRegister');
+                                if (name != '' && description!='')
+                                    navigation.navigate('CommunityImgRegister');
                             }}
                         >
                             <Text style = {[styles.maintitle, {fontSize: vw(5), color : name != '' || description!='' ? 'black': '#878787'}]}>Next</Text>
@@ -136,6 +137,7 @@ const CommunityRegister = ({ navigation }) => {
                         By creating your account, you agree in the Biples {'\n'}
                         <Text 
                             style = {{ color: 'white' }}
+                            onPress = {() => navigation.navigate('PrivatePolicy')}
                         >
                             Privacy policy 
                         </Text>

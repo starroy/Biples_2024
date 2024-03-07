@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import {
     View, 
     Text, 
@@ -8,9 +8,19 @@ import {
     ImageBackground 
 } from 'react-native';
 import { vh, vw } from 'react-native-css-vh-vw';
-// import Svg, {Path} from 'react-native-svg';
+import { useFocusEffect } from '@react-navigation/native';
+import Svg, {Path} from 'react-native-svg';
 
-const LoadingEnd = () => {
+const LoadingEnd = ({navigation}) => {
+    
+    useEffect(() => {
+        const switchPage = setTimeout(() => {
+            console.log('time is ended');
+            navigation.navigate('Email');
+        }, 3000); // 10 seconds in milliseconds
+
+        return () => clearTimeout(switchPage);
+    }, []);
     return (
         <View style={styles.container}>
             

@@ -1,4 +1,4 @@
-import React, {useState, createRef} from 'react';
+import React, {useState, useEffect, createRef} from 'react';
 import {
     ImageBackground, 
     View, 
@@ -13,17 +13,21 @@ import {
     FlatList,
     TextInput,
     findNoneHandle,
-    BackHandler
+    BackHandler,
+    Modal
 } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native';
 import { BlurView } from '@react-native-community/blur';
 import { vh, vw } from 'react-native-css-vh-vw';
 import Svg, { Path, G, Circle } from 'react-native-svg';
-import CustomFriendCard from '../../../components/customFriendCard'
-import CustomMemberCard from '../../../components/customMemberCard'
+import CustomFriendCard from '../../../components/customFriendCard';
+import CustomMemberCard from '../../../components/customMemberCard';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 const Members = ({navigation}) => {
     
+    const statusBarHeight = getStatusBarHeight();
+    const [showModals, setShowModals] = useState(false);
     const [showBlur, setShowBlur] = useState(false);
     const [viewRef, setViewRef] = useState(null);
     const [blurType, setBlurType] = useState('light');
@@ -31,18 +35,22 @@ const Members = ({navigation}) => {
     const [selected, setSelected] = useState('Chat');
     const friendArray = [
         {
-            avatar: require('../../../../assets/images/avatar(2).png'),
+            id: 0,
+            avatar: require('../../../../assets/images/friendAvatar2.png'),
             userName: 'Bronxatory2038',
             displayName: 'Member',
-            onlineState: true,
-            msgNum: 12
+            // onlineState: true,
+            msgNum: 12,
+            dragged: false
         },
         {
-            avatar: require('../../../../assets/images/avatar(2).png'),
+            id: 1,
+            avatar: require('../../../../assets/images/friendAvatar2.png'),
             userName: 'Bronxatory2038',
             displayName: 'Member',
-            onlineState: true,
-            msgNum: 12
+            // onlineState: true,
+            msgNum: 12,
+            dragged: false
         },
     ];
     const memberArray = [
@@ -50,19 +58,21 @@ const Members = ({navigation}) => {
             avatar: require('../../../../assets/images/follow2.png'),
             userName: 'Bronxatory2038',
             displayName: 'Owner',
-            onlineState: false,
+            onlineState: false
         },
         {
             avatar: require('../../../../assets/images/follow2.png'),
             userName: 'Bronxatory2038',
             displayName: 'Member',
             onlineState: false,
+            dragged: false
         },
         {
             avatar: require('../../../../assets/images/follow2.png'),
             userName: 'Bronxatory2038',
             displayName: 'Member',
             onlineState: false,
+            dragged: false
         },
     ];
     const [friends, setFriends] = useState(friendArray);
@@ -77,7 +87,7 @@ const Members = ({navigation}) => {
     };
     useEffect(() => {
       const backAction = () => {
-        setShowBlurs(false);
+        setShowBlur(false);
   
         setTimeout(() => {
           navigation.goBack();
@@ -94,17 +104,17 @@ const Members = ({navigation}) => {
         React.useCallback(() => {
           let timerId;
             
-          if (!showBlurs) {
+          if (!showBlur) {
             timerId = setTimeout(() => {
-              setShowBlurs(true);
+              setShowBlur(true);
             }, 500); // Adjust the delay as needed
           }
-          console.log(showBlurs)
-          if (showBlurs) setShowblur(!showblur);
+        //   console.log(showBlurs)
+        //   if (showBlur) setShowblur(!showblur);
           return () => {
             clearTimeout(timerId);
           };
-        }, [ showBlurs,navigation])
+        }, [ showBlur,navigation])
       );
     const renderBlurView = () => {
         console.log(viewRef);
@@ -116,9 +126,9 @@ const Members = ({navigation}) => {
                     style={styles.blurViewStyle}
                     // blurRadius={1}
                     // blurType={blurType}
-                    blurRadius={1}
+                    blurAmount={9}
                     downsampleFactor={10}
-                    overlayColor={'rgba(24, 24, 24, .8)'}
+                    overlayColor={'rgba(50, 50, 50, .2)'}
                 />
             </View>
         );
@@ -128,7 +138,7 @@ const Members = ({navigation}) => {
         setShowBlur(false);
         let timerId;
         timerId = setTimeout(() => {
-            navigation.navigate('GroupAccount');
+            navigation.navigate('NoChat');
         }, 30); // Adjust the delay as needed
         return () => {
         clearTimeout(timerId);
@@ -150,7 +160,7 @@ const Members = ({navigation}) => {
         setShowBlur(false);
         let timerId;
         timerId = setTimeout(() => {
-            navigation.navigate('Main');
+            navigation.goBack();
         }, 30); // Adjust the delay as needed
         return () => {
         clearTimeout(timerId);
@@ -160,8 +170,29 @@ const Members = ({navigation}) => {
         setShowBlur(false);
         let timerId;
         timerId = setTimeout(() => {
-        navigation.navigate('MyCommunity');
+        navigation.navigate('NoCommunity');
           }, 30); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
+    }
+    const navigateManageFriend = () => {
+        setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+        navigation.navigate('ManageFriend');
+          }, 30); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
+    }
+    const handleFriendProfile = () => {
+        // setShowBlurs(true);
+            setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+        navigation.navigate('FriendProfile');
+          }, 50); // Adjust the delay as needed
           return () => {
             clearTimeout(timerId);
           };
@@ -170,6 +201,36 @@ const Members = ({navigation}) => {
         <SafeAreaView>
             <StatusBar translucent backgroundColor = 'transparent'/>
             <View style = {styles.container}>
+                <Modal visible={showModals} transparent={true}>
+                    <TouchableOpacity style={styles.modalContainer}
+                        onPress = {() => setShowModals(false)}
+                    >
+                    <StatusBar translucent backgroundColor = '#00000090'/>
+                        <View style = {[styles.modal, {marginTop: (vw(15)-statusBarHeight), width: vw(50)}]}>
+                            <TouchableOpacity style = {[styles.modalItem,{marginLeft: vw(3)}]}
+                                onPress = {() => {navigation.navigate('Members'),setShowBlur(false), setShowModals(!showModals)}}
+                            >
+                                <Text style = {[styles.text, {color:'white', fontSize: vw(3.3), marginLeft: vw(3)}]}>
+                                &nbsp;&nbsp;Members&nbsp;&nbsp;
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style = {[styles.modalItem,{marginLeft: vw(3)}]}
+                                onPress = {() => {navigation.navigate('Overview'),setShowBlur(false), setShowModals(!showModals)}}
+                            >
+                                <Text style = {[styles.text, {color:'white', fontSize: vw(3.3), marginLeft: vw(3)}]}>
+                                &nbsp;&nbsp;Overview&nbsp;&nbsp;
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style = {[styles.modalItem,{marginLeft: vw(3)}]}
+                                onPress = {() => {navigation.navigate('MemberPermission'),setShowBlur(false), setShowModals(!showModals)}}
+                            >
+                                <Text style = {[styles.text, {color:'white', fontSize: vw(3.3), marginLeft: vw(3), textAlign: 'center'}]}>
+                                &nbsp;&nbsp;Community Settings&nbsp;&nbsp;
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </TouchableOpacity>
+                </Modal>
                 <View style = {styles.header}>
                     <View style = {styles.headerBar}>
                         <TouchableOpacity
@@ -186,9 +247,9 @@ const Members = ({navigation}) => {
                         </Text>
                         <TouchableOpacity
                             style = {[styles.prevButton, {backgroundColor: 'transparent'}]}
-                            // onPress = { () => 
-                            //     navigation.navigate('QRProfile')
-                            // }
+                            onPress = { () => 
+                                setShowModals(!showModals)
+                            }
                         >
                             <Svg width="3" height="11" viewBox="0 0 3 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <Path d="M1.56147 4.93104C1.25132 4.93104 0.999894 5.18247 0.999894 5.49262C0.999894 5.80277 1.25132 6.05419 1.56147 6.05419C1.87162 6.05419 2.12305 5.80277 2.12305 5.49262C2.12305 5.18247 1.87162 4.93104 1.56147 4.93104Z" stroke="white" stroke-width="1.12724" stroke-linecap="round" stroke-linejoin="round"/>
@@ -243,9 +304,7 @@ const Members = ({navigation}) => {
                             My Friends
                         </Text>
                         <Text style = {[styles.title, {color: '#53FAFB', fontSize: vw(3.3)}]}
-                            onPress = {() => { 
-                            navigation.navigate('ManageFriend')
-                        }}
+                            onPress = {navigateManageFriend}
                         >
                             Manage Friend's
                         </Text>
@@ -260,6 +319,11 @@ const Members = ({navigation}) => {
                                 displayName = {item.displayName}
                                 onlineState = {item.onlineState}
                                 msgNum = {item.msgNum}
+                                friends = {friends}
+                                setFriends = {setFriends}
+                                id = {item.id}
+                                dragged = {item.dragged}
+                                navigatePress={handleFriendProfile}
                             />
                             )
                         }
@@ -284,6 +348,7 @@ const Members = ({navigation}) => {
                                 displayName = {item.displayName}
                                 onlineState = {item.onlineState}
                                 msgNum = {item.msgNum}
+                                navigatePress = {handleFriendProfile}
                             />
                             )
                         }
@@ -341,7 +406,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        backgroundColor: 'black',
+        backgroundColor: '#101010',
         flexDirection: 'column',
     },
     header: {
@@ -352,7 +417,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-end',
         alignItems: 'center',
-        backgroundColor: 'black'
+        // backgroundColor: 'black'
     },
     headerBar: {
         width: vw(90),
@@ -366,7 +431,7 @@ const styles = StyleSheet.create({
         width: vw(11),
         height: vw(11),
         borderRadius: vw(6),
-        backgroundColor: 'black',
+        backgroundColor: '#101010',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -378,7 +443,7 @@ const styles = StyleSheet.create({
     searchBar: {
         width: vw(71.1),
         height: vw(10.83),
-        backgroundColor: '#131313',
+        backgroundColor: '#202020',
         borderRadius: vw(5),
         flexDirection: 'row',
         justifyContent: 'flex-start',
@@ -454,7 +519,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        backgroundColor: '#22222285',
+        backgroundColor: '#36363690',
         borderRadius: vw(5)
     },
     footerIcon: {
@@ -491,6 +556,32 @@ const styles = StyleSheet.create({
         fontFamily: 'TT Firs Neue Trial Regular',
         fontSize: vw(3.3),
         color: 'white'
+    },
+    modalContainer: {
+        backgroundColor: '#00000090',
+        width: vw(100),
+        height: '100%',
+        position: 'absolute',
+        top: 0,
+        padding: vw(5),
+        alignItems: 'flex-end'
+    },
+    modal: {
+        marginTop: vw(40),
+        width: vw(44.44),
+        height: vw(30.56),
+        backgroundColor: '#6C434B',
+        borderRadius: vw(5.6),
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+        alignItmes: 'flex-start',
+        paddingTop: vw(2),
+        paddingBottom: vw(2)
+    },
+    modalItem: {
+        marginLeft: vw(8),
+        flexDirection: 'row',
+        alignItems: 'center',
     },
 });
 

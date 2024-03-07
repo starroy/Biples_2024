@@ -38,7 +38,7 @@ const BuyLoading = ({ navigation }) => {
     useEffect(() => {
         const switchPage = setTimeout(() => {
             console.log('time is ended');
-            navigation.navigate('Tickets');
+            navigation.navigate('NoCommunity');
         }, 3000); // 10 seconds in milliseconds
 
         return () => clearTimeout(switchPage);

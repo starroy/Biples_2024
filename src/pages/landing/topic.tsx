@@ -20,7 +20,7 @@ import { BlurView } from '@react-native-community/blur';
 import { vh, vw } from 'react-native-css-vh-vw';
 import Svg, { Path, Circle, ClipPath, G, Defs, Rect } from 'react-native-svg';
 import { Icon } from 'react-native-vector-icons/FontAwesome';
-import CustomTopCard from "../../components/customTopcard";
+import CustomTopCards from "../../components/customTopcards";
 import CustomFollow from "../../components/customFollow";
 import CustomRoundedButton from "../../components/customRoundedButton";
 import {
@@ -43,14 +43,15 @@ const Topics = ({ navigation }) => {
     const [selectProperty, setSelectProperty] = useState('Members');
 
     const channelNumberArray = [0, 1, 2, 3, 4, 5];
-    const selectedRecommendData = {
+    const [selectedRecommendData, setSelectedRecommendData] = useState( {
         title: 'Wonderl Fukswlh',
         avatar: require('../../../assets/images/card1.png'),
-        channelAvatar: require('../../../assets/images/avatar2.png'),
+        channelAvatar: require('../../../assets/images/card9.png'),
         channelName: 'Fernado TOYs',
         ChannelMembers: '1,500 Members',
         joinState: true,
         shortDescription: 'The terms and conditions contained in this Agreement \nshall constitute the entire all previous agreements and \nunderstandings, whether oral or written.',
+        longDescription : 'The terms and conditions contained in this Agreement shall constitute the entire all previous agreements and understandings, whether oral or written terms and conditions contained in this Agreement shall constitute the entire all previous agreements and understandings, whether oral or written entire all previous agreements and understandings, whether oral or written. ',
         readMore: true,
         addedDescription: 'The terms and conditions contained in this Agreement \nshall constitute the entire all previous agreements and \nunderstandings, whether oral or written.',
         membersAvatarArray: [
@@ -63,7 +64,7 @@ const Topics = ({ navigation }) => {
             number: '+239',
             text: 'Mutual Friends Joined'
         },
-    };    
+    });    
     const avatarArray = [
         {avatar: require('../../../assets/images/card1.png')},
         {avatar: require('../../../assets/images/card3.png')},
@@ -74,37 +75,37 @@ const Topics = ({ navigation }) => {
     ];
     cardArray = [
         {
-            avatar: require('../../../assets/images/avatar2.png'),
+            avatar: require('../../../assets/images/card9.png'),
             avatarName: 'Fernado TOYs',
             avatarContent: '1,500 Members',
             joinState: true
         },
         {
-            avatar: require('../../../assets/images/avatar1.png'),
+            avatar: require('../../../assets/images/card8.png'),
             avatarName: 'Fernado TOYs',
             avatarContent: '1,500 Members',
             joinState: true
         },
         {
-            avatar: require('../../../assets/images/avatar2.png'),
+            avatar: require('../../../assets/images/card9.png'),
             avatarName: 'Fernado TOYs',
             avatarContent: '1,500 Members',
             joinState: false
         },
         {
-            avatar: require('../../../assets/images/avatar1.png'),
+            avatar: require('../../../assets/images/card8.png'),
             avatarName: 'Fernado TOYs',
             avatarContent: '1,500 Members',
             joinState: true
         },
         {
-            avatar: require('../../../assets/images/avatar2.png'),
+            avatar: require('../../../assets/images/card9.png'),
             avatarName: 'Fernado TOYs',
             avatarContent: '1,500 Members',
             joinState: false
         },
         {
-            avatar: require('../../../assets/images/avatar1.png'),
+            avatar: require('../../../assets/images/card8.png'),
             avatarName: 'Fernado TOYs',
             avatarContent: '1,500 Members',
             joinState: true
@@ -135,7 +136,15 @@ const Topics = ({ navigation }) => {
     const memberButtonArray = [ 'Members', 'Activities', 'Comments' ]
 
     const handleAddMember = () => {
-
+        // setShowBlurs(true);
+        setShowBlurs(false);
+        let timerId;
+        timerId = setTimeout(() => {
+        navigation.navigate('Invite');
+          }, 100); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
     };
     const handleFollow = () => {
 
@@ -193,7 +202,7 @@ const Topics = ({ navigation }) => {
                     style={styles.blurViewStyle}
                     // blurRadius={1}
                     // blurType={blurType}
-                    blurRadius={1}
+                    blurAmount={9}
                     downsampleFactor={10}
                     overlayColor={'rgba(50, 50, 50, .2)'}
                 />
@@ -245,15 +254,25 @@ const Topics = ({ navigation }) => {
             clearTimeout(timerId);
             };
     }
-    const navigateMyCommunity = () => {
+    const navigateNoCommunity = () => {
         setShowBlurs(false);
         let timerId;
         timerId = setTimeout(() => {
-        navigation.navigate('MyCommunity');
+            navigation.navigate('NoCommunity');
           }, 30); // Adjust the delay as needed
           return () => {
             clearTimeout(timerId);
-          };
+        };
+    }
+    const navigateFriends = () => {
+        setShowBlurs(false);
+        let timerId;
+        timerId = setTimeout(() => {
+        navigation.navigate('FriendProfile');
+          }, 30); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+        };
     }
     return (
         <SafeAreaView>
@@ -266,9 +285,9 @@ const Topics = ({ navigation }) => {
                     style = {{ width: '100%', height: '100%', position: 'absolute', top: 0}}
                 >
                 <View style = {styles.header}>
-                    <Image source = {require('../../../assets/images/background.png')}
+                    {/* <Image source = {require('../../../assets/images/background.png')}
                         style = {styles.backImage}
-                    />
+                    /> */}
                     <View style = {styles.userInfo}>
                         <TouchableOpacity 
                             style = {styles.prevButton}
@@ -348,7 +367,7 @@ const Topics = ({ navigation }) => {
                         showsVerticalScrollIndicator={false}
                     >
                         <View style = {styles.channelInfo}>
-                            <CustomTopCard
+                            <CustomTopCards
                                 avatar={cardArray[channelNumber].avatar}
                                 avatarName={cardArray[channelNumber].avatarName}
                                 avatarContent={cardArray[channelNumber].avatarContent}
@@ -361,9 +380,19 @@ const Topics = ({ navigation }) => {
                                     Description
                                 </Text>
                                 <Text style = {styles.content}>
-                                    {selectedRecommendData.shortDescription}
                                     {
-                                        <Text style = {[styles.content, {color: 'white', fontSize: vw(2.8)}]}>
+                                        selectedRecommendData.readMore ? 
+                                        selectedRecommendData.shortDescription
+                                        :
+                                        selectedRecommendData.longDescription
+                                    }
+                                    {selectedRecommendData.readMore &&     <Text style = {[styles.content, {color: 'white', fontSize: vw(2.8)}]}
+                                            onPress = { () => setSelectedRecommendData(prev =>{
+                                                    const newdata = {...prev};
+                                                    newdata.readMore = !newdata.readMore;
+                                                    return newdata;}
+                                                ) }
+                                        >
                                             &nbsp;Read More
                                         </Text>
                                     }
@@ -393,7 +422,8 @@ const Topics = ({ navigation }) => {
                                     </View>
                                 </View>
                                 <CustomRoundedButton
-                                    title="Add Member"
+                                    // navigation={navigation}
+                                    title="Invite"
                                     width={vw(25.83)}
                                     height={vw(8.3)}
                                     backgroundColor="#53FAFB10"  
@@ -413,7 +443,7 @@ const Topics = ({ navigation }) => {
                             </View>
                         </View>
                         <View style = {styles.memberInfo}>
-                            <View style = {{marginLeft: vw(5), flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginTop: vw(5), marginBottom: vw(5)}}>
+                            <View style = {{marginLeft: vw(5), flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: vw(5), marginBottom: vw(5), marginRight: vw(5)}}>
                                 {
                                     memberButtonArray.map((item, index) => 
                                         <Text key = {index} style = {{padding: vw(2.64), paddingLeft: vw(4.44), paddingRight: vw(4.44), borderRadius: vw(5), fontFamily: 'TT Firs Neue Trial Regular', fontSize: vw(2.8), color: selectProperty == item ? 'white' :'#606060', backgroundColor: selectProperty == item ? '#53FAFB10': 'transparent', marginRight: vw(4)}}
@@ -442,6 +472,7 @@ const Topics = ({ navigation }) => {
                                             // console.log(newFollow);
                                             return newFollow;
                                         })}
+                                        navigatePress = {navigateFriends}
                                     />
                                 )
                             }
@@ -467,7 +498,7 @@ const Topics = ({ navigation }) => {
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style = {styles.footerIcon}
-                        onPress = {navigateMyCommunity}
+                        onPress = {navigateNoCommunity}
                     >
                         <Svg width={vw(5.6)} height={vw(5.6)} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <Path d="M15 13.1974C16.2132 13.8069 17.2534 14.785 18.0127 16.008C18.163 16.2502 18.2382 16.3713 18.2642 16.539C18.317 16.8798 18.084 17.2988 17.7666 17.4336C17.6104 17.5 17.4347 17.5 17.0833 17.5M13.3333 9.6102C14.5681 8.99657 15.4167 7.72238 15.4167 6.25C15.4167 4.77762 14.5681 3.50343 13.3333 2.8898M11.6667 6.25C11.6667 8.32107 9.98772 10 7.91665 10C5.84559 10 4.16665 8.32107 4.16665 6.25C4.16665 4.17893 5.84559 2.5 7.91665 2.5C9.98772 2.5 11.6667 4.17893 11.6667 6.25ZM2.13268 15.782C3.46127 13.7871 5.5578 12.5 7.91665 12.5C10.2755 12.5 12.372 13.7871 13.7006 15.782C13.9917 16.219 14.1372 16.4375 14.1205 16.7166C14.1074 16.9339 13.9649 17.2 13.7913 17.3313C13.5683 17.5 13.2615 17.5 12.648 17.5H3.18528C2.5718 17.5 2.26505 17.5 2.04202 17.3313C1.86836 17.2 1.72589 16.9339 1.71285 16.7166C1.69609 16.4375 1.84162 16.219 2.13268 15.782Z" stroke={selected == 'Community'? '#53FAFB' : "#9D9D9D"} stroke-linecap="round" stroke-linejoin="round"/>
@@ -631,13 +662,13 @@ const styles = StyleSheet.create({
     },
     channelInfo: {
         width: vw(100),
-        height: vw(69.1),
+        // height: vw(69.1),
         marginBottom: vw(6)
     },
     description: {
         width: vw(95),
         marginLeft: vw(5),
-        height: vw(21.4),
+        // height: vw(21.4),
         flexDirection: 'column',
         justifyContent: 'space-between',
     },

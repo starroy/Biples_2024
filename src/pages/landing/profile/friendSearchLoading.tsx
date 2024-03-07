@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        backgroundColor: 'black',
+        backgroundColor: '#101010',
     },
     header: {
         position: 'absolute',
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
         width: vw(9.44),
         height: vw(9.44),
         borderRadius: vw(5),
-        backgroundColor: '#181818',
+        backgroundColor: '#202020',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
     searchBar: {
         width: vw(76.7),
         height: vw(9.44),
-        backgroundColor: '#131313',
+        backgroundColor: '#202020',
         borderRadius: vw(5),
         flexDirection: 'row',
         justifyContent: 'flex-start',
@@ -301,6 +301,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center'
+    },
+    avatarName: {
+        fontFamily: 'TT Firs Neue Trial Regular',
+        fontSize: vw(3.1),
+        color: '#989898',
+        textAlign: 'center'
     },
     communities: {
         width: vw(95),

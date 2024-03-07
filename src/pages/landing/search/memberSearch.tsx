@@ -84,6 +84,17 @@ const MemberSearch = ({navigation}) => {
     handlePress = () => {
         navigation.navigate('Explorer');
     };
+    const handleFriendProfile = () => {
+        // // setShowBlurs(true);
+        //     setShowBlur(false);
+        // let timerId;
+        // timerId = setTimeout(() => {
+        navigation.navigate('FriendProfile');
+        //   }, 30); // Adjust the delay as needed
+        //   return () => {
+        //     clearTimeout(timerId);
+        //   };
+    }
     return (
         <SafeAreaView>
             <StatusBar translucent backgroundColor = 'transparent'/>
@@ -163,24 +174,25 @@ const MemberSearch = ({navigation}) => {
                                     avatarName = {item.avatarName}
                                     avatarContent = {item.avatarContent}
                                     followState = {item.followState}
-                                    handlePress = {handlePress}
+                                    navigatePress = {handleFriendProfile}
+                                    // handleFriend ={handleFriendProfile}
                                     onPress={() => setFilter(prevFilter => {
                                         const newFilter = [...prevFilter];
                                         newFilter[index].followState = !newFilter[index].followState;
-                                        console.log(newFilter);
+                                        // console.log(newFilter);
                                         return newFilter;
                                     })}
                                 />
                             )
                         }
+                        <View style = {styles.footer}>
+                            <TouchableOpacity style = {styles.footerBtn}>
+                                <Text style = {{ fontFamily: 'TT Firs Neue Trial Medium', color: '#787878', fontSize: vw(3.9), textAlign: 'center'}}>
+                                    See More
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
                     </ScrollView>
-                </View>
-                <View style = {styles.footer}>
-                    <TouchableOpacity style = {styles.footerBtn}>
-                        <Text style = {{ fontFamily: 'TT Firs Neue Trial Medium', color: '#787878', fontSize: vw(3.9), textAlign: 'center'}}>
-                            See More
-                        </Text>
-                    </TouchableOpacity>
                 </View>
             </View>
         </SafeAreaView>
@@ -192,7 +204,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        backgroundColor: 'black',
+        backgroundColor: '#101010',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'flex-start',
@@ -218,7 +230,7 @@ const styles = StyleSheet.create({
         width: vw(9.44),
         height: vw(9.44),
         borderRadius: vw(5),
-        backgroundColor: '#181818',
+        backgroundColor: '#202020',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -230,7 +242,7 @@ const styles = StyleSheet.create({
     searchBar: {
         width: vw(66.7),
         height: vw(9.44),
-        backgroundColor: '#131313',
+        backgroundColor: '#202020',
         borderRadius: vw(5),
         flexDirection: 'row',
         justifyContent: 'flex-start',
@@ -272,7 +284,7 @@ const styles = StyleSheet.create({
         marginTop: vh(23),
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        marginBottom: vh(12.11)
+        // marginBottom: vh(12.11)
     },
     foundResult: {
         width: vw(100),
@@ -285,12 +297,12 @@ const styles = StyleSheet.create({
         color: '#656565',
     },
     footer: {
-        position: 'absolute',
+        // position: 'absolute',
         bottom: vw(0),
         width: vw(100),
-        marginBottom: vw(8),
+        marginBottom: vw(12),
         alignItems: 'center',
-        backgroundColor: 'black'
+        backgroundColor: '#101010'
     },
     footerBtn: {
         width: vw(41.67),

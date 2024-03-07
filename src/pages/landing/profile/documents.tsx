@@ -640,7 +640,7 @@ const Documents = ({navigation}) => {
         setShowBlur(false);
         let timerId;
         timerId = setTimeout(() => {
-        navigation.navigate('MyCommunity');
+        navigation.navigate('NoCommunity');
           }, 30); // Adjust the delay as needed
           return () => {
             clearTimeout(timerId);

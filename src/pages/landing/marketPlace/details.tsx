@@ -15,7 +15,8 @@ import {
     Animated,
     findNodeHandle,
     Dimensions,
-    BackHandler
+    BackHandler,
+    Modal
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { vh, vw } from 'react-native-css-vh-vw';
@@ -25,9 +26,11 @@ import CustomFriendCard from '../../../components/customFriendCard';
 import { ListItem } from 'react-native-elements';
 import { SwipeListView, Sw} from 'react-native-swipe-list-view';
 import { NavigationRouteContext } from '@react-navigation/native';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 const Details = ({navigation}) => {
     
+    const statusBarHeight = getStatusBarHeight();
     const SCREEN_WIDTH = Dimensions.get('window').width;
     const SCREEN_HEIGHT = Dimensions.get('window').height;
     const backgroundImageRef = createRef()
@@ -174,8 +177,9 @@ const Details = ({navigation}) => {
     ];
 
     const [selected, setSelected] = useState('Community');
+    const [showModals, setShowModals] = useState(false);
     const [friendData, setFriendData] = useState({
-        avatar: require('../../../../assets/images/avatar2.png'),
+        avatar: require('../../../../assets/images/card9.png'),
         userName: 'Fernado TOYs',
         displayName: '66,2k Members – 272 Active',
         online: true,
@@ -264,6 +268,17 @@ const Details = ({navigation}) => {
         }).start();
         // console.log(activeTab);
       };
+    const handleFriendProfile = () => {
+        // setShowBlurs(true);
+            setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+        navigation.navigate('FriendProfile');
+        }, 50); // Adjust the delay as needed
+        return () => {
+            clearTimeout(timerId);
+        };
+    }
     const DocumentItem = ({item, index}) => {
         // const handleDelete = (id) => {
         //     setDocumentData(prevFriends => {
@@ -516,7 +531,9 @@ const Details = ({navigation}) => {
             > */}
                 {/* <View style = {[styles.userInfo, {alignItems: 'center', width}]}> */}
                     <View style = {{width: vw(40), flexDirection: 'row', alignItems: 'center'}}>
-                        <Image source = {item.avatar} style = {{width: vw(8.9), height: vw(8.9), borderRadius: vw(5), flexDirection: 'row', alignItems: 'center'}}/>
+                        <TouchableOpacity onPress = {handleFriendProfile}>
+                            <Image source = {item.avatar} style = {{width: vw(8.9), height: vw(8.9), borderRadius: vw(5), flexDirection: 'row', alignItems: 'center'}}/>
+                        </TouchableOpacity>
                         <Text numberOfLines={1} ellipsizeMode='middle' style = {[styles.footerText, {marginLeft: vw(2),}]}>
                             {item.walletAddress}
                         </Text>
@@ -563,7 +580,9 @@ const Details = ({navigation}) => {
             > */}
                 {/* <View style = {[styles.userInfo, {alignItems: 'center', width}]}> */}
                     <View style = {{width: vw(40), flexDirection: 'row', alignItems: 'center'}}>
-                        <Image source = {item.avatar} style = {{width: vw(8.9), height: vw(8.9), borderRadius: vw(5), flexDirection: 'row', alignItems: 'center'}}/>
+                        <TouchableOpacity onPress = {handleFriendProfile}>
+                            <Image source = {item.avatar} style = {{width: vw(8.9), height: vw(8.9), borderRadius: vw(5), flexDirection: 'row', alignItems: 'center'}}/>
+                        </TouchableOpacity>
                         <Text numberOfLines={1} ellipsizeMode='middle' style = {[styles.footerText, {marginLeft: vw(2),}]}>
                             {item.walletAddress}
                         </Text>
@@ -642,9 +661,9 @@ const Details = ({navigation}) => {
                 <BlurView
                     viewRef={viewRef}
                     style={styles.blurViewStyle}
-                    // blurRadius={1}
+                    blurAmount={9}
                     // blurType={blurType}
-                    blurAmount={1}
+                    // blurAmount={8}
                     // downsampleFactor={10}
                     overlayColor={'rgba(50, 50, 50, .2)'}
                 />
@@ -657,8 +676,8 @@ const Details = ({navigation}) => {
         setShowBlur(false);
         let timerId;
         timerId = setTimeout(() => {
-        navigation.navigate('FriendSearchLoading');
-          }, 100); // Adjust the delay as needed
+        navigation.goBack();
+          }, 50); // Adjust the delay as needed
           return () => {
             clearTimeout(timerId);
           };
@@ -701,7 +720,7 @@ const Details = ({navigation}) => {
         setShowBlur(false);
         let timerId;
         timerId = setTimeout(() => {
-            navigation.navigate('MainCommunity');
+            navigation.navigate('NoCommunity');
         }, 30); // Adjust the delay as needed
         return () => {
         clearTimeout(timerId);
@@ -719,10 +738,52 @@ const Details = ({navigation}) => {
         clearTimeout(timerId);
         };
     }
+    const navigateBack = () => {
+        
+        setSelected('Community');
+        setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+            navigation.goBack();
+        }, 30); // Adjust the delay as needed
+        return () => {
+        clearTimeout(timerId);
+        };
+    }
     return (
         <SafeAreaView {...panResponder.panHandlers}>
             <StatusBar translucent backgroundColor = 'transparent'/>
             <View style = {styles.container}>
+                <Modal visible={showModals} transparent={true}>
+                    <TouchableOpacity style={styles.modalContainer}
+                        onPress = {() => setShowModals(false)}
+                    >
+                    <StatusBar translucent backgroundColor = '#00000090'/>
+                        <View style = {[styles.modal, {marginTop: (vw(15)-statusBarHeight), width: vw(50)}]}>
+                            <TouchableOpacity style = {[styles.modalItem,{marginLeft: vw(3)}]}
+                                onPress = {() => {navigation.navigate('Members'), setShowBlur(false), setShowModals(!showModals)}}
+                            >
+                                <Text style = {[styles.text, {color:'white', fontSize: vw(3.3), marginLeft: vw(3)}]}>
+                                &nbsp;&nbsp;Members&nbsp;&nbsp;
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style = {[styles.modalItem,{marginLeft: vw(3)}]}
+                                onPress = {() => {navigation.navigate('Overview'), setShowBlur(false), setShowModals(!showModals)}}
+                            >
+                                <Text style = {[styles.text, {color:'white', fontSize: vw(3.3), marginLeft: vw(3)}]}>
+                                &nbsp;&nbsp;Overview&nbsp;&nbsp;
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style = {[styles.modalItem,{marginLeft: vw(3)}]}
+                                onPress = {() => {navigation.navigate('MemberPermission'), setShowBlur(false), setShowModals(!showModals)}}
+                            >
+                                <Text style = {[styles.text, {color:'white', fontSize: vw(3.3), marginLeft: vw(3), textAlign: 'center'}]}>
+                                &nbsp;&nbsp;Community Settings&nbsp;&nbsp;
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </TouchableOpacity>
+                </Modal>
                 <View style = {[styles.header, {zIndex: allView == 1 ? 1 : 0}]}>
                     {allView == 0 && 
                         sortBtn.map((item, index) => 
@@ -745,7 +806,7 @@ const Details = ({navigation}) => {
                     <View style = {styles.headerBar}>
                         <TouchableOpacity
                             style = {[styles.prevButton]}
-                            onPress = { navigateAndAnimate }
+                            onPress = { navigateBack }
                         >
                             <Svg width={vw(2)} height={vw(3.3)} viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <Path d="M6 1L1 6L6 11" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
@@ -756,9 +817,7 @@ const Details = ({navigation}) => {
                         </Text>
                         <TouchableOpacity
                             style = {[styles.prevButton, {backgroundColor: 'transparent', alignItems: 'flex-end'}]}
-                            // onPress = { () => 
-                            //     navigation.navigate('QRProfile')
-                            // }
+                            onPress = {() => setShowModals(!showModals)}
                         >
                             <Svg width={vw(1.1)} height={vw(4.44)} viewBox="0 0 4 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <Path d="M2.125 7.25008C1.64174 7.25008 1.24999 7.64183 1.24999 8.12508C1.24999 8.60833 1.64174 9.00009 2.125 9.00009C2.60825 9.00009 3 8.60833 3 8.12508C3 7.64183 2.60825 7.25008 2.125 7.25008Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
@@ -810,10 +869,12 @@ const Details = ({navigation}) => {
                                 {/* <View style = {{borderRadius: vw(11.3), overflow:'hidden'}}> */}
                                 {/* </View> */}
                                 <View style = {styles.info}>
-                                    <Image
-                                        source = {friendData.avatar}
-                                        style = {styles.friendAvatar}
-                                    />
+                                    <TouchableOpacity onPress = {handleFriendProfile}>
+                                        <Image
+                                            source = {friendData.avatar}
+                                            style = {styles.friendAvatar}
+                                        />
+                                    </TouchableOpacity>
                                     <View style = {{flexDirection: 'column', alignItems:'flex-start'}}>
                                         <Text style = {[styles.headerTitle,{fontSize: vw(5)}]}>
                                             {friendData.userName}&nbsp;
@@ -847,10 +908,12 @@ const Details = ({navigation}) => {
                             <View style = {styles. myInfo}>
                                 <View style = {[styles.friend, {marginTop: vw(0), height:vw(11)}]}>
                                     <View style = {styles.info}>
-                                        <Image
-                                            source = {require('../../../../assets/images/follow1.png')}
-                                            style = {[styles.friendAvatar, {width: vw(7.5), height: vw(7.5)}]}
-                                        />
+                                        <TouchableOpacity onPress = {handleFriendProfile}>
+                                            <Image
+                                                source = {require('../../../../assets/images/follow1.png')}
+                                                style = {[styles.friendAvatar, {width: vw(7.5), height: vw(7.5), borderRadius: 0}]}
+                                            />
+                                        </TouchableOpacity>
                                         <View style = {{flexDirection: 'column', alignItems:'flex-start', justifyContent: 'space-around'}}>
                                             <Text style = {[styles.text, {color: 'white'}]}>
                                                 Kemoutyo&nbsp;
@@ -1123,7 +1186,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        backgroundColor: 'black',
+        backgroundColor: '#101010',
         flexDirection: 'column',
     },
     header: {
@@ -1134,7 +1197,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-end',
         alignItems: 'center',
-        backgroundColor: 'black',
+        backgroundColor: '#101010',
     },
     backImage: {
         width: '100%',
@@ -1330,6 +1393,7 @@ const styles = StyleSheet.create({
     sortbtn: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        width: vw(90),
     },
     btn: {
         width: vw(20.83),
@@ -1510,7 +1574,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        // backgroundColor: '#22222290',
+        backgroundColor: '#36363690',
         borderRadius: vw(5)
     },
     footerIcon: {
@@ -1570,7 +1634,33 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginLeft: vw(2)
-    }
+    },
+    modalContainer: {
+        backgroundColor: '#00000090',
+        width: vw(100),
+        height: '100%',
+        position: 'absolute',
+        top: 0,
+        padding: vw(5),
+        alignItems: 'flex-end'
+    },
+    modal: {
+        marginTop: vw(40),
+        width: vw(44.44),
+        height: vw(30.56),
+        backgroundColor: '#6C434B',
+        borderRadius: vw(5.6),
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+        alignItmes: 'flex-start',
+        paddingTop: vw(2),
+        paddingBottom: vw(2)
+    },
+    modalItem: {
+        marginLeft: vw(8),
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
 });
 
 export default Details;

@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#090909'
+        backgroundColor: '#101010'
     },
     btns: {
         width: vw(80),

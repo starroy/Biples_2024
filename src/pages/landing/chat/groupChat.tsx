@@ -16,15 +16,18 @@ import {
     BackHandler,
     Dimensions,
     TextInput,
-    Animated
+    Animated,
+    Modal
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { BlurView } from '@react-native-community/blur';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { vh, vw } from 'react-native-css-vh-vw';
 import Svg, { Path, Circle, ClipPath, G, Defs, Rect } from 'react-native-svg';
 // import { TouchableOpacity, backgroundColor } from 'react-native';r
 
 const GroupChat = ({ navigation }) => {
+    const statusBarHeight = getStatusBarHeight();
     const backgroundImageRef = createRef();
     const screenWidth = Dimensions.get('window').width;
     const screenHegiht = Dimensions.get('window').height;
@@ -256,7 +259,7 @@ const GroupChat = ({ navigation }) => {
         },
     ];
     const [clientData, setClientData] = useState({
-        avatar: require('../../../../assets/images/avatar2.png'),
+        avatar: require('../../../../assets/images/card9.png'),
         name: 'Ferndado TOYs',
         // onlineState: 'online',
         time: '66,2k Members – 272 Active'
@@ -389,6 +392,7 @@ const GroupChat = ({ navigation }) => {
     // const [btnNames, setBtnNames] = useState(btnArray);
     // const [chatsRoom, setChatsRoom] = useState(chatsArray);
     const [showBlur, setShowBlur] = useState(false);
+    const [showModals, setShowModals] = useState(false);
     const [viewRef, setViewRef] = useState(null);
     const [blurType, setBlurType] = useState('light');
     const [selected, setSelected] = useState('Chat');
@@ -401,7 +405,7 @@ const GroupChat = ({ navigation }) => {
           setShowBlur(false);
     
           setTimeout(() => {
-            navigation.goBack();
+            navigation.navigate('Chats');
             setSelected('Home');
           }, 300); // Delay the back action by one second
     
@@ -436,7 +440,7 @@ const GroupChat = ({ navigation }) => {
                 <BlurView
                     viewRef={viewRef}
                     style={styles.blurViewStyle}
-                    blurRadius={3}
+                    blurAmount={9}
                     blurType={blurType}
                     // blurRadius={10}
                     downsampleFactor={10}
@@ -479,6 +483,17 @@ const GroupChat = ({ navigation }) => {
             };
         }
     }
+    const handleFriendProfile = () => {
+        // setShowBlurs(true);
+            setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+        navigation.navigate('FriendProfile');
+          }, 50); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
+    }
     // const navigateBack = () => {
     //     setShowBlur(false);
     //     let timerId;
@@ -502,14 +517,14 @@ const GroupChat = ({ navigation }) => {
     }
     const navigateChat = () => {
         setSelected('Chat')
-        // setShowBlur(false);
-        // let timerId;
-        // timerId = setTimeout(() => {
-        //     navigation.navigate('GroupAccount');
-        // }, 30); // Adjust the delay as needed
-        // return () => {
-        //     clearTimeout(timerId);
-        // };
+        setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+            navigation.navigate('NoChat');
+        }, 30); // Adjust the delay as needed
+        return () => {
+            clearTimeout(timerId);
+        };
     }
     const handleChatView = () => {
         setAllView(1)
@@ -534,6 +549,36 @@ const GroupChat = ({ navigation }) => {
         <SafeAreaView>
             <StatusBar translucent backgroundColor = 'transparent'/>
             <View style = {styles.container}>
+                <Modal visible={showModals} transparent={true}>
+                    <TouchableOpacity style={styles.modalContainer}
+                        onPress = {() => setShowModals(false)}
+                    >
+                    <StatusBar translucent backgroundColor = '#00000090'/>
+                        <View style = {[styles.modal, {marginTop: (vw(33)-statusBarHeight), width: vw(50)}]}>
+                            <TouchableOpacity style = {[styles.modalItem,{marginLeft: vw(3)}]}
+                                onPress = {() => {navigation.navigate('Members'), setShowBlur(false), setShowModals(!showModals)}}
+                            >
+                                <Text style = {[styles.text, {color:'white', fontSize: vw(3.3), marginLeft: vw(3)}]}>
+                                &nbsp;&nbsp;Members&nbsp;&nbsp;
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style = {[styles.modalItem,{marginLeft: vw(3)}]}
+                                onPress = {() => {navigation.navigate('Overview'), setShowBlur(false), setShowModals(!showModals)}}
+                            >
+                                <Text style = {[styles.text, {color:'white', fontSize: vw(3.3), marginLeft: vw(3)}]}>
+                                &nbsp;&nbsp;Overview&nbsp;&nbsp;
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style = {[styles.modalItem,{marginLeft: vw(3)}]}
+                                onPress = {() => {navigation.navigate('MemberPermission'), setShowBlur(false), setShowModals(!showModals)}}
+                            >
+                                <Text style = {[styles.text, {color:'white', fontSize: vw(3.3), marginLeft: vw(3), textAlign: 'center'}]}>
+                                &nbsp;&nbsp;Community Settings&nbsp;&nbsp;
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </TouchableOpacity>
+                </Modal>
                 <View>
                     <View style = {styles.chatBackStyle}>
                         <View style = {styles.topBar}/>
@@ -542,19 +587,21 @@ const GroupChat = ({ navigation }) => {
                         >
                             <View style = {styles.datas}>
                                 <View style = {[styles.avatars, {width: vw(11.1), height: vw(11.1), backgroundColor: 'transparent'}]}>
-                                    <Image source = {clientData.avatar}
-                                        style = {[
-                                            styles.addChatIcon, 
-                                            {
-                                                width: vw(11.1), 
-                                                height: vw(11.1), 
-                                                borderRadius: vw(3),
-                                                backgroundColor: 'transparent'
-                                                // borderWidth: vw(0.3), 
-                                                // borderColor: 'black',
-                                            }
-                                        ]}
-                                    />
+                                    <TouchableOpacity onPress = {handleFriendProfile}>
+                                        <Image source = {clientData.avatar}
+                                            style = {[
+                                                styles.addChatIcon, 
+                                                {
+                                                    width: vw(11.1), 
+                                                    height: vw(11.1), 
+                                                    borderRadius: vw(3),
+                                                    backgroundColor: 'transparent'
+                                                    // borderWidth: vw(0.3), 
+                                                    // borderColor: 'black',
+                                                }
+                                            ]}
+                                        />
+                                    </TouchableOpacity>
                                 </View>
                                 <View style = {styles.info}>
                                     <Text style = {styles.name}>
@@ -577,11 +624,13 @@ const GroupChat = ({ navigation }) => {
                                     <Path d="M21.1794 4.43137C21.1794 3.82555 21.1794 3.52265 21.0596 3.38238C20.9557 3.26068 20.7998 3.19609 20.6402 3.20865C20.4563 3.22312 20.2421 3.43731 19.8138 3.86569L16.1794 7.5L19.8138 11.1343C20.2421 11.5627 20.4563 11.7769 20.6402 11.7914C20.7998 11.8039 20.9557 11.7393 21.0596 11.6176C21.1794 11.4774 21.1794 11.1744 21.1794 10.5686V4.43137Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                                     <Path d="M1.17944 5.3C1.17944 3.61984 1.17944 2.77976 1.50642 2.13803C1.79404 1.57354 2.25299 1.1146 2.81747 0.82698C3.45921 0.5 4.29929 0.5 5.97944 0.5H11.3794C13.0596 0.5 13.8997 0.5 14.5414 0.82698C15.1059 1.1146 15.5648 1.57354 15.8525 2.13803C16.1794 2.77976 16.1794 3.61984 16.1794 5.3V9.7C16.1794 11.3802 16.1794 12.2202 15.8525 12.862C15.5648 13.4265 15.1059 13.8854 14.5414 14.173C13.8997 14.5 13.0596 14.5 11.3794 14.5H5.97944C4.29929 14.5 3.45921 14.5 2.81747 14.173C2.25299 13.8854 1.79404 13.4265 1.50642 12.862C1.17944 12.2202 1.17944 11.3802 1.17944 9.7V5.3Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                                 </Svg>
-                                <Svg width="4" height="13" viewBox="0 0 4 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <TouchableOpacity onPress = {() => setShowModals(!showModals)}>
+                                <Svg width={vw(1.1)} height={vw(3.6)} viewBox="0 0 4 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <Path d="M1.86694 5.8125C1.48725 5.8125 1.17944 6.1203 1.17944 6.5C1.17944 6.8797 1.48725 7.1875 1.86694 7.1875C2.24664 7.1875 2.55444 6.8797 2.55444 6.5C2.55444 6.1203 2.24664 5.8125 1.86694 5.8125Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
                                     <Path d="M1.86694 10.625C1.48725 10.625 1.17944 10.9328 1.17944 11.3125C1.17944 11.6922 1.48725 12 1.86694 12C2.24664 12 2.55444 11.6922 2.55444 11.3125C2.55444 10.9328 2.24664 10.625 1.86694 10.625Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
                                     <Path d="M1.86694 1C1.48725 1 1.17944 1.3078 1.17944 1.6875C1.17944 2.0672 1.48725 2.375 1.86694 2.375C2.24664 2.375 2.55444 2.0672 2.55444 1.6875C2.55444 1.3078 2.24664 1 1.86694 1Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
                                 </Svg>
+                                </TouchableOpacity>
                             </View>
                         </View>
                         <ScrollView style =  {{width: vw(90), marginLeft: vw(5), marginBottom: vw(65)}}
@@ -591,19 +640,21 @@ const GroupChat = ({ navigation }) => {
                                 onPress = {handleChatHidden}
                             >
                                 <View style = {{width: vw(22.78), height: vw(22.78), backgroundColor: 'transparent'}}>
-                                    <Image source = {clientData.avatar}
-                                        style = {[
-                                            styles.addChatIcon, 
-                                            {
-                                                width: vw(22.78), 
-                                                height: vw(22.78), 
-                                                borderRadius: vw(5),
-                                                backgroundColor: 'transparent'
-                                                // borderWidth: vw(0.3), 
-                                                // borderColor: 'black',
-                                            }
-                                        ]}
-                                    />
+                                    <TouchableOpacity onPress = {handleFriendProfile}>
+                                        <Image source = {clientData.avatar}
+                                            style = {[
+                                                styles.addChatIcon, 
+                                                {
+                                                    width: vw(22.78), 
+                                                    height: vw(22.78), 
+                                                    borderRadius: vw(5),
+                                                    backgroundColor: 'transparent'
+                                                    // borderWidth: vw(0.3), 
+                                                    // borderColor: 'black',
+                                                }
+                                            ]}
+                                        />
+                                    </TouchableOpacity>
                                 </View>
                                 <View style = {[styles.info, {alignItems: 'center'}]}>
                                     <Text style = {styles.name}>
@@ -622,7 +673,9 @@ const GroupChat = ({ navigation }) => {
                                 msgData.map((item, index)  => 
                                 <View style = {styles.msgStyle} key = {index}>
                                     <View style = {{width: vw(10), height: vw(10), flexDirection: 'row', marginBottom: vw(2), alignItems: 'center', justifyContent: 'flex-start'}}>
-                                        <View style = {styles.avatar}>
+                                        <TouchableOpacity style = {styles.avatar}
+                                            onPress = {handleFriendProfile}
+                                        >
                                             {
                                                 item.avatar.map((i, idx) => 
                                                     <Image key={idx} style = {{width: item.avatar.length>1 ? vw(7.5) : vw(10), height: item.avatar.length>1? vw(7.5) : vw(10), position: 'absolute', left: vw(2.5)*idx, top: vw(2.5)*idx}}
@@ -630,7 +683,7 @@ const GroupChat = ({ navigation }) => {
                                                     />
                                                 )
                                             }
-                                        </View>
+                                        </TouchableOpacity>
                                     </View>
                                     <View>
                                     {
@@ -814,17 +867,21 @@ const GroupChat = ({ navigation }) => {
                                     </View>
                                     <View>
                                         <View style = {styles.emailSearch}>
-                                            <Image source = {require('../../../../assets/images/follow2.png')}
-                                                style = {{width: vw(5.3), height: vw(5.3)}}
-                                            />
+                                            <TouchableOpacity onPress = {handleFriendProfile}>
+                                                <Image source = {require('../../../../assets/images/follow2.png')}
+                                                    style = {{width: vw(5.3), height: vw(5.3)}}
+                                                />
+                                            </TouchableOpacity>
                                             <Text style = {[styles.name, {fontFamily: 'TT Firs Neue Trial Medium',fontSize: vw(2.8)}]}>
                                                 @mussaouel
                                             </Text>
                                         </View>
                                         <View style = {styles.emailSearch}>
-                                            <Image source = {require('../../../../assets/images/follow2.png')}
-                                                style = {{width: vw(5.3), height: vw(5.3)}}
-                                            />
+                                            <TouchableOpacity onPress = {handleFriendProfile}>
+                                                <Image source = {require('../../../../assets/images/follow2.png')}
+                                                    style = {{width: vw(5.3), height: vw(5.3)}}
+                                                />
+                                            </TouchableOpacity>
                                             <Text style = {[styles.name, {fontFamily: 'TT Firs Neue Trial Medium',fontSize: vw(2.8)}]}>
                                                 @mussaouel
                                             </Text>
@@ -914,7 +971,7 @@ const styles = StyleSheet.create({
     container: {
         width: vw(101),
         height: '100%',
-        backgroundColor: 'black'
+        backgroundColor: '#101010'
     },
     header: {
         position: 'absolute',
@@ -975,7 +1032,7 @@ const styles = StyleSheet.create({
         width: vw(100),
         borderTopRightRadius: vw(5),
         borderTopLeftRadius: vw(5),
-        backgroundColor: '#131313'
+        backgroundColor: '#202020'
     },
     topBar: {
         width: vw(22.2), 
@@ -999,7 +1056,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        backgroundColor: '#22222285',
+        backgroundColor: '#202020',
         borderRadius: vw(5)
     },
     footerBar: {
@@ -1029,7 +1086,7 @@ const styles = StyleSheet.create({
         width: vw(77.8),
         aspectRatio: 280/40,
         borderRadius: vw(10),
-        backgroundColor: '#181818',
+        backgroundColor: '#202020',
         borderWidth: vw(0.3),
         borderColor: '#4C4C4C',
         flexDirection: 'row',
@@ -1141,7 +1198,7 @@ const styles = StyleSheet.create({
         bottom: vw(8),
         width: vw(100),
         height: vw(106.2),
-        backgroundColor: '#131313'
+        backgroundColor: '#202020'
     },
     hint: {
         width: vw(90),
@@ -1159,6 +1216,32 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: vw(2)
+    },
+    modalContainer: {
+        backgroundColor: '#00000090',
+        width: vw(100),
+        height: '100%',
+        position: 'absolute',
+        top: 0,
+        padding: vw(5),
+        alignItems: 'flex-end'
+    },
+    modal: {
+        marginTop: vw(40),
+        width: vw(44.44),
+        height: vw(30.56),
+        backgroundColor: '#6C434B',
+        borderRadius: vw(5.6),
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+        alignItmes: 'flex-start',
+        paddingTop: vw(2),
+        paddingBottom: vw(2)
+    },
+    modalItem: {
+        marginLeft: vw(8),
+        flexDirection: 'row',
+        alignItems: 'center',
     },
 });
 

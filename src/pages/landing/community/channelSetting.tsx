@@ -32,8 +32,7 @@ import RadialGradient from 'react-native-radial-gradient';
 
 const CELL_COUNT = 5;
 
-const ChannelSetting
- = ({ navigation }) => {
+const ChannelSetting = ({ navigation }) => {
 
     const windowWidth = useWindowDimensions().width;
     const [isEnabled, setIsEnabled] = useState(true);
@@ -111,7 +110,7 @@ const styles = StyleSheet.create({
     container: {
         width: vw(101),
         height: '100%',
-        backgroundColor: '#0E0E0E',
+        backgroundColor: '#101010',
         flexDirection: 'column',
     },
     titleBar: {
@@ -156,6 +155,7 @@ const styles = StyleSheet.create({
         paddingLeft: vw(5),
         paddingRight: vw(5),
         borderWidth: vw(0.3),
+        backgroundColor: '#202020'
     },
     btnText: {
         fontFamily: 'TT Firs Neue Trial Regular',

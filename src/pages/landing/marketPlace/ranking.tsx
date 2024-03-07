@@ -181,7 +181,7 @@ const Ranking = ({ navigation }) => {
             <BlurView
                 viewRef={viewRef}
                 style={styles.blurViewStyle}
-                blurRadius={3}
+                blurAmount={9}
                 blurType={blurType}
                 // blurRadius={10}
                 downsampleFactor={10}
@@ -225,7 +225,7 @@ const Ranking = ({ navigation }) => {
         setShowBlur(false);
         let timerId;
         timerId = setTimeout(() => {
-        navigation.navigate('MyCommunity');
+        navigation.navigate('NoCommunity');
           }, 30); // Adjust the delay as needed
           return () => {
             clearTimeout(timerId);
@@ -236,8 +236,19 @@ const Ranking = ({ navigation }) => {
   
         setTimeout(() => {
           navigation.goBack();
-          setSelected('Home');
+          setSelected('Community');
         }, 300);
+    }
+    const handleFriendProfile = () => {
+        // setShowBlurs(true);
+            setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+        navigation.navigate('FriendProfile');
+          }, 30); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
     }
     return (
         <SafeAreaView>
@@ -285,7 +296,7 @@ const Ranking = ({ navigation }) => {
                     </View>
                 </View>
                 <View style = {styles.body}>
-                    <View style = {{width: vw(90), marginTop: vw(9), padding: vw(3.3), backgroundColor: '#39393938', borderRadius: vw(10), flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: vw(6.1)}}>
+                    <View style = {{width: vw(90), marginTop: vw(9), padding: vw(3.3), backgroundColor: '#39393952', borderRadius: vw(10), flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: vw(6.1)}}>
                         <View style = {{flexDirection: 'row', alignItems: 'center'}}>
                             <Svg width={vw(4.44)} height={vw(3.9)} viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <Path d="M2.4 4.33106C2.28519 4.32824 2.20183 4.32191 2.12687 4.30771C1.57151 4.2025 1.13737 3.78904 1.0269 3.26012C1 3.13132 1 2.97644 1 2.66667C1 2.3569 1 2.20201 1.0269 2.07321C1.13737 1.54429 1.57151 1.13083 2.12687 1.02562C2.26211 1 2.42474 1 2.75 1H13.25C13.5753 1 13.7379 1 13.8731 1.02562C14.4285 1.13083 14.8626 1.54429 14.9731 2.07321C15 2.20201 15 2.3569 15 2.66667C15 2.97644 15 3.13132 14.9731 3.26012C14.8626 3.78904 14.4285 4.2025 13.8731 4.30771C13.7982 4.32191 13.7148 4.32824 13.6 4.33106M6.6 7.66667H9.4M2.4 4.33333H13.6V9.8C13.6 10.9201 13.6 11.4802 13.3711 11.908C13.1698 12.2843 12.8485 12.5903 12.4534 12.782C12.0042 13 11.4161 13 10.24 13H5.76C4.58389 13 3.99583 13 3.54662 12.782C3.15148 12.5903 2.83022 12.2843 2.62889 11.908C2.4 11.4802 2.4 10.9201 2.4 9.8V4.33333Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
@@ -299,13 +310,14 @@ const Ranking = ({ navigation }) => {
                     <ScrollView showsVerticalScrollIndicator={false}>
                         {
                             rankingArray.map((item, index) =>
-                                <View key ={index} style = {{width: vw(90), padding: vw(3.3), backgroundColor: '#39393938', borderRadius: vw(10), flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: vw(2.8)}}>
+                                <View key ={index} style = {{width: vw(90), padding: vw(3.3), backgroundColor: '#39393953', borderRadius: vw(10), flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: vw(2.8)}}>
                                 <View style = {{flexDirection: 'row', alignItems: 'center'}}>
                                     <Text style = {[styles.userfont, {color: 'white', fontSize: vw(3.3), color: 'white', marginRight: vw(2)}]}>1</Text>
-                                    
+                                    <TouchableOpacity onPress = {handleFriendProfile}>
                                         <Image source = {item.avatar}
                                             style = {{width: vw(7.5), height: vw(7.5)}}
                                         />
+                                    </TouchableOpacity>
                                     <View style = {styles.info}>
                                         <Text style = {[styles.userfont, {color: 'white', fontSize: vw(3.3)}]}>{item.name}</Text>
                                         <Text style = {[styles.userfont, {color: '#4B4B4B', fontSize: vw(2.2)}]}>{item.email}</Text>
@@ -421,7 +433,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#090909'
+        backgroundColor: '#101010'
     },
     header: {
         position: 'absolute',

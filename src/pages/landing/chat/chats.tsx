@@ -162,18 +162,18 @@ const Chats = ({ navigation }) => {
             setShowBlur(false);
         let timerId;
         timerId = setTimeout(() => {
-        navigation.navigate('MainCommunity');
-          }, 30); // Adjust the delay as needed
-          return () => {
+            navigation.navigate('NoCommunity');
+        }, 30); // Adjust the delay as needed
+        return () => {
             clearTimeout(timerId);
-          };
+        };
     }
     const renderBlurView = () => {
         return (
                 <BlurView
                     viewRef={viewRef}
                     style={styles.blurViewStyle}
-                    blurRadius={3}
+                    blurAmount={9}
                     blurType={blurType}
                     // blurRadius={10}
                     downsampleFactor={10}
@@ -239,14 +239,14 @@ const Chats = ({ navigation }) => {
     }
     const navigateChat = () => {
         setSelected('Chat')
-        // setShowBlur(false);
-        // let timerId;
-        // timerId = setTimeout(() => {
-        //     navigation.navigate('GroupAccount');
-        // }, 30); // Adjust the delay as needed
-        // return () => {
-        //     clearTimeout(timerId);
-        // };
+        setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+            navigation.navigate('NoChat');
+        }, 30); // Adjust the delay as needed
+        return () => {
+            clearTimeout(timerId);
+        };
     }
     const handleChatMore = () => {
         setShowBlur(false);
@@ -345,7 +345,7 @@ const Chats = ({ navigation }) => {
                                                     width: vw(13.3), 
                                                     height: vw(13.3), 
                                                     borderWidth: vw(0.3), 
-                                                    borderColor: 'black',
+                                                    borderColor: '#101010',
                                                     backgroundColor: 'transparent'
                                                 }
                                             ]}
@@ -436,6 +436,7 @@ const Chats = ({ navigation }) => {
                                         >
                                             <View style = {styles.datas}>
                                                 <View style = {[styles.avatars, {width: vw(11.1), height: vw(11.1)}]}>
+                                                    <TouchableOpacity onPress = {() => {navigation.navigate('FriendProfile'), setShowBlur(false)}}>
                                                     <Image source = {item.avatar}
                                                         style = {[
                                                             styles.addChatIcon, 
@@ -449,6 +450,7 @@ const Chats = ({ navigation }) => {
                                                             }
                                                         ]}
                                                     />
+                                                    </TouchableOpacity>
                                                     <View 
                                                         style = {{
                                                             position: 'absolute',
@@ -526,14 +528,16 @@ const Chats = ({ navigation }) => {
                                 {
                                     allChat.map((item, index) => 
                                         <TouchableOpacity key = {index} style = {styles.dataItem}
-                                            onPress = {() =>{
-                                                setSelected('Community');
-                                                navigation.navigate('ChatConversation');
-                                                setShowBlur(false);}
-                                            }
+                                            onPress = {handleChatMore}
+                                            // onPress = {() =>{
+                                            //     setSelected('Community');
+                                            //     navigation.navigate('ChatConversation');
+                                            //     setShowBlur(false);}
+                                            // }
                                         >
                                             <View style = {styles.datas}>
                                                 <View style = {[styles.avatars, {width: vw(11.1), height: vw(11.1)}]}>
+                                                    <TouchableOpacity onPress = {() => {navigation.navigate('FriendProfile'), setShowBlur(false)}}>
                                                     <Image source = {item.avatar}
                                                         style = {[
                                                             styles.addChatIcon, 
@@ -546,6 +550,7 @@ const Chats = ({ navigation }) => {
                                                             }
                                                         ]}
                                                     />
+                                                    </TouchableOpacity>
                                                     <View 
                                                         style = {{
                                                             position: 'absolute',
@@ -665,7 +670,7 @@ const styles = StyleSheet.create({
     container: {
         width: vw(101),
         height: '100%',
-        backgroundColor: 'black'
+        backgroundColor: '#101010'
     },
     header: {
         position: 'absolute',
@@ -697,7 +702,7 @@ const styles = StyleSheet.create({
     searchIcon: {
         width: vw(9.4),
         height: vw(9,4),
-        backgroundColor: '#131313',
+        backgroundColor: '#202020',
         borderRadius: vw(5),
         justifyContent: 'center',
         alignItems: 'center'
@@ -815,7 +820,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        backgroundColor: '#22222285',
+        backgroundColor: '#36363690',
         borderRadius: vw(5)
     },
     footerIcon: {

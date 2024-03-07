@@ -123,7 +123,7 @@ const CreateCommunity = ({ navigation }) => {
                     <TouchableOpacity 
                         style = {[styles.footerBtn, {backgroundColor: '#53FAFB'}]}
                         onPress={() => {
-                            navigation.navigate('CommunityRegister');
+                            navigation.navigate('CommunityEmpty');
                         }}
                     >
                         <Text style = {[styles.text, {color: 'black'}]}>Next</Text>

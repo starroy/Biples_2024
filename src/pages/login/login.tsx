@@ -80,7 +80,7 @@ const Login = ({ navigation }) => {
                         image={require('../../../assets/images/mail.png')}
                         width={vw(90)}
                         height={vw(12.5)}
-                        backgroundColor="#131313"
+                        backgroundColor="#1E1E1E"
                         onchangeText={this.handleEmail}
                     />
                     <View style = {{wdith: vw(100), aspectRatio: 360/13}}/>
@@ -89,7 +89,7 @@ const Login = ({ navigation }) => {
                         image={require('../../../assets/images/lock.png')}
                         width={vw(90)}
                         height={vw(12.5)}
-                        backgroundColor="#131313"
+                        backgroundColor="#1E1E1E"
                         icon={isVisiblePassword ? require('../../../assets/images/eyeoff.png') : require('../../../assets/images/eyeoff.png')}
                         onchangeText={this.handlePassword}
                         isVisiblePassword={isVisiblePassword}
@@ -113,10 +113,10 @@ const Login = ({ navigation }) => {
                         // onPress={() => console.log('My Button pressed')}
                         width={vw(90)}
                         height={vw(12.5)}
-                        backgroundColor={(email !== '' || password !== '') ? "#53FAFB" : "#131313"}
+                        backgroundColor={(email !== '' || password !== '') ? "#53FAFB" : "#202020"}
                         color={(email !== '' || password !== '') ? "black" : "#6D6D6D"}
                         fontSize={vw(3.9)}
-                        navigateName = 'Main'
+                        onPress={() => { if (email !== '' || password !== '') navigation.navigate('Main')}}
                     />
                     <Text 
                         style={[styles.text, {marginTop: vw(6.1)}]}
@@ -136,7 +136,7 @@ const Login = ({ navigation }) => {
                                 title={'Enable Face ID to login fast?'}
                                 width={vw(90)}
                                 height={vw(12.5)}
-                                backgroundColor={"#131313"}  
+                                backgroundColor={"#202020"}  
                                 color={'white'}
                                 fontSize={vw(3.3)}
                                 image={4}
@@ -168,7 +168,7 @@ const Login = ({ navigation }) => {
                             // onPress={() => console.log('My Button pressed')}
                             width={vw(15.3)}
                             height={vw(15.3)}
-                            backgroundColor="#131313"
+                            backgroundColor="#202020"
                             image={require('../../../assets/images/wallet1.png')}
                             link="/register/wallet"
                         />
@@ -176,7 +176,7 @@ const Login = ({ navigation }) => {
                             // onPress={() => console.log('My Button pressed')}
                             width={vw(15.3)}
                             height={vw(15.3)}
-                            backgroundColor="#131313"
+                            backgroundColor="#202020"
                             image={require('../../../assets/images/wallet2.png')}
                             link="/register/wallet"
                         />
@@ -184,14 +184,14 @@ const Login = ({ navigation }) => {
                             // onPress={() => console.log('My Button pressed')}
                             width={vw(15.3)}
                             height={vw(15.3)}
-                            backgroundColor="#131313"
+                            backgroundColor="#202020"
                             image={require('../../../assets/images/wallet3.png')}
                             link="/register/wallet"
                         />
                         <CustomImageButton
                             width={vw(15.3)}
                             height={vw(15.3)}
-                            backgroundColor="#131313"
+                            backgroundColor="#202020"
                             image={require('../../../assets/images/metamask.png')}
                             link="/register/wallet"
                         />
@@ -203,8 +203,9 @@ const Login = ({ navigation }) => {
                             Don't have and account?&nbsp;
                             <Text 
                                 style = {{ color: '#53FAFB' }}
+                                onPress = {() => navigation.navigate('Email')}
                             >
-                                Privacy policy 
+                                Register 
                             </Text>
                         </Text>
                     </View>
@@ -218,7 +219,7 @@ const styles = StyleSheet.create({
     container: {
         width: vw(101),
         height: '100%',
-        backgroundColor: '#000000',
+        backgroundColor: '#101010',
     },
     title: {
         marginTop: vw(18.3),

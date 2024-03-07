@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, StyleSheet, Pressable, View, Image, ImageBackgr
 import { vh, vw } from 'react-native-css-vh-vw';
 import Svg, { Path} from 'react-native-svg';
 
-const CustomFollow = ({ avatar, avatarName, avatarContent, followState, onPress, handlePress}) => {
+const CustomFollow = ({ avatar, avatarName, avatarContent, followState, onPress, handlePress, navigatePress}) => {
     
     return (
             <TouchableOpacity
@@ -11,12 +11,16 @@ const CustomFollow = ({ avatar, avatarName, avatarContent, followState, onPress,
                 onPress = {handlePress}
             >
                 <View style = {{ flexDirection: 'row', justyfiContent: 'center', alignItems: 'center'}}>
+                    <TouchableOpacity
+                        onPress = {navigatePress}
+                    >
                     <Image 
                         source = {avatar}
                         style = {styles.avatar}
                     />
+                    </TouchableOpacity>
                     <View style = {styles.avatarInfo}>
-                        <Text style={{fontFamily: 'TT Firs Neue Trial Medium', fontSize: vw(3.9), color: 'white'}}>
+                        <Text style={{fontFamily: 'TT Firs Neue Trial Medium', fontSize: vw(3.3), color: 'white'}}>
                             {avatarName}
                         </Text>
                         <Text style={{fontFamily: 'TT Firs Neue Trial Regular', fontSize: vw(2.2), color: '#565656'}}>
@@ -26,16 +30,16 @@ const CustomFollow = ({ avatar, avatarName, avatarContent, followState, onPress,
                 </View>
                 {
                     followState ? 
-                    <TouchableOpacity style = {{ width: vw(20.8), aspectRatio: 75/30, borderRadius: vw(5), backgroundColor: '#53FAFB', justifyContent: 'center', alignItems: 'center', borderWidth: vw(1), borderColor: '#53FAFB' }}>
-                        <Text style={{fontFamily: 'TT Firs Neue Trial Medium', fontSize: vw(2.8), color: 'black'}}
-                            onPress = {onPress}
-                        >
+                    <TouchableOpacity style = {{ height: vw(8.33), aspectRatio: 70/30, borderRadius: vw(5), backgroundColor: '#53FAFB', justifyContent: 'center', alignItems: 'center', borderWidth: vw(1), borderColor: '#53FAFB' }}
+                        onPress = {onPress}
+                    >
+                        <Text style={{fontFamily: 'TT Firs Neue Trial Medium', fontSize: vw(2.8), color: 'black'}}>
                             Follow
                         </Text>
                     </TouchableOpacity>
                     :
                     <TouchableOpacity 
-                        style = {{ width: vw(20.8), aspectRatio: 75/30, borderRadius: vw(5), backgroundColor: 'transparent', justifyContent: 'center', alignItems: 'center', borderWidth: vw(0.3), borderColor: '#595959' }}
+                        style = {{ height: vw(8.33), aspectRatio: 80/30, borderRadius: vw(5), backgroundColor: 'transparent', justifyContent: 'center', alignItems: 'center', borderWidth: vw(0.3), borderColor: '#595959' }}
                         onPress = {onPress}
                     >
                         <Text style={{fontFamily: 'TT Firs Neue Trial Medium', fontSize: vw(2.8), color: '#595959'}}>
@@ -63,9 +67,13 @@ const styles = StyleSheet.create({
         marginLeft: vw(5)
     },
     avatar: {
-        width: vw(12.5),
-        height: vw(12.5),
+        width: vw(9.44),
+        height: vw(9.44),
         marginRight: vw(2.8)
+    },
+    avatarInfo: {
+        height: vw(9.44),
+        justifyContent: 'space-around'
     }
 });
 

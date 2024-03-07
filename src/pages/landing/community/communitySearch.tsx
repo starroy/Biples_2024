@@ -24,37 +24,37 @@ const CommunitySearch = ({navigation}) => {
     const [isLoading, setLoading] = useState(false);
     const [recentSearch, setRecentSearch] = useState([
         {
-            avatar: require('../../../../assets/images/avatar2.png'),
+            avatar: require('../../../../assets/images/card9.png'),
             name: 'Dream for All Members'
         },
         {
-            avatar: require('../../../../assets/images/avatar1.png'),
+            avatar: require('../../../../assets/images/card8.png'),
             name: 'Dream for All Members'
         },
         {
-            avatar: require('../../../../assets/images/avatar2.png'),
+            avatar: require('../../../../assets/images/card9.png'),
             name: 'Dream for All Members'
         },
         {
-            avatar: require('../../../../assets/images/avatar1.png'),
+            avatar: require('../../../../assets/images/card8.png'),
             name: 'Dream for All Members'
         },
         {
-            avatar: require('../../../../assets/images/avatar2.png'),
+            avatar: require('../../../../assets/images/card9.png'),
             name: 'Dream for All Members'
         },
         {
-            avatar: require('../../../../assets/images/avatar1.png'),
+            avatar: require('../../../../assets/images/card8.png'),
             name: 'Dream for All Members'
         },
     ]);
     const communitiesArray = [
-        {avatar: require('../../../../assets/images/avatar1.png')},
-        {avatar: require('../../../../assets/images/avatar2.png')},
-        {avatar: require('../../../../assets/images/avatar1.png')},
-        {avatar: require('../../../../assets/images/avatar2.png')},
-        {avatar: require('../../../../assets/images/avatar1.png')},
-        {avatar: require('../../../../assets/images/avatar2.png')},
+        {avatar: require('../../../../assets/images/card8.png')},
+        {avatar: require('../../../../assets/images/card9.png')},
+        {avatar: require('../../../../assets/images/card8.png')},
+        {avatar: require('../../../../assets/images/card9.png')},
+        {avatar: require('../../../../assets/images/card8.png')},
+        {avatar: require('../../../../assets/images/card9.png')},
     ];
     handleText = (texts):[string] => {
         setText(texts);
@@ -116,9 +116,10 @@ const CommunitySearch = ({navigation}) => {
                                 keyboardType = 'default'
                             />
                             <TouchableOpacity style={styles.speech}
-                                // onPress={() =>
-                                //     navigation.navigate('SpeechInput')
-                                // }
+                                // onPress ={ () => navigation.navigate('CommunityRegister') }
+                                onPress={() =>
+                                    navigation.navigate('SpeechInput')
+                                }
                             >
                                 <Svg width={vw(2.8)} height={vw(3)} viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <Path d="M9 5.5V6C9 8.20914 7.20914 10 5 10C2.79086 10 1 8.20914 1 6V5.5M5 8C3.89543 8 3 7.10457 3 6V3C3 1.89543 3.89543 1 5 1C6.10457 1 7 1.89543 7 3V6C7 7.10457 6.10457 8 5 8Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
@@ -141,16 +142,15 @@ const CommunitySearch = ({navigation}) => {
                     </View>
                 </View>
                 <View style = {styles.body}>
-                    <View style = {[styles.communitiesr, {marginLeft: vw(3), marginTop: vw(3)}]}>
+                    <View style = {[styles.communitiesr, {paddingLeft: vw(3),paddingRight: vw(3), marginTop: vw(3)}]}>
                     
                     <FlatList
-                        style = {{width: vw(90)}}
+                        style = {{width: vw(100)}}
                         data={communitiesArray}
                         horizontal
                         showsHorizontalScrollIndicator={false}
                         renderItem={({ item }) =>
                             <TouchableOpacity style ={{flexDirection: 'column', alignItems: 'center',}}
-                                onPress ={ () => navigation.navigate('CreateCommunity') }
                             >
                                 <Image 
                                     source = {item.avatar}
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        backgroundColor: 'black',
+        backgroundColor: '#101010',
     },
     header: {
         position: 'absolute',
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
         width: vw(9.44),
         height: vw(9.44),
         borderRadius: vw(5),
-        backgroundColor: '#181818',
+        backgroundColor: '#202020',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     searchBar: {
         width: vw(76.7),
         height: vw(9.44),
-        backgroundColor: '#131313',
+        backgroundColor: '#202020',
         borderRadius: vw(5),
         flexDirection: 'row',
         justifyContent: 'flex-start',

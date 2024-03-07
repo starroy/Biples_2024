@@ -27,6 +27,7 @@ import { ListItem } from 'react-native-elements';
 import { SwipeListView, Sw} from 'react-native-swipe-list-view';
 import { NavigationRouteContext } from '@react-navigation/native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+// import { TouchableOpacity } from 'react-native';
 const GroupAccount = ({navigation}) => {
     const statusBarHeight = getStatusBarHeight();
     const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -246,7 +247,7 @@ const GroupAccount = ({navigation}) => {
 
     const [selected, setSelected] = useState('Chat');
     const [friendData, setFriendData] = useState({
-        avatar: require('../../../../assets/images/avatar2.png'),
+        avatar: require('../../../../assets/images/card9.png'),
         userName: 'Fernado TOYs',
         displayName: '66.2K Members',
         online: true,
@@ -291,6 +292,7 @@ const GroupAccount = ({navigation}) => {
         },
     ]);
     const [showModal, setShowModal] = useState(false);
+    const [showModals, setShowModals] = useState(false);
     const [state, setState] = useState('Media');
     const [nftAvatars, setNftAvatars] = useState(data);
     const [documentData, setDocumentData] = useState(document);
@@ -328,12 +330,12 @@ const GroupAccount = ({navigation}) => {
     const handleTabPress = (index) => {
         setActiveTab(index);
         Animated.timing(screenX, {
-          toValue: -index * SCREEN_WIDTH,
-          duration: 250,
-          useNativeDriver: true,
+            toValue: -index * SCREEN_WIDTH,
+            duration: 250,
+            useNativeDriver: true,
         }).start();
         // console.log(activeTab);
-      };
+    };
     const DocumentItem = ({item, index}) => {
         const handleDelete = (id) => {
             setDocumentData(prevFriends => {
@@ -538,7 +540,7 @@ const GroupAccount = ({navigation}) => {
               <Animated.View
                 style={{
                   flex: 1,
-                  backgroundColor: backgroundColor,
+                  backgroundColor: '#101010',
                   justifyContent: 'flex-end',
                   flexDirection: 'row',
                   width: vw(90)
@@ -569,7 +571,7 @@ const GroupAccount = ({navigation}) => {
         const renderItem = (data) => {
             // console.log(data.item.state);
             return (
-            <View style={[styles.voicedataStyle, { width: dragged ? vw(72) : vw(90),  left: dragged && direct == 'left' ? vw(17) : 0, right: dragged && direct == 'right' ? 0 : 0-vw(17),}]}>
+            <View style={[styles.voicedataStyle, { width: dragged ? vw(72) : vw(90),  left: dragged && direct == 'left' ? vw(17) : 0, right: dragged && direct == 'right' ? 0 : 0-vw(17)}]}>
                  <View style = {[styles.vicCard, {width: dragged? vw(72.2): vw(90), backgroundColor: data.item.state == 'run' ? "#53FAFB" : '#172727'}]}>
                      {
                          data.item.state == 'run' ?
@@ -659,7 +661,7 @@ const GroupAccount = ({navigation}) => {
             // console.log(direction)
         }
         return (
-            <View style = {{width: vw(90), flexDirection: 'row',}}>
+            <View style = {{width: vw(90), flexDirection: 'row', backgroundColor: '#101010'}}>
                 <SwipeListView
                 data={items}
                 renderItem={renderItem}
@@ -722,21 +724,21 @@ const GroupAccount = ({navigation}) => {
   
       return () => backHandler.remove();
     }, []);
-    // useFocusEffect(
-    //     React.useCallback(() => {
-    //       let timerId;
+    useFocusEffect(
+        React.useCallback(() => {
+          let timerId;
     
-    //       if (!showBlur) {
-    //         timerId = setTimeout(() => {
-    //           setShowBlur(true);
-    //         }, 500); // Adjust the delay as needed
-    //       }
+          if (!showBlur) {
+            timerId = setTimeout(() => {
+              setShowBlur(true);
+            }, 500); // Adjust the delay as needed
+          }
     
-    //       return () => {
-    //         clearTimeout(timerId);
-    //       };
-    //     }, [showBlur])
-    //   );
+          return () => {
+            clearTimeout(timerId);
+          };
+        }, [showBlur])
+      );
     // useEffect(() => {
     //     const switchPage = setTimeout(() => {
     //         setShowBlur(!showBlur);
@@ -754,21 +756,21 @@ const GroupAccount = ({navigation}) => {
                     style={styles.blurViewStyle}
                     // blurRadius={1}
                     // blurType={blurType}
-                    blurAmount={1}
-                    // downsampleFactor={10}
-                    overlayColor={'rgba(50, 50, 50, .2)'}
+                    blurAmount={9}
+                    downsampleFactor={10}
+                    overlayColor={'rgba(50, 50, 50, .5)'}
                 />
             </View>
         );
     }        
     const navigateAndAnimate = () => {
       if (allView === 0) {
-        navigation.navigate('FriendSearchLoading');
+        // navigation.navigate('FriendSearchLoading');
         setShowBlur(false);
         let timerId;
         timerId = setTimeout(() => {
-        navigation.navigate('FriendSearchLoading');
-          }, 100); // Adjust the delay as needed
+        navigation.goBack();
+          }, 30); // Adjust the delay as needed
           return () => {
             clearTimeout(timerId);
           };
@@ -793,11 +795,22 @@ const GroupAccount = ({navigation}) => {
             clearTimeout(timerId);
             };
     }
+    const navigated1 = () => {
+            setSelected('Chat')
+            setShowBlur(false);
+            let timerId;
+            timerId = setTimeout(() => {
+                navigation.navigate('NoChat');
+            }, 30); // Adjust the delay as needed
+            return () => {
+            clearTimeout(timerId);
+            };
+    }
     const navigateMyCommunity = () => {
         setShowBlur(false);
         let timerId;
         timerId = setTimeout(() => {
-        navigation.navigate('MyCommunity');
+        navigation.navigate('NoCommunity');
           }, 30); // Adjust the delay as needed
           return () => {
             clearTimeout(timerId);
@@ -826,9 +839,9 @@ const GroupAccount = ({navigation}) => {
                         </Text>
                         <TouchableOpacity
                             style = {[styles.prevButton, {backgroundColor: 'transparent', alignItems: 'flex-end'}]}
-                            // onPress = { () => 
-                            //     navigation.navigate('QRProfile')
-                            // }
+                            onPress = { () => 
+                                setShowModals(!showModals)
+                            }
                         >
                             <Svg width={vw(1.1)} height={vw(4.44)} viewBox="0 0 4 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <Path d="M2.125 7.25008C1.64174 7.25008 1.24999 7.64183 1.24999 8.12508C1.24999 8.60833 1.64174 9.00009 2.125 9.00009C2.60825 9.00009 3 8.60833 3 8.12508C3 7.64183 2.60825 7.25008 2.125 7.25008Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
@@ -842,7 +855,7 @@ const GroupAccount = ({navigation}) => {
                     <TouchableOpacity style={styles.modalContainer}
                         onPress = {() => setShowModal(false)}
                     >
-                    <StatusBar translucent backgroundColor = '#00000040'/>
+                    <StatusBar translucent backgroundColor = '#00000090'/>
                         <View style = {[styles.modal, {marginTop: (vw(53)-statusBarHeight)}]}>
                             <View style = {styles.modalItem}>
                                 <Svg width={vw(3.3)} height={vw(3.6)} viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -852,14 +865,16 @@ const GroupAccount = ({navigation}) => {
                                 &nbsp;&nbsp;Unfollow&nbsp;&nbsp;
                                 </Text>
                             </View>
-                            <View style = {styles.modalItem}>
+                            <TouchableOpacity style = {styles.modalItem}
+                                onPress = {() => {navigation.navigate('Tickets'), setShowBlur(false), setShowModal(!showModal)}}
+                            >
                                 <Svg width={vw(3.9)} height={vw(3.1)} viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <Path d="M5.8 3V2.375M5.8 5.8125V5.1875M5.8 8.625V8M2.92 0.5H11.08C11.7521 0.5 12.0881 0.5 12.3448 0.636242C12.5706 0.756084 12.7542 0.947309 12.8692 1.18251C13 1.4499 13 1.79993 13 2.5V3.3125C11.8402 3.3125 10.9 4.29188 10.9 5.5C10.9 6.70812 11.8402 7.6875 13 7.6875V8.5C13 9.20007 13 9.5501 12.8692 9.81749C12.7542 10.0527 12.5706 10.2439 12.3448 10.3638C12.0881 10.5 11.7521 10.5 11.08 10.5H2.92C2.24794 10.5 1.91191 10.5 1.65521 10.3638C1.42942 10.2439 1.24584 10.0527 1.13079 9.81749C1 9.5501 1 9.20007 1 8.5V7.6875C2.1598 7.6875 3.1 6.70812 3.1 5.5C3.1 4.29188 2.1598 3.3125 1 3.3125V2.5C1 1.79993 1 1.4499 1.13079 1.18251C1.24584 0.947309 1.42942 0.756084 1.65521 0.636242C1.91191 0.5 2.24794 0.5 2.92 0.5Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                                 </Svg>
                                 <Text style = {[styles.text, {color:'white', fontSize: vw(3.3), marginLeft: vw(3)}]}>
                                 &nbsp;&nbsp;Open Ticket&nbsp;&nbsp;
                                 </Text>
-                            </View>
+                            </TouchableOpacity>
                             <View style = {styles.modalItem}>
                                 <Svg width={vw(3.6)} height={vw(2.8)} viewBox="0 0 13 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <Path d="M6.5 4.11258V6.33429M6.5 8.556H6.50536M5.75797 1.2753L1.35039 9.16605C1.10592 9.60372 0.983683 9.82256 1.00175 10.0022C1.01751 10.1588 1.0967 10.3012 1.2196 10.3938C1.36052 10.5 1.60449 10.5 2.09242 10.5H10.9076C11.3955 10.5 11.6395 10.5 11.7804 10.3938C11.9033 10.3012 11.9825 10.1588 11.9982 10.0022C12.0163 9.82256 11.8941 9.60372 11.6496 9.16605L7.24203 1.2753C6.99843 0.839197 6.87663 0.621146 6.71773 0.547911C6.57912 0.48403 6.42088 0.48403 6.28227 0.547911C6.12337 0.621146 6.00157 0.839197 5.75797 1.2753Z" stroke="#FF5252" stroke-linecap="round" stroke-linejoin="round"/>
@@ -868,6 +883,36 @@ const GroupAccount = ({navigation}) => {
                                 &nbsp;&nbsp;Report&nbsp;&nbsp;
                                 </Text>
                             </View>
+                        </View>
+                    </TouchableOpacity>
+                </Modal>
+                <Modal visible={showModals} transparent={true}>
+                    <TouchableOpacity style={styles.modalContainer}
+                        onPress = {() => setShowModals(false)}
+                    >
+                    <StatusBar translucent backgroundColor = '#00000090'/>
+                        <View style = {[styles.modal, {marginTop: (vw(15)-statusBarHeight), width: vw(50)}]}>
+                            <TouchableOpacity style = {[styles.modalItem,{marginLeft: vw(3)}]}
+                                onPress = {() => {navigation.navigate('Members'), setShowBlur(false), setShowModals(!showModals)}}
+                            >
+                                <Text style = {[styles.text, {color:'white', fontSize: vw(3.3), marginLeft: vw(3)}]}>
+                                &nbsp;&nbsp;Members&nbsp;&nbsp;
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style = {[styles.modalItem,{marginLeft: vw(3)}]}
+                                onPress = {() => {navigation.navigate('Overview'), setShowBlur(false), setShowModals(!showModals)}}
+                            >
+                                <Text style = {[styles.text, {color:'white', fontSize: vw(3.3), marginLeft: vw(3)}]}>
+                                &nbsp;&nbsp;Overview&nbsp;&nbsp;
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style = {[styles.modalItem,{marginLeft: vw(3)}]}
+                                onPress = {() => {navigation.navigate('MemberPermission'), setShowBlur(false), setShowModals(!showModals)}}
+                            >
+                                <Text style = {[styles.text, {color:'white', fontSize: vw(3.3), marginLeft: vw(3), textAlign: 'center'}]}>
+                                &nbsp;&nbsp;Community Settings&nbsp;&nbsp;
+                                </Text>
+                            </TouchableOpacity>
                         </View>
                     </TouchableOpacity>
                 </Modal>
@@ -1131,9 +1176,7 @@ const GroupAccount = ({navigation}) => {
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style = {styles.footerIcon}
-                        onPress = {() => 
-                            setSelected('Chat')
-                        }
+                        onPress = {navigated1}
                     >
                         <Svg width={vw(5.6)} height={vw(5.6)} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <G clip-path="url(#clip0_175_4353)">
@@ -1157,7 +1200,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        backgroundColor: 'black',
+        backgroundColor: '#101010',
         flexDirection: 'column',
     },
     header: {
@@ -1168,7 +1211,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-end',
         alignItems: 'center',
-        backgroundColor: 'black',
+        // backgroundColor: 'black',
     },
     backImage: {
         width: '100%',
@@ -1191,7 +1234,7 @@ const styles = StyleSheet.create({
         width: vw(11),
         height: vw(11),
         borderRadius: vw(6),
-        backgroundColor: '#131313',
+        backgroundColor: '#202020',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -1286,7 +1329,7 @@ const styles = StyleSheet.create({
     },
     middle: {
         flexDirection: 'column',
-        height: vw(13.6),
+        height: vw(15.6),
         width: vw(90),
         justifyContent: 'space-betwen',
 

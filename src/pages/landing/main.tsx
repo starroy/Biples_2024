@@ -41,6 +41,8 @@ const Main = ({ navigation }) => {
     const [viewRef, setViewRef] = useState(null);
     const [blurType, setBlurType] = useState('light');
     const [selected, setSelected] = useState('Home');
+    const [close, setClose] = useState(false);
+    const [bookMark, setBookMark] = useState(false);
     const windowWidth = useWindowDimensions().width;
     const user = {
         avatar: require('../../../assets/images/avatar.jpg'),
@@ -52,12 +54,12 @@ const Main = ({ navigation }) => {
     };
     const helloMessage = "Good Morning!";
     const communitiesArray = [
-        {avatar: require('../../../assets/images/avatar1.png')},
-        {avatar: require('../../../assets/images/avatar2.png')},
-        {avatar: require('../../../assets/images/avatar1.png')},
-        {avatar: require('../../../assets/images/avatar2.png')},
-        {avatar: require('../../../assets/images/avatar1.png')},
-        {avatar: require('../../../assets/images/avatar2.png')},
+        {avatar: require('../../../assets/images/card8.png')},
+        {avatar: require('../../../assets/images/card9.png')},
+        {avatar: require('../../../assets/images/card8.png')},
+        {avatar: require('../../../assets/images/card9.png')},
+        {avatar: require('../../../assets/images/card8.png')},
+        {avatar: require('../../../assets/images/card9.png')},
     ]
     const cardArray = [
         {
@@ -135,37 +137,37 @@ const Main = ({ navigation }) => {
     ]
     topCardArray = [
         {
-            avatar: require('../../../assets/images/avatar2.png'),
+            avatar: require('../../../assets/images/card9.png'),
             avatarName: 'Fernado TOYs',
             avatarContent: '1,500 Members',
             joinState: false
         },
         {
-            avatar: require('../../../assets/images/avatar1.png'),
+            avatar: require('../../../assets/images/card8.png'),
             avatarName: 'Fernado TOYs',
             avatarContent: '1,500 Members',
             joinState: true
         },
         {
-            avatar: require('../../../assets/images/avatar2.png'),
+            avatar: require('../../../assets/images/card9.png'),
             avatarName: 'Fernado TOYs',
             avatarContent: '1,500 Members',
             joinState: false
         },
         {
-            avatar: require('../../../assets/images/avatar1.png'),
+            avatar: require('../../../assets/images/card8.png'),
             avatarName: 'Fernado TOYs',
             avatarContent: '1,500 Members',
             joinState: true
         },
         {
-            avatar: require('../../../assets/images/avatar2.png'),
+            avatar: require('../../../assets/images/card9.png'),
             avatarName: 'Fernado TOYs',
             avatarContent: '1,500 Members',
             joinState: false
         },
         {
-            avatar: require('../../../assets/images/avatar1.png'),
+            avatar: require('../../../assets/images/card8.png'),
             avatarName: 'Fernado TOYs',
             avatarContent: '1,500 Members',
             joinState: true
@@ -211,7 +213,7 @@ const Main = ({ navigation }) => {
                 <BlurView
                     viewRef={viewRef}
                     style={styles.blurViewStyle}
-                    blurRadius={3}
+                    blurAmount={9}
                     blurType={blurType}
                     // blurRadius={10}
                     downsampleFactor={10}
@@ -242,6 +244,39 @@ const Main = ({ navigation }) => {
             clearTimeout(timerId);
           };
     }
+    const navigateAccount = () => {
+        // setShowBlurs(true);
+            setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+        navigation.navigate('Account');
+          }, 30); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
+    }
+    const navigateTopics = () => {
+        // setShowBlurs(true);
+            setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+        navigation.navigate('Topics');
+          }, 300); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
+    }
+    const handleFriendProfile = () => {
+        // setShowBlurs(true);
+            setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+        navigation.navigate('FriendProfile');
+          }, 50); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
+    }
     return (
         <SafeAreaView>
             <StatusBar 
@@ -251,7 +286,33 @@ const Main = ({ navigation }) => {
                 <View style = {styles.header}>
                     <View style = {styles.userInfo}>
                         <View style = {styles.user}>
-                            <Image source = {user.avatar} style = {styles.avatarStyle}/>
+                            <TouchableOpacity
+                                onPress = {navigateAccount}
+                            >
+                            <Image source = {user.avatar} style = {styles.avatarStyle}/></TouchableOpacity>
+                            <View style = {{
+                                backgroundColor: 'red', 
+                                position: 'absolute', 
+                                bottom: 0, 
+                                left: vw(7), 
+                                width: vw(3), 
+                                height: vw(3), 
+                                borderRadius: vw(5),
+                                justifyContent: 'center',
+                                paddingRight: vw(0.3),
+                                alignItems: 'center',
+                                }}
+                            >
+                                <Text style = {{
+                                    color: 'white', 
+                                    fontSize: vw(2), 
+                                    // textAlign: 'center',
+                                    fontFamily: 'TT Firs Neue Trial Medium'
+                                    }}
+                                >
+                                +1
+                                </Text>
+                            </View>
                             <View style = {styles.userfont}>
                                 <Text style = {[styles.userfont, {fontSize: vw(2.2), color: "#4C4C4C"}]}>
                                     {helloMessage}
@@ -291,7 +352,7 @@ const Main = ({ navigation }) => {
                     showsVerticalScrollIndicator={false}
                     style = {styles.body}
                 >
-                    <View style = {styles.myCommunities}>
+                    <View style = {[styles.myCommunities, {aspectRatio: close ? 360/112 : 360/266}]}>
                         <View style = {{justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', marginBottom: vw(3.33), paddingLeft: vw(5), paddingRight: vw(5)}}>
                             <Text style = {styles.title}>
                                 My Communitites
@@ -301,7 +362,7 @@ const Main = ({ navigation }) => {
                             </Text>
                         </View>
                         <View style = {[styles.communities, {}]}>
-                            <View style={{width: vw(13.9), aspectRatio: 1/1, backgroundColor: '#53FAFB10', justifyContent: 'center', alignItems: 'center', borderRadius: vw(3)}}>
+                            <View style={{width: vw(13.9), height: vw(13.9), backgroundColor: '#0e2223', justifyContent: 'center', alignItems: 'center', borderRadius: vw(2), zIndex: 1}}>
                                 <Svg width={vw(4.44)} height={vw(4.44)}  viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <Path d="M8 15.5V0.5M0.5 8H15.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                                 </Svg>
@@ -309,17 +370,26 @@ const Main = ({ navigation }) => {
                             <FlatList
                                 data={communitiesArray}
                                 horizontal
+                                style = {{marginLeft: (0-vw(5)), paddingRight: vw(3), width: vw(80), zIndex: 0, paddingLeft: vw(5)}}
                                 showsHorizontalScrollIndicator={false}
-                                renderItem={({ item }) =>
-                                    <Image 
-                                        source = {item.avatar}
-                                        style={{width: vw(13.9), height: vw(13.9), marginLeft: vw(2.8),borderRadius: vw(3) }}
-                                        resizeMode="cover"
-                                    />
+                                renderItem={({ item, index }) =>
+                                    <TouchableOpacity
+                                        onPress = {() => {
+                                            navigation.navigate('CommunityEmpty')
+                                            setShowBlur(false)}
+                                        }
+                                    >
+                                        <Image 
+                                            source = {item.avatar}
+                                            style={{width: vw(13.9), height: vw(13.9), marginLeft: vw(2.8),borderRadius: vw(2) }}
+                                            resizeMode="cover"
+                                        />
+                                        {index  === (communitiesArray.length-1) && <View style = {{width: vw(25)}}/>}
+                                    </TouchableOpacity>
                                 }
                             />
                         </View>
-                        <View style = {[styles.advert, {marginLeft: vw(5)}]}>
+                        { !close  && <View style = {[styles.advert, {marginLeft: vw(5)}]}>
                             <ImageBackground 
                                 source = {require('../../../assets/images/advert.png')}
                                 style = {[styles.advert, {paddingLeft: vw(4.5),paddingTop: vw(4.8), paddingRight: vw(3.3), paddingBottom: vw(5.3) }]}
@@ -333,9 +403,10 @@ const Main = ({ navigation }) => {
                                         Let's Start It Together!.
                                     </Text>
                                     <TouchableOpacity
-                                        style={[styles.button, { width: vw(17.5), height: vw(5.3), fontFamily: 'Neue-Metana' }]}
+                                        style={[styles.button, { width: vw(17.5), height: vw(5.3), fontFamily: 'Neue-Metana', overflow: 'hidden' }]}
                                         // onPress={onPress}
                                     >
+                                    {showBlur ? renderBlurView() : null}
                                         <Svg width={vw(1.8)} height={vw(2)} viewBox="0 0 6 7" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <Path d="M0.5 6.18722C0.5 6.55949 0.5 6.74562 0.571313 6.84822C0.63344 6.93761 0.728397 6.99292 0.831191 6.9996C0.949185 7.00727 1.09148 6.90402 1.37606 6.69753L5.07944 4.01031C5.31459 3.83968 5.43216 3.75437 5.47314 3.64684C5.50896 3.55283 5.50896 3.44717 5.47314 3.35316C5.43216 3.24563 5.31459 3.16032 5.07944 2.98969L1.37606 0.302474C1.09148 0.0959778 0.949185 -0.00726986 0.831191 0.000398159C0.728397 0.00707865 0.63344 0.0623918 0.571313 0.151778C0.5 0.254382 0.5 0.440515 0.5 0.812781V6.18722Z" fill="#D9D9D9"/>
                                         </Svg>
@@ -345,20 +416,21 @@ const Main = ({ navigation }) => {
                                                 color: 'white', 
                                                 fontSize: vw(2), 
                                                 fontFamily: 'TT Firs Neue Trial Medium'
-                                                
                                             }}
                                         >
                                             &nbsp;&nbsp;Subscribe
                                         </Text>
                                     </TouchableOpacity>
                                 </View>
-                                <View style = {styles.close}>
+                                <TouchableOpacity style = {styles.close}
+                                    onPress = {() => setClose(true)}
+                                >
                                     <Svg width={vw(1.8)} height={vw(1.8)} viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <Path d="M5.25631 0.743652L1.15375 4.84622M1.15375 0.743652L5.25631 4.84622" stroke="white" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"/>
                                     </Svg>
-                                </View>
+                                </TouchableOpacity>
                             </ImageBackground>
-                        </View>
+                        </View>}
                     </View>
                     <View style = {styles.recommended}>
                         <View style = {{justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', marginBottom: vw(4.44), paddingRight: vw(5)}}>
@@ -383,11 +455,13 @@ const Main = ({ navigation }) => {
                                     avatar1 = {item.avatar1}
                                     avatar2 = {item.avatar2}
                                     avatar3 = {item.avatar3}
+                                    bookMark = {bookMark}
                                     text = {item.text}
                                     heartNumber = {item.heartNumber}
-                                    onPress = {() => {navigation.navigate('Topics');
-                                    setShowBlur(false)
-                                    }}
+                                    // renderBlurView = {renderBlurView}
+                                    // showBlur = {showBlur}
+                                    onPress = {navigateTopics}
+                                    handlePressed = {() => setBookMark(!bookMark)}
                                 />
                             }
                         />
@@ -412,6 +486,11 @@ const Main = ({ navigation }) => {
                                         joinState={item.joinState}
                                         radius={vw(3)}
                                         backgroundColor='#FFFFFF21'
+                                        handlePress = {() => {
+                                            navigation.navigate('CommunityEmpty')
+                                            setShowBlur(false)}
+                                        }
+                                        onPress = {handleFriendProfile}
                                     />
                                 )
                             }
@@ -443,7 +522,7 @@ const Main = ({ navigation }) => {
                         <TouchableOpacity style = {styles.footerIcon}
                             onPress = {() => {
                                 setSelected('Community');
-                                navigation.navigate('MainCommunity');
+                                navigation.navigate('NoCommunity');
                                 setShowBlur(false)
                             }}
                         >
@@ -488,7 +567,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#090909'
+        backgroundColor: '#101010'
     },
     header: {
         position: 'absolute',
@@ -576,16 +655,21 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginLeft: vw(5),
         marginRight: vw(0),
+        backgroundColor: 'transparent'
     },
     advert: {
         flexDirection: 'row',
-        alingItems: 'flex-start',
+        // alignItems: 'flex-start',
         justifyContent: 'space-between',
         width: vw(90),
         aspectRatio: 320/126,
+        borderWidth: vw(0.1),
+        borderColor: '#ffffff21',
+    borderRadius: vw(3)
     },
     mainContent: {
-        flexDirection: 'column'
+        flexDirection: 'column',
+        justifyContent: 'space-between',
     },
     middleTitle: {
         fontFamily: 'TT Firs Neue Trial Medium',

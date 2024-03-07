@@ -226,7 +226,7 @@ const SortSearch = ({navigation}) => {
                                         item.buttonNames.map((items, indexs) => 
                                             <TouchableOpacity 
                                                 key = {indexs}
-                                                style = {[styles.btn, {backgroundColor: items.state ? '#53FAFB' : '#121212'}]}
+                                                style = {[styles.btn, {backgroundColor: items.state ? '#53FAFB' : '#1D1D1D'}]}
                                                 onPress = {() => 
                                                     setFilter( prevFilter => {
                                                         newFilter = [ ...prevFilter];
@@ -254,10 +254,10 @@ const SortSearch = ({navigation}) => {
                     />
                 </View>
                 <View style = {styles.footer}>
-                    <TouchableOpacity style = {styles.footerBtn}
+                    <TouchableOpacity style = {[styles.footerBtn, {backgroundColor: '#202020'}]}
                         onPress = {() => setFilter(dataArray)}
                     >
-                        <Text style = {{ fontFamily: 'TT Firs Neue Trial DemiBold', color: 'white', fontSize: vw(3.3), textAlign: 'center'}}>
+                        <Text style = {{ fontFamily: 'TT Firs Neue Trial Regular', color: 'white', fontSize: vw(3.3), textAlign: 'center'}}>
                             Reset All
                         </Text>
                     </TouchableOpacity>
@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        backgroundColor: 'black',
+        backgroundColor: '#101010',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'flex-start',
@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
         width: vw(9.44),
         height: vw(9.44),
         borderRadius: vw(5),
-        backgroundColor: '#181818',
+        backgroundColor: '#202020',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
     searchBar: {
         width: vw(66.7),
         height: vw(9.44),
-        backgroundColor: '#131313',
+        backgroundColor: '#202020',
         borderRadius: vw(5),
         flexDirection: 'row',
         justifyContent: 'flex-start',
@@ -388,10 +388,12 @@ const styles = StyleSheet.create({
         paddingRight: vw(6.4),
         borderRadius: vw(5),
         marginBottom: vw(2.8),
-        marginRight: vw(2.8)
+        marginRight: vw(2.8),
+        borderWidth: vw(0.3),
+        borderColor: '#353535'
     },
     btnName: {
-        fontFamily: 'TT Firs Neue Light',
+        fontFamily: 'TT Firs Neue Medium',
         fontSize: vw(2.8),
 
     },
@@ -403,7 +405,7 @@ const styles = StyleSheet.create({
         bottom: vw(10),
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'black',
+        backgroundColor: '#101010',
         flexDirection: 'row',
         justifyContent: 'space-around'
     },
@@ -412,7 +414,7 @@ const styles = StyleSheet.create({
         aspectRatio: 155/40,
         borderRadius: vw(10),
         borderWidth: vw(0.3),
-        borderColor: '#323232',
+        borderColor: '#202020',
         alignItems: 'center',
         justifyContent: 'center'
     },

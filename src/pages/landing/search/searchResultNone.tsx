@@ -86,7 +86,7 @@ const SearchResultNone = ({navigation}) => {
                     </View>
                 </View>
                 <View style = {styles.body}>
-                    <Text style = {[styles.text, {marginBottom: vh(24.82)}]}>
+                    <Text style = {[styles.text, {marginBottom: vh(24.82), fontFamily: 'TT Firs Neue Trial Regular'}]}>
                         0 Items Found
                     </Text>
                     <View style = {styles.foundResult}>
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        backgroundColor: 'black',
+        backgroundColor: '#101010',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'flex-start',
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
         width: vw(9.44),
         height: vw(9.44),
         borderRadius: vw(5),
-        backgroundColor: '#181818',
+        backgroundColor: '#202020',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     searchBar: {
         width: vw(66.7),
         height: vw(9.44),
-        backgroundColor: '#131313',
+        backgroundColor: '#202020',
         borderRadius: vw(5),
         flexDirection: 'row',
         justifyContent: 'flex-start',

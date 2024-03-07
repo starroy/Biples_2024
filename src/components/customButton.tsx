@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, StyleSheet, Pressable, View } from 'react-nativ
 import { vh, vw } from 'react-native-css-vh-vw';
 import Svg, { Path} from 'react-native-svg';
 
-const CustomButton = ({ navigation, title, width, height, backgroundColor, color, fontSize, navigateName, image }) => {
+const CustomButton = ({ navigation, title, width, height, backgroundColor, color, fontSize, onPress, image }) => {
     const [backcolor, setBackColor] = useState('transparency')
     const avatar = [ 
         <Svg width={vw(5.6)} height={vw(5.8)} viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -17,12 +17,7 @@ const CustomButton = ({ navigation, title, width, height, backgroundColor, color
     return (
             <TouchableOpacity
                 style={[styles.button, { width:width, height:height, backgroundColor:backgroundColor, fontFamily: 'Neue-Metana' }]}
-                onPress={() => {                    
-                    // navigation.navigate('Loading');
-                    navigation.navigate(navigateName);
-                    console.log('------>', navigateName);
-                    
-                }}
+                onPress={onPress}
             >
                 {image !== null && avatar[image]}
                 <View pointerEvents="none">

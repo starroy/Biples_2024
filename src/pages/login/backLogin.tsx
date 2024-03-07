@@ -12,7 +12,8 @@ import {
     useWindowDimensions,
     Modal,
     FlatList,
-    Dimensions
+    Dimensions,
+    BackHandler
 } from 'react-native';
 import { vh, vw } from 'react-native-css-vh-vw';
 import Svg, { Path, G, Ellipse, Defs, Filter, FeBlend, FeFlood, FeGaussianBlur, ClipPath, Rect } from 'react-native-svg';
@@ -42,22 +43,22 @@ const BackLogin = ({ navigation }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [isSwitchUser, setIsSwitchUser] = useState(false);
 
-    const user = [
+    const [user, setUser] = useState([
         {
-            avatar: require('../../../assets/images/image1.png'),
+            avatar: require('../../../assets/images/myimage1.png'),
             firstName: 'Yazid',
             fullName: 'Yazid KHERRATI',
             unreadMessage: 18,
-            state: 'Sign In'
+            state: true
         },
         {
-            avatar: require('../../../assets/images/image2.png'),
+            avatar: require('../../../assets/images/myimage2.png'),
             firstName: 'Samad',
             fullName: 'Samad BENBOU',
             unreadMessage: 18,
-            state: 'Logged out'
+            state: false
         },
-    ];
+    ]);
 
     const handleLoginButton = () => {
         navigation.navigate('Login')
@@ -71,10 +72,9 @@ const BackLogin = ({ navigation }) => {
     };
     const handleSwithModal = () => {
         setIsSwitchUser(!isSwitchUser);
-        // if(userIndex < 1) {
-        //     setUserIndex(userIndex + 1);
-        // }
-        // e
+        if(userIndex < 1) {
+            setUserIndex(userIndex + 1);
+        }
     }
 
     return (
@@ -98,6 +98,9 @@ const BackLogin = ({ navigation }) => {
                     setIsSwitchUser(!isSwitchUser);
                     }}
                 >
+                <StatusBar 
+                    translucent backgroundColor="rgba(0, 0, 0, 0.75)"
+                />
                     <View style={[styles.centeredView, { backgroundColor: 'rgba(0, 0, 0, 0.75)' }]}>
                         <View style={[styles.modalView, {bottom: 0, backgroundColor: '#151515', width: vw(90), flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }]}>
                             <Text style = {[styles.imageletter, {paddingRight: vw(40), marginLeft: 0, marginBottom: vw(7)}]}> Switch Profile </Text>
@@ -107,16 +110,22 @@ const BackLogin = ({ navigation }) => {
                                     
                                     <Text style={styles.imageletter}
                                         onPress={() => {
-                                            if(index === 1) {
-                                                setIsClick(!isClick);
-                                                setIsGallery(!isGallery);
-                                            }
+                                            // setIsSwitchUser(!isSwitchUser);
+                                            setUser (prevUser => {
+                                                const newUser = [...prevUser];
+                                                for (i=0; i< user.length; i++) {
+                                                    newUser[i].state = false;
+                                                }
+                                                newUser[index].state = !(newUser[index].state);
+                                                return newUser;
+                                            })
+                                                
                                         }}
                                     >
                                         {item.fullName}
                                     </Text>
                                     {
-                                        item.state === 'Sign In' ?
+                                        item.state ?
                                         <Svg width={vw(4.2)} height={vw(4.2)} viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <G clip-path="url(#clip0_5_7426)">
                                                 <Path d="M4.6875 7.5L6.5625 9.375L10.3125 5.625M13.75 7.5C13.75 10.9518 10.9518 13.75 7.5 13.75C4.04822 13.75 1.25 10.9518 1.25 7.5C1.25 4.04822 4.04822 1.25 7.5 1.25C10.9518 1.25 13.75 4.04822 13.75 7.5Z" stroke="#53FAFB" stroke-linecap="round" stroke-linejoin="round"/>
@@ -162,7 +171,7 @@ const BackLogin = ({ navigation }) => {
                     </Text>
                 </View>
                 <View style={styles.avatar}>
-                    <View style={isLoading || isSwitchUser ? {overflow: 'hidden', borderRadius: vw(9.2), width: vw(30.6)} : {overflow: 'hidden', borderRadius: vw(24), width: vw(43.3)}}>
+                    <View style={isLoading || isSwitchUser ? {overflow: 'hidden', borderRadius: vw(9.2), width: vw(30.6)} : {overflow: 'hidden', borderRadius: vw(24), width: vw(43.3), backgroundColor: '#101010'}}>
                         <ImageBackground source={user[userIndex].avatar} style={isLoading || isSwitchUser ? styles.avatarSquare : styles.avatarImage}/>
                     </View>
                     <Text style = {[styles.unreadMessage, isLoading || isSwitchUser ? {top: vw(5.6), right: vw(5.6), backgroundColor: '#FF2A43', borderWidth: 0} : {top: vw(2.8), right: vw(2.8), backgroundColor: '#53FAFB'}]}>
@@ -231,7 +240,7 @@ const styles = StyleSheet.create({
     container: {
         width: vw(101),
         height: '100%',
-        backgroundColor: '#000000',
+        backgroundColor: '#101010',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
@@ -253,7 +262,7 @@ const styles = StyleSheet.create({
     avatar: {
         width: vw(43.3),
         aspectRatio: 1/1,
-        backgroundColor: 'black',
+        backgroundColor: '#101010',
         position: 'relative',
         justifyContent: 'center',
         alignItems: 'center',

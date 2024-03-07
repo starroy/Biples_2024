@@ -39,7 +39,7 @@ const Settings = ({ navigation }) => {
     const [isLogout, setIsLogout] = useState(false);
     const windowWidth = useWindowDimensions().width;
     const user = {
-        avatar: require('../../../assets/images/image1.png'),
+        avatar: require('../../../assets/images/myimage1.png'),
         firstName: 'Yazid',
         fullName: 'Yazid KHERRATI',
         unreadMessage: 18,
@@ -94,6 +94,9 @@ const Settings = ({ navigation }) => {
             <View style={styles.container}>
                 
                 <Modal visible={isLogout} transparent={true}>
+                    <StatusBar 
+                        translucent backgroundColor={'rgba(10, 10, 10, 0.7)'}
+                    />
                     <View style={styles.modalContainer}>
                         <View style = {styles.modalBody}>
                             <Text style = {styles.modalTitle}>
@@ -130,7 +133,7 @@ const Settings = ({ navigation }) => {
                     <TouchableOpacity 
                         style = {styles.prevButton}
                         onPress = {() => 
-                            navigation.navigate('Main')
+                            navigation.goBack()
                         }
                     >
                         <Svg width={windowWidth*0.02} height={0.033*windowWidth} viewBox='0 0 7 12' fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -175,8 +178,8 @@ const Settings = ({ navigation }) => {
                             Promoted
                         </Text>
                         <View style = {styles.upgrade}>
-                            <Text style = {styles. modalTitle}>
-                                Upgrade to PRO
+                            <Text style = {[styles. modalTitle, {fontFamily: 'TT Firs Neue Trial Regular'}]}>
+                                Upgrade to PRO 🍪
                             </Text>
                             <Svg width={vw(5.83)} height={vw(5.83)} viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <Path d="M8 15.5L13 10.5L8 5.5" stroke="#797979" stroke-linecap="round" stroke-linejoin="round"/>
@@ -444,12 +447,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: '100%',
-        backgroundColor: 'rgba(20, 20, 20, 0.5)',
-        paddingBottom: vw(10)
+        backgroundColor: 'rgba(10, 10, 10, 0.7)',
+        paddingBottom: vw(10),
+        paddingLeft: vw(1)
     },
     modalBody: {
         width: vw(90),
-        backgroundColor: '#131313',
+        backgroundColor: '#202020',
         flexDirection: 'column',
         alignItems: 'center',
         aspectRatio: 327/188,

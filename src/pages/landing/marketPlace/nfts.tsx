@@ -52,8 +52,8 @@ const NFTs = ({ navigation }) => {
             sec: currentSecond,
             backImg: require('../../../../assets/images/card3.png'),
             name: 'Supernova ITALY †',
-            avatar1: require('../../../../assets/images/avatar2.png'),
-            avatar2: require('../../../../assets/images/follow1.png'),
+            avatar1: require('../../../../assets/images/card9.png'),
+            card9: require('../../../../assets/images/follow1.png'),
             member: 'Kemoutyo',
             price: 7.12,
             total: 3212,
@@ -67,7 +67,7 @@ const NFTs = ({ navigation }) => {
             sec: currentSecond,
             backImg: require('../../../../assets/images/card1.png'),
             name: 'Supernova ITALY †',
-            avatar1: require('../../../../assets/images/avatar2.png'),
+            avatar1: require('../../../../assets/images/card9.png'),
             avatar2: require('../../../../assets/images/follow1.png'),
             member: 'Kemoutyo',
             price: 7.12,
@@ -124,7 +124,20 @@ const NFTs = ({ navigation }) => {
             <BlurView
                 viewRef={viewRef}
                 style={styles.blurViewStyle}
-                blurRadius={3}
+                blurAmount={9}
+                blurType={blurType}
+                // blurRadius={10}
+                downsampleFactor={10}
+                overlayColor={'rgba(50, 50, 50, .2'}
+            />
+        );
+    }
+    const renderBlurViews = () => {
+        return (
+            <BlurView
+                viewRef={viewRef}
+                style={[styles.blurViewStyle, {height: vw(33), backgroundColor: '#00000025', width: vw(90), borderRadius: vw(10)}]}
+                blurRadius={10}
                 blurType={blurType}
                 // blurRadius={10}
                 downsampleFactor={10}
@@ -168,7 +181,7 @@ const NFTs = ({ navigation }) => {
         setShowBlur(false);
         let timerId;
         timerId = setTimeout(() => {
-        navigation.navigate('MyCommunity');
+        navigation.navigate('NoCommunity');
           }, 30); // Adjust the delay as needed
           return () => {
             clearTimeout(timerId);
@@ -247,6 +260,7 @@ const NFTs = ({ navigation }) => {
                                         </Text>
                                     </View>
                                     <View style = {styles.cardFooter}>
+                                    {showBlur ? renderBlurViews() : null}
                                         <View style = {styles.nftname}>
                                             <Text style = {[styles.title, {fontSize: vw(6.7)}]}>
                                                 {item.name}
@@ -397,7 +411,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#090909'
+        backgroundColor: '#101010'
     },
     header: {
         position: 'absolute',
@@ -441,7 +455,7 @@ const styles = StyleSheet.create({
     },
     body: {
         marginTop: vw(27.5),
-        marginBottom: vw(6)
+        marginBottom: vw(8)
     },
     title: {
         fontFamily: 'TT Firs Neue Trial Medium',
@@ -560,7 +574,8 @@ const styles = StyleSheet.create({
         borderRadius: vw(10),
         backgroundColor: '#00000025',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        overflow: 'hidden'
     },
     avatar1: {
     },

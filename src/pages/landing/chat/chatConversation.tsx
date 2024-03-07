@@ -106,7 +106,7 @@ const ChatConversation = ({ navigation }) => {
                 <BlurView
                     viewRef={viewRef}
                     style={styles.blurViewStyle}
-                    blurRadius={3}
+                    blurAmount={9}
                     blurType={blurType}
                     // blurRadius={10}
                     downsampleFactor={10}

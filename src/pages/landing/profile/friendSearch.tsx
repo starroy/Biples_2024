@@ -48,6 +48,9 @@ const MemberSearch = ({navigation}) => {
     handlePress = () => {
         navigation.navigate('Explorer');
     };
+    handleFriendProfile = () => {
+        navigation.navigate('FriendProfile')
+    }
     return (
         <SafeAreaView>
             <StatusBar translucent backgroundColor = 'transparent'/>
@@ -57,7 +60,7 @@ const MemberSearch = ({navigation}) => {
                         <TouchableOpacity
                             style = {styles.prevButton}
                             onPress = { () => 
-                                navigation.navigate('Account')
+                                navigation.goBack()
                             }
                         >
                             <Svg width={vw(2)} height={vw(3.3)} viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -93,7 +96,7 @@ const MemberSearch = ({navigation}) => {
                     </View>
                 </View>
                 <View style = {styles.body}>
-                    <Text style = {[styles.text, {marginBottom: vh(2), marginLeft: vw(5)}]}>
+                    <Text style = {[styles.text, {marginBottom: vw(5), marginLeft: vw(5)}]}>
                         105 Items Found
                     </Text>
                     <ScrollView style = {styles.foundResult}
@@ -107,7 +110,8 @@ const MemberSearch = ({navigation}) => {
                                     avatarName = {item.avatarName}
                                     avatarContent = {item.avatarContent}
                                     followState = {item.followState}
-                                    handlePress = {handlePress}
+                                    // handlePress = {handlePress}
+                                    navigatePress = {handleFriendProfile}
                                     onPress={() => setFilter(prevFilter => {
                                         const newFilter = [...prevFilter];
                                         newFilter[index].followState = !newFilter[index].followState;
@@ -136,13 +140,13 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        backgroundColor: 'black',
+        backgroundColor: '#101010',
     },
     header: {
         position: 'absolute',
         top: 0,
         width: '100%',
-        height: vh(18.2),
+        height: vw(38),
         flexDirection: 'column',
         justifyContent: 'flex-end',
         alignItems: 'center'
@@ -159,7 +163,7 @@ const styles = StyleSheet.create({
         width: vw(9.44),
         height: vw(9.44),
         borderRadius: vw(5),
-        backgroundColor: '#181818',
+        backgroundColor: '#202020',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -171,7 +175,7 @@ const styles = StyleSheet.create({
     searchBar: {
         width: vw(66.7),
         height: vw(9.44),
-        backgroundColor: '#131313',
+        backgroundColor: '#202020',
         borderRadius: vw(5),
         flexDirection: 'row',
         justifyContent: 'flex-start',
@@ -210,7 +214,7 @@ const styles = StyleSheet.create({
     body: {
         width: vw(90),
         // position: 'absolute',
-        marginTop: vh(23),
+        marginTop: vw(42),
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         marginBottom: vh(12.11)
@@ -231,7 +235,7 @@ const styles = StyleSheet.create({
         width: vw(100),
         marginBottom: vw(8),
         alignItems: 'center',
-        backgroundColor: 'black'
+        backgroundColor: '#101010'
     },
     footerBtn: {
         width: vw(41.67),

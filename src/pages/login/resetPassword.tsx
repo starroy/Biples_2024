@@ -67,7 +67,7 @@ const ResetPassword = ({ navigation }) => {
                     <TouchableOpacity 
                         style = {styles.prevButton}
                         onPress = {() => 
-                            navigation.navigate('BackLogin')
+                            navigation.goBack()
                         }
                     >
                         <Svg width={windowWidth*0.02} height={0.033*windowWidth} viewBox='0 0 7 12' fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -113,27 +113,30 @@ const ResetPassword = ({ navigation }) => {
                         isVisiblePassword={isVisiblePassword}
                         setIsVisiblePassword={setIsVisiblePassword}
                     />
-                    <View style = {{width: vw(100), aspectRatio: 360/13}}/>
+                    <View style = {{width: vw(100), aspectRatio: 360/13, marginTop: vw(5)}}/>
                     <Text style = {styles.text, isPasswordMatch ? {color: '#53FAFB'}: {color: '#FF5252'}}>
                         {isPasswordMatch ? 'Great. Your Password is matched!' :  'Your Password is not matched'}
                     </Text>
                     <View style = {styles.continueButton}>
                         <CustomButton
-                            navigation={ navigation }
+                            navigation={navigation}
                             title="confirm"
                             width={vw(90)}
                             height={'100%'}
-                            backgroundColor={isPassword ? "#53FAFB" : "#202020"}  
+                            backgroundColor={isPassword ? "#53FAFB" : "#202020"}   
                             color={isPassword ? 'black' : '#4C4C4C'}
                             fontSize={vw(3.9)}
-                            navigateName='ResetLoading'
-                        /> 
+                            onPress={() => {
+                                if (isPasswordMatch && password !== '')
+                                    navigation.navigate('ResetLoading')
+                            }}
+                        />
                     </View>
                 </View>
                 <View style = {{width: vw(100), aspectRatio: 360/179}}/>
                 <View style = {styles.footer}>
                     <TouchableOpacity onPress={() => {
-                        setLoadingNumber(loadingNumber+1)
+                        navigation.goBack();
                     }}>
                         <Svg width={vw(5.3)} height={vw(5.3)} viewBox='0 0 19 19' fill="none" xmlns="http://www.w3.org/2000/svg">
                             <Path d="M18.2083 9.5L4.74998 9.5" stroke="#F2F2F2" stroke-width="1.1875" stroke-linecap="round" stroke-linejoin="round"/>
@@ -144,9 +147,9 @@ const ResetPassword = ({ navigation }) => {
                         &nbsp;Back to 
                         <Text 
                             style = {[styles.confirmQuestion, {color: "#53FAFB"}]}
-                            // onPress = {
-                            //     navigation.navigate('BackLogin')
-                            // }
+                            onPress = {() =>
+                                navigation.navigate('Login')
+                            }
                         >
                             &nbsp;Login
                         </Text>
@@ -228,7 +231,7 @@ const styles = StyleSheet.create({
         aspectRatio: 360/17,
         // marginBottom: vw(13.3)
         position: 'absolute',
-        bottom: vw(5)
+        top: vh(101)
     },
     arrow: {
         marginRight: vw(1.4)

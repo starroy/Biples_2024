@@ -7,7 +7,8 @@ import {
     StyleSheet, 
     Image,
     SafeAreaView,
-    ScrollView
+    ScrollView,
+    BackHandler
 } from 'react-native';
 import { vh, vw } from 'react-native-css-vh-vw';
 import Svg, { Path, G, Defs, ClipPath, Rect } from 'react-native-svg';
@@ -61,6 +62,15 @@ const RegisterVerify = ({ navigation }) => {
         </Text>
       );
     };
+    // useEffect(() => {
+    //     const backAction = () => {
+    //         navigation.goBack(); // Prevent default behavior (i.e. exit the app)
+    //     };
+    
+    //     const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+    
+    //     return () => backHandler.remove();
+    // }, []);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -130,16 +140,18 @@ const RegisterVerify = ({ navigation }) => {
                             backgroundColor={(value !== '') ? "#53FAFB" : "#282828"}
                             color={(value !== '') ? "black" : "#6D6D6D"}
                             fontSize={vw(3.9)}
-                            navigateName='VerifyComplete'
+                            onPress = {() => {
+                                if (value.length == 5 ) {
+                                    navigation.navigate('VerifyComplete')
+                                }
+                            }}
                         />
                     </View>
                     <Text style = {styles.confirmQuestion}>
                         {`Don't received email? `} 
                         <Text 
                             style = {[styles.confirmQuestion, {color: "#53FAFB"}]}
-                            // onPress = {
-                            //     navigation.navigate('Verify')
-                            // }
+                            onPress = {() => setValue('')}
                         >
                             Click to resend
                         </Text>

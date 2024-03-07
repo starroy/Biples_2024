@@ -37,23 +37,54 @@ const screenWidth = Dimensions.get('window').width;
 const numColumns = 3;
 
 const imageList = [
-    { id: '1', source: require('../../../../assets/images/image1.png') },
-    { id: '2', source: require('../../../../assets/images/image2.png') },
-    { id: '3', source: require('../../../../assets/images/image3.png') },
-    { id: '4', source: require('../../../../assets/images/image1.png') },
-    { id: '5', source: require('../../../../assets/images/image2.png') },
-    { id: '6', source: require('../../../../assets/images/image3.png') },
-    { id: '7', source: require('../../../../assets/images/image1.png') },
-    { id: '8', source: require('../../../../assets/images/image2.png') },
-    { id: '9', source: require('../../../../assets/images/image3.png') },
-    { id: '10', source: require('../../../../assets/images/image1.png') },
-    { id: '11', source: require('../../../../assets/images/image2.png') },
-    { id: '12', source: require('../../../../assets/images/image3.png') },
-    { id: '13', source: require('../../../../assets/images/image1.png') },
-    { id: '14', source: require('../../../../assets/images/image2.png') },
-    { id: '15', source: require('../../../../assets/images/image3.png') },
+    { id: '1', source: require('../../../../assets/images/img1.png'),
+        level: 1
+    },
+    { id: '2', source: require('../../../../assets/images/img2.png'),
+        level: 1
+    },
+    { id: '3', source: require('../../../../assets/images/img3.png'),
+        level: 1
+    },
+    { id: '4', source: require('../../../../assets/images/img4.png'),
+        level: 1
+    },
+    { id: '5', source: require('../../../../assets/images/img5.png'),
+        level: 1
+    },
+    { id: '6', source: require('../../../../assets/images/img6.png'),
+        level: 1
+    },
+    { id: '7', source: require('../../../../assets/images/img7.png'),
+        level: 5
+    },
+    { id: '8', source: require('../../../../assets/images/img8.png'),
+        level: 5
+    },
+    { id: '9', source: require('../../../../assets/images/img9.png'),
+        level: 5
+    },
+    { id: '10', source: require('../../../../assets/images/img10.png'),
+        level: 6
+    },
+    { id: '11', source: require('../../../../assets/images/img11.png'),
+        level: 6
+    },
+    { id: '12', source: require('../../../../assets/images/img12.png'),
+        level: 6
+    },
+    { id: '13', source: require('../../../../assets/images/img13.png'),
+        level: 6
+    },
+    { id: '14', source: require('../../../../assets/images/img14.png'),
+        level: 6
+    },
+    { id: '15', source: require('../../../../assets/images/img15.png'),
+        level: 6
+    },
     // Add more image items as needed
 ];
+
 
 const CommunityImgRegister = ({ navigation }) => {
 
@@ -90,10 +121,17 @@ const CommunityImgRegister = ({ navigation }) => {
         return (
             <TouchableOpacity onPress={() => {
                 handleModal();
-                setImage(item.source);
-                console.log(item.source);
-                
-            }}>
+                if (item.level == 1) {
+                    navigation.navigate('Level1');
+                }
+                else if (item.level == 5) {
+                    navigation.navigate('Level5');
+                }
+                else navigation.navigate('Level5Lock');
+                    setImage(item.source);
+                    console.log(item.source);
+                }}
+            >
               <Image source={item.source} style={styles.image} />
             </TouchableOpacity>
         );
@@ -150,13 +188,32 @@ const CommunityImgRegister = ({ navigation }) => {
 
                                 </TouchableOpacity>
                             </View>
-                            <FlatList
-                                style={styles.flatList}
-                                data={imageList}
-                                renderItem={renderItem}
-                                keyExtractor={item => item.id}
-                                numColumns={numColumns}
-                            />
+                            <ScrollView style = {[styles.flatList, ]}
+                                showsVerticalScrollIndicator = {false}
+                            >
+                                <View style = {{flexDirection: 'row', flexWrap: 'wrap'}}>
+                                {
+                                    imageList.map((item, index) =>
+                                        <TouchableOpacity key = {index} onPress={() => {
+                                            handleModal();
+                                            if (item.level == 1) {
+                                                navigation.navigate('Level1');
+                                            }
+                                            else if (item.level == 5) {
+                                                navigation.navigate('Level5');
+                                            }
+                                            else navigation.navigate('Level5Lock');
+                                                setImage(item.source);
+                                                console.log(item.source);
+                                            }}
+                                        >
+                                            <Image source={item.source} style={styles.image} />
+                                        </TouchableOpacity>
+                                    )
+                                }
+                                </View>
+                                <View style = {{height: vw(20)}}/>
+                            </ScrollView>
                         </View>
                     </View>
                 </Modal>
@@ -192,7 +249,7 @@ const CommunityImgRegister = ({ navigation }) => {
                         title="Add Profile Picture"
                         width={vw(80)}
                         height={vw(12.5)}
-                        backgroundColor={"#131313"}  
+                        backgroundColor={"#1D1D1D"}  
                         color={'white'}
                         fontSize={vw(3.3)}
                         image={0}
@@ -206,10 +263,20 @@ const CommunityImgRegister = ({ navigation }) => {
                         setIsClick(!isClick);
                         }}
                     >
+                    <StatusBar 
+                        translucent backgroundColor="rgba(0, 0, 0, 0.2)"
+                    />
                         <View style={[styles.centeredView, { backgroundColor: 'rgba(0, 0, 0, 0.2)' }]}>
                             <View style={[styles.modalView, {bottom: 0, backgroundColor: '#151515', width: vw(90), flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }]}>
                                 {avatarArray.map((item, index) => 
-                                    <View style={styles.imageButton} key={index}>
+                                    <TouchableOpacity style={styles.imageButton} key={index}
+                                        onPress={() => {
+                                            if(index === 1) {
+                                                setIsClick(!isClick);
+                                                setIsGallery(!isGallery);
+                                            }
+                                        }}
+                                    >
                                         <CustomImageButton
                                             // onPress={() => console.log('My Button pressed')}
                                             width={vw(10.3)}
@@ -217,17 +284,10 @@ const CommunityImgRegister = ({ navigation }) => {
                                             backgroundColor="#53FAFB06"
                                             image={item.avatar}
                                         />
-                                        <Text style={styles.imageletter}
-                                            onPress={() => {
-                                                if(index === 1) {
-                                                    setIsClick(!isClick);
-                                                    setIsGallery(!isGallery);
-                                                }
-                                            }}
-                                        >
+                                        <Text style={styles.imageletter}>
                                             {item.name}
                                         </Text>
-                                    </View>
+                                    </TouchableOpacity>
                                 )} 
                                 <View style={{height: vw(5)}}/>
                                 <CustomLoadButton
@@ -259,7 +319,9 @@ const CommunityImgRegister = ({ navigation }) => {
                 </View>
             </View>
             <View style = {styles.footer}>
-                <Text style = {styles.footertext}>
+                <Text style = {styles.footertext}
+                    onPress = {() => navigation.goBack()}
+                >
                     Back 
                 </Text>
             </View>
@@ -271,7 +333,7 @@ const styles = StyleSheet.create({
     container: {
         width: vw(101),
         height: '100%',
-        backgroundColor: '#000000',
+        backgroundColor: '#101010',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
@@ -324,7 +386,7 @@ const styles = StyleSheet.create({
         width: vw(47.2),
         aspectRatio: 1/1,
         borderRadius: vw(24),
-        backgroundColor: '#131313',
+        backgroundColor: '#202020',
         marginBottom: vw(13.6),
         flexDirection: 'row',
         justifyContent: 'center',
@@ -363,7 +425,8 @@ const styles = StyleSheet.create({
     },
     centeredView: {
         width: vw(100),
-        aspectRatio: 360/780,
+        // aspectRatio: 360/780,
+        height: vh(110),
         flex: 1,
         justifyContent: 'flex-end'
     },

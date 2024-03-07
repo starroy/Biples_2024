@@ -15,11 +15,12 @@ import {
     Dimensions
 } from 'react-native';
 import { vh, vw } from 'react-native-css-vh-vw';
-import Svg, { Path} from 'react-native-svg';
+import Svg, { Path, G, Rect, Defs, ClipPath } from 'react-native-svg';
 import { Icon } from 'react-native-elements'
 import CustomLoadButton from "../../components/customLoadButton"
 import LinearGradient from 'react-native-linear-gradient';
 import CustomImageButton from '../../components/customImageButton'
+import CustomImageBtn from '../../components/customImageBtn'
 import CustomInputBox from "../../components/customInputBox";
 import CustomSwitchButton from "../../components/customSwitchButton"; 
 // import { CodeField, Cursor } from 'react-native-confirmation-code-field';
@@ -37,49 +38,49 @@ const screenWidth = Dimensions.get('window').width;
 const numColumns = 3;
 
 const imageList = [
-    { id: '1', source: require('../../../assets/images/image1.png'),
+    { id: '1', source: require('../../../assets/images/img1.png'),
         level: 1
     },
-    { id: '2', source: require('../../../assets/images/image2.png'),
+    { id: '2', source: require('../../../assets/images/img2.png'),
         level: 1
     },
-    { id: '3', source: require('../../../assets/images/image3.png'),
+    { id: '3', source: require('../../../assets/images/img3.png'),
         level: 1
     },
-    { id: '4', source: require('../../../assets/images/image1.png'),
+    { id: '4', source: require('../../../assets/images/img4.png'),
         level: 1
     },
-    { id: '5', source: require('../../../assets/images/image2.png'),
+    { id: '5', source: require('../../../assets/images/img5.png'),
         level: 1
     },
-    { id: '6', source: require('../../../assets/images/image3.png'),
+    { id: '6', source: require('../../../assets/images/img6.png'),
         level: 1
     },
-    { id: '7', source: require('../../../assets/images/image1.png'),
+    { id: '7', source: require('../../../assets/images/img7.png'),
         level: 5
     },
-    { id: '8', source: require('../../../assets/images/image2.png'),
+    { id: '8', source: require('../../../assets/images/img8.png'),
         level: 5
     },
-    { id: '9', source: require('../../../assets/images/image3.png'),
+    { id: '9', source: require('../../../assets/images/img9.png'),
         level: 5
     },
-    { id: '10', source: require('../../../assets/images/image1.png'),
+    { id: '10', source: require('../../../assets/images/img10.png'),
         level: 6
     },
-    { id: '11', source: require('../../../assets/images/image2.png'),
+    { id: '11', source: require('../../../assets/images/img11.png'),
         level: 6
     },
-    { id: '12', source: require('../../../assets/images/image3.png'),
+    { id: '12', source: require('../../../assets/images/img12.png'),
         level: 6
     },
-    { id: '13', source: require('../../../assets/images/image1.png'),
+    { id: '13', source: require('../../../assets/images/img13.png'),
         level: 6
     },
-    { id: '14', source: require('../../../assets/images/image2.png'),
+    { id: '14', source: require('../../../assets/images/img14.png'),
         level: 6
     },
-    { id: '15', source: require('../../../assets/images/image3.png'),
+    { id: '15', source: require('../../../assets/images/img15.png'),
         level: 6
     },
     // Add more image items as needed
@@ -97,17 +98,32 @@ const SelectAvatar = ({ navigation }) => {
     const [isGallery, setIsGallery] = useState(false);
     
 
-    avatarArray = [
+    const avatarArray = [
         {
-            avatar: require('../../../assets/images/camera-02.png'),
+            avatar: <Svg width={vw(4.7)} height={vw(4.7)} viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <Path d="M1.8335 5.63456C1.8335 4.63979 2.63991 3.83337 3.63468 3.83337C4.15154 3.83337 4.61041 3.50264 4.77385 3.01231L4.8335 2.83337C4.86162 2.74899 4.87569 2.7068 4.89073 2.66937C5.08286 2.19146 5.53309 1.86695 6.04724 1.83581C6.0875 1.83337 6.13198 1.83337 6.22092 1.83337H10.7794C10.8683 1.83337 10.9128 1.83337 10.9531 1.83581C11.4672 1.86695 11.9175 2.19146 12.1096 2.66937C12.1246 2.7068 12.1387 2.74899 12.1668 2.83337L12.2265 3.01231C12.3899 3.50264 12.8488 3.83337 13.3656 3.83337C14.3604 3.83337 15.1668 4.63979 15.1668 5.63456V11.3C15.1668 12.4201 15.1668 12.9802 14.9488 13.408C14.7571 13.7843 14.4511 14.0903 14.0748 14.2821C13.647 14.5 13.0869 14.5 11.9668 14.5H5.0335C3.91339 14.5 3.35334 14.5 2.92552 14.2821C2.54919 14.0903 2.24323 13.7843 2.05148 13.408C1.8335 12.9802 1.8335 12.4201 1.8335 11.3V5.63456Z" stroke="#53FAFB" stroke-linecap="round" stroke-linejoin="round"/>
+                <Path d="M8.50016 11.5C10.157 11.5 11.5002 10.1569 11.5002 8.50004C11.5002 6.84319 10.157 5.50004 8.50016 5.50004C6.84331 5.50004 5.50016 6.84319 5.50016 8.50004C5.50016 10.1569 6.84331 11.5 8.50016 11.5Z" stroke="#53FAFB" stroke-linecap="round" stroke-linejoin="round"/>
+            </Svg>,
             name: 'Take Photo'
         },
         {
-            avatar: require('../../../assets/images/Icon.png'),
+            avatar: <Svg width={vw(4.2)} height={vw(4.2)} viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <Path d="M10.7667 14.5H3.55773C3.08654 14.5 2.85095 14.5 2.74185 14.4068C2.64719 14.326 2.59696 14.2047 2.60673 14.0806C2.61798 13.9376 2.78457 13.771 3.11776 13.4378L9.73116 6.8244C10.0392 6.51639 10.1932 6.36238 10.3708 6.30468C10.527 6.25392 10.6952 6.25392 10.8515 6.30468C11.029 6.36238 11.1831 6.51639 11.4911 6.8244L14.5 9.83333V10.7667M10.7667 14.5C12.0735 14.5 12.7269 14.5 13.226 14.2457C13.665 14.022 14.022 13.665 14.2457 13.226C14.5 12.7269 14.5 12.0735 14.5 10.7667M10.7667 14.5H4.23333C2.92654 14.5 2.27315 14.5 1.77402 14.2457C1.33498 14.022 0.978023 13.665 0.754318 13.226C0.5 12.7269 0.5 12.0735 0.5 10.7667V4.23333C0.5 2.92654 0.5 2.27315 0.754318 1.77402C0.978023 1.33498 1.33498 0.978023 1.77402 0.754318C2.27315 0.5 2.92654 0.5 4.23333 0.5H10.7667C12.0735 0.5 12.7269 0.5 13.226 0.754318C13.665 0.978023 14.022 1.33498 14.2457 1.77402C14.5 2.27315 14.5 2.92654 14.5 4.23333V10.7667M6.33333 4.77778C6.33333 5.63689 5.63689 6.33333 4.77778 6.33333C3.91867 6.33333 3.22222 5.63689 3.22222 4.77778C3.22222 3.91867 3.91867 3.22222 4.77778 3.22222C5.63689 3.22222 6.33333 3.91867 6.33333 4.77778Z" stroke="#53FAFB" stroke-linecap="round" stroke-linejoin="round"/>
+            </Svg>,
             name: 'Choose Photo'
         },
         {
-            avatar: require('../../../assets/images/image-user.png'),
+            avatar: <Svg width={vw(4.2)} height={vw(4.2)} viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <G clip-path="url(#clip0_50_7475)">
+                    <Path d="M2.50001 13.6359C2.87663 13.75 3.38531 13.75 4.25 13.75H10.75C11.6147 13.75 12.1234 13.75 12.5 13.6359M2.50001 13.6359C2.41926 13.6114 2.34458 13.5817 2.27377 13.5456C1.92096 13.3659 1.63413 13.079 1.45436 12.7262C1.25 12.3251 1.25 11.8001 1.25 10.75V4.25C1.25 3.1999 1.25 2.67485 1.45436 2.27377C1.63413 1.92096 1.92096 1.63413 2.27377 1.45436C2.67485 1.25 3.1999 1.25 4.25 1.25H10.75C11.8001 1.25 12.3251 1.25 12.7262 1.45436C13.079 1.63413 13.3659 1.92096 13.5456 2.27377C13.75 2.67485 13.75 3.1999 13.75 4.25V10.75C13.75 11.8001 13.75 12.3251 13.5456 12.7262C13.3659 13.079 13.079 13.3659 12.7262 13.5456C12.6554 13.5817 12.5807 13.6114 12.5 13.6359M2.50001 13.6359C2.50022 13.1301 2.50325 12.8624 2.54804 12.6373C2.7453 11.6455 3.52055 10.8703 4.51227 10.673C4.75377 10.625 5.04418 10.625 5.625 10.625H9.375C9.95582 10.625 10.2462 10.625 10.4877 10.673C11.4795 10.8703 12.2547 11.6455 12.452 12.6373C12.4967 12.8624 12.4998 13.1301 12.5 13.6359M10 5.9375C10 7.31821 8.88071 8.4375 7.5 8.4375C6.11929 8.4375 5 7.31821 5 5.9375C5 4.55679 6.11929 3.4375 7.5 3.4375C8.88071 3.4375 10 4.55679 10 5.9375Z" stroke="#53FAFB" stroke-linecap="round" stroke-linejoin="round"/>
+                </G>
+                <Defs>
+                <ClipPath id="clip0_50_7475">
+                    <Rect width={vw(4.2)} height={vw(4.2)} fill="white"/>
+                </ClipPath>
+                </Defs>
+            </Svg>
+            ,
             name: 'Back to default'
         }
     ]
@@ -187,13 +203,39 @@ const SelectAvatar = ({ navigation }) => {
 
                                 </TouchableOpacity>
                             </View>
-                            <FlatList
+                            <ScrollView style = {[styles.flatList, ]}
+                                showsVerticalScrollIndicator = {false}
+                            >
+                                <View style = {{flexDirection: 'row', flexWrap: 'wrap'}}>
+                                {
+                                    imageList.map((item, index) =>
+                                        <TouchableOpacity key = {index} onPress={() => {
+                                            handleModal();
+                                            if (item.level == 1) {
+                                                navigation.navigate('Level1');
+                                            }
+                                            else if (item.level == 5) {
+                                                navigation.navigate('Level5');
+                                            }
+                                            else navigation.navigate('Level5Lock');
+                                                setImage(item.source);
+                                                console.log(item.source);
+                                            }}
+                                        >
+                                            <Image source={item.source} style={styles.image} />
+                                        </TouchableOpacity>
+                                    )
+                                }
+                                </View>
+                                <View style = {{height: vw(20)}}/>
+                            </ScrollView>
+                            {/* <FlatList
                                 style={styles.flatList}
                                 data={imageList}
                                 renderItem={renderItem}
                                 keyExtractor={item => item.id}
                                 numColumns={numColumns}
-                            />
+                            /> */}
                         </View>
                     </View>
                 </Modal>
@@ -224,17 +266,6 @@ const SelectAvatar = ({ navigation }) => {
                                 <Text style={styles.letter}> YE </Text>
                         }
                     </View>
-                    <CustomLoadButton
-                        navigation={ navigation }
-                        title="Add Profile Picture"
-                        width={vw(80)}
-                        height={vw(12.5)}
-                        backgroundColor={"#131313"}  
-                        color={'white'}
-                        fontSize={vw(3.3)}
-                        image={0}
-                        onPress = {handleAddPicture}
-                    />
                     <Modal
                         animationType="slide"
                         transparent={true}
@@ -244,27 +275,27 @@ const SelectAvatar = ({ navigation }) => {
                         }}
                     >
                         <View style={[styles.centeredView, { backgroundColor: 'rgba(0, 0, 0, 0.2)' }]}>
-                            <View style={[styles.modalView, {bottom: 0, backgroundColor: '#151515', width: vw(90), flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }]}>
+                            <View style={[styles.modalView, {bottom: 0, backgroundColor: '#1A1A1A', width: vw(90), flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }]}>
                                 {avatarArray.map((item, index) => 
-                                    <View style={styles.imageButton} key={index}>
-                                        <CustomImageButton
+                                    <TouchableOpacity style={styles.imageButton} key={index}
+                                        onPress={() => {
+                                            if(index === 1) {
+                                                setIsClick(!isClick);
+                                                setIsGallery(!isGallery);
+                                            }
+                                        }}
+                                    >
+                                        <CustomImageBtn
                                             // onPress={() => console.log('My Button pressed')}
                                             width={vw(10.3)}
                                             height={vw(10.3)}
-                                            backgroundColor="#53FAFB06"
+                                            backgroundColor="#53FAFB10"
                                             image={item.avatar}
                                         />
-                                        <Text style={styles.imageletter}
-                                            onPress={() => {
-                                                if(index === 1) {
-                                                    setIsClick(!isClick);
-                                                    setIsGallery(!isGallery);
-                                                }
-                                            }}
-                                        >
+                                        <Text style={styles.imageletter}>
                                             {item.name}
                                         </Text>
-                                    </View>
+                                    </TouchableOpacity>
                                 )} 
                                 <View style={{height: vw(5)}}/>
                                 <CustomLoadButton
@@ -272,7 +303,7 @@ const SelectAvatar = ({ navigation }) => {
                                     title="Cancel"
                                     width={vw(80)}
                                     height={vw(12.5)}
-                                    backgroundColor={"#202020"}  
+                                    backgroundColor={"#252525"}  
                                     color={'#8A8A8A'}
                                     fontSize={vw(3.9)}
                                     image={2}
@@ -282,13 +313,24 @@ const SelectAvatar = ({ navigation }) => {
                             </View>
                         </View>
                     </Modal>
+                    <CustomLoadButton
+                        navigation={ navigation }
+                        title="Add Profile Picture"
+                        width={vw(80)}
+                        height={vw(12.5)}
+                        backgroundColor={"#1D1D1D"}  
+                        color={'white'}
+                        fontSize={vw(3.3)}
+                        image={0}
+                        onPress = {handleAddPicture}
+                    />
                     <View style= {{height: vw(5)}}/>
                     <CustomLoadButton
                         navigation={ navigation }
                         title={image !== null ? "Continue" : "Save"}
                         width={vw(80)}
                         height={vw(12.5)}
-                        backgroundColor={image !== null ? "#53FAFB" : "#202020"}  
+                        backgroundColor={image !== null ? "#53FAFB" : "#252525"}  
                         color={image !== null ? 'black' : '#4C4C4C'}
                         fontSize={vw(3.9)}
                         onPress = {image !== null ? handleNaviagte : handleSave}
@@ -305,7 +347,9 @@ const SelectAvatar = ({ navigation }) => {
             <View style = {styles.footer}>
                 {
                     image === null ? 
-                        <Text style = {styles.footertext}>
+                        <Text style = {styles.footertext}
+                            onPress = {() => navigation.navigate('CreateEndLoading')}
+                        >
                             Skip 
                         </Text>
                         : null
@@ -319,7 +363,7 @@ const styles = StyleSheet.create({
     container: {
         width: vw(101),
         height: '100%',
-        backgroundColor: '#000000',
+        backgroundColor: '#151515',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
@@ -372,7 +416,7 @@ const styles = StyleSheet.create({
         width: vw(47.2),
         aspectRatio: 1/1,
         borderRadius: vw(24),
-        backgroundColor: '#131313',
+        backgroundColor: '#202020',
         marginBottom: vw(13.6),
         flexDirection: 'row',
         justifyContent: 'center',
@@ -420,14 +464,8 @@ const styles = StyleSheet.create({
       borderRadius: vw(5),
       padding: vw(5),
       alignItems: 'center',
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: vw(0.7),
-      },
-      shadowOpacity: 0.25,
+      shadowColor: '#202020',
       shadowRadius: vw(1.1),
-      elevation: 5,
     },
     contain: {
       flex: 1,

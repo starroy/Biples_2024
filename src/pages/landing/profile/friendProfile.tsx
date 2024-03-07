@@ -44,7 +44,7 @@ const FriendProfile = ({navigation}) => {
                 navigationName: 'Account',
             }, {
                 name: 'message',
-                navigationName: 'Account',
+                navigationName: 'FriendProfile',
             }
         ],
         text: 'The terms and conditions contained in this Agreement and understandings, whether oral or written.',
@@ -147,7 +147,7 @@ const FriendProfile = ({navigation}) => {
                     style={styles.blurViewStyle}
                     // blurRadius={1}
                     // blurType={blurType}
-                    blurRadius={2}
+                    blurAmount={9}
                     downsampleFactor={10}
                     overlayColor={'rgba(50, 50, 50, .2)'}
                 />
@@ -158,7 +158,7 @@ const FriendProfile = ({navigation}) => {
         setShowBlur(false);
         let timerId;
         timerId = setTimeout(() => {
-        navigation.navigate('MyCommunity');
+        navigation.navigate('NoCommunity');
           }, 30); // Adjust the delay as needed
           return () => {
             clearTimeout(timerId);
@@ -180,7 +180,7 @@ const FriendProfile = ({navigation}) => {
         setShowBlur(false);
         let timerId;
         timerId = setTimeout(() => {
-            navigation.navigate('Explorer');
+            navigation.goBack();
         }, 30); // Adjust the delay as needed
         return () => {
         clearTimeout(timerId);
@@ -216,7 +216,7 @@ const FriendProfile = ({navigation}) => {
                             Friend's Profile
                         </Text>
                         <TouchableOpacity
-                            style = {[styles.prevButton, {backgroundColor: 'black', alignItems: 'flex-end'}]}
+                            style = {[styles.prevButton, {backgroundColor: '#101010', alignItems: 'flex-end'}]}
                             // onPress = { () => 
                             //     navigation.navigate('QRProfile')
                             // }
@@ -251,7 +251,7 @@ const FriendProfile = ({navigation}) => {
                                         <Path d="M5.5744 7.96406L7.16723 9.55688L8.95916 7.76495L10.7511 5.97302" stroke="black" stroke-width="2.23585" stroke-linecap="round" stroke-linejoin="round"/>
                                     </Svg>
                                 </View>
-                                <Text style = {[styles.text, {color: 'white'}]}>
+                                <Text style = {[styles.text, {color: '#979797', fontFamily: 'TT Firs Neue Trial Light', fontSize: vw(3.3)}]}>
                                     {friendData.displayName}
                                 </Text>
                                 <View style = {styles.btnsStyle}>
@@ -259,7 +259,7 @@ const FriendProfile = ({navigation}) => {
                                         friendData.btnName.map((item, index) => 
                                         <TouchableOpacity 
                                             key = {index}
-                                            style = {[styles.btnStyle, {backgroundColor: index == 0? '#53FAFB' : '#131313'}]}
+                                            style = {[styles.btnStyle, {backgroundColor: index == 0? '#53FAFB' : '#202020'}]}
                                             onPress = {() => {navigation.navigate(item.navigationName);
                                                 setShowBlur(false);}}
                                         >
@@ -312,7 +312,7 @@ const FriendProfile = ({navigation}) => {
                                 sortBtn.map((item, index) => 
                                     <TouchableOpacity 
                                         key = {index} 
-                                        style = {[styles.btn,{backgroundColor: item.selected ? '#53FAFB10': 'black'}]}
+                                        style = {[styles.btn,{backgroundColor: item.selected ? '#53FAFB10': 'transparent'}]}
                                         onPress={() => 
                                             setSortBtn(prevBtn => {
                                                 const newBtn = [...prevBtn];
@@ -325,7 +325,13 @@ const FriendProfile = ({navigation}) => {
                                             })
                                         }
                                     >
-                                        <Text style = {[styles.headerTitle, {fontSize: vw(3.3), marginRight: vw(1)}]}>
+                                        <Text style = {{
+                                                fontSize: vw(3.3), 
+                                                marginRight: vw(1), 
+                                                color: item.selected ? 'white': '#606060',
+                                                fontFamily: item.selected ? 'TT Firs Neue Trial Medium': 'TT Firs Neue Trial Light'
+                                            }}
+                                        >
                                             {item.mame}
                                         </Text>
                                      </TouchableOpacity>
@@ -419,7 +425,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        backgroundColor: 'black',
+        backgroundColor: '#101010',
         flexDirection: 'column',
     },
     header: {
@@ -430,7 +436,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-end',
         alignItems: 'center',
-        backgroundColor: 'black'
+        // backgroundColor: 'black'
     },
     headerBar: {
         width: vw(90),
@@ -444,7 +450,7 @@ const styles = StyleSheet.create({
         width: vw(11),
         height: vw(11),
         borderRadius: vw(6),
-        backgroundColor: '#131313',
+        backgroundColor: '#202020',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -457,7 +463,7 @@ const styles = StyleSheet.create({
         width: vw(100),
         // position: 'absolute',
         marginTop: vw(28.1),
-        marginBottom: vw(6),
+        marginBottom: vw(8),
         paddingLeft: vw(7)
     },
     title: {
@@ -565,6 +571,7 @@ const styles = StyleSheet.create({
         marginTop: vw(0)
     },
     sortbtn: {
+        width: vw(90),
         flexDirection: 'row',
         justifyContent: 'space-between',
     },

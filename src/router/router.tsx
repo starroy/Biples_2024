@@ -11,6 +11,7 @@ import RouterComponent from '../layout/router';
 import RegisterVerify from '../pages/register/verify';
 import RegisterVerifyConfirm from '../pages/register/verifyConfirm';
 import CreateAccountInfo from '../pages/register/createAccountInfo';
+import CreateDateofBirth from '../pages/register/createDateofBirth';
 import CreateAccountLoading from '../pages/register/createAccountLoading';
 import SelectAvatar from '../pages/register/selectAvatar';
 import CreateEndLoading from '../pages/register/createEndLoading';
@@ -23,6 +24,7 @@ import Login from '../pages/login/login';
 import Settings from '../pages/settings/settings';
 import Preferences from '../pages/settings/preferences';
 import PrivatePolicy from '../pages/settings/privatePolicy';
+import Invite from '../pages/landing/invite';
 import Main from '../pages/landing/main';
 import Topics from '../pages/landing/topic';
 import Notifications from '../pages/landing/notifications';
@@ -51,7 +53,9 @@ import GroupChat from '../pages/landing/chat/groupChat';
 import ChatMore from '../pages/landing/chat/chatMore';
 import ChatConversation from '../pages/landing/chat/chatConversation';
 import ChatCalling from '../pages/landing/chat/chatCalling';
+import NoCommunity from '../pages/landing/community/noCommunity';
 import MainCommunity from '../pages/landing/community/mainCommunity';
+import CommunityEmpty from '../pages/landing/community/communityEmpty';
 import CommunitySearch from '../pages/landing/community/communitySearch';
 import CreateCommunity from '../pages/landing/community/createCommunity';
 import CommunityRegister from '../pages/landing/community/communityRegister';
@@ -108,6 +112,11 @@ function StackRouter() {
       <Stack.Screen
         name = 'Loading'
         component = { Loading }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'LoadingEnd'
+        component = { LoadingEnd }
         options={{ headerShown: false }}
       />
       <Stack.Screen
@@ -326,6 +335,11 @@ function StackRouter() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
+        name = 'NoCommunity'
+        component = { NoCommunity }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name = 'CommunitySearch'
         component = { CommunitySearch }
         options={{ headerShown: false }}
@@ -438,6 +452,21 @@ function StackRouter() {
       <Stack.Screen
         name = 'GroupChat'
         component = { GroupChat }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'CreateDateofBirth'
+        component = { CreateDateofBirth }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'CommunityEmpty'
+        component = { CommunityEmpty }
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name = 'Invite'
+        component = { Invite }
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

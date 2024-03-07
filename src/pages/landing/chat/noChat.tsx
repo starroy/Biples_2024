@@ -64,11 +64,11 @@ const NoChat = ({ navigation }) => {
                 <BlurView
                     viewRef={viewRef}
                     style={styles.blurViewStyle}
-                    blurRadius={1}
+                    blurAmount={9}
                     blurType={blurType}
                     // blurRadius={10}
                     downsampleFactor={10}
-                    overlayColor={'rgba(50, 50, 50, .2'}
+                    overlayColor={'rgba(70, 70, 70, .2'}
                 />
             // </View>
         );
@@ -154,7 +154,7 @@ const NoChat = ({ navigation }) => {
             setShowBlur(false);
         let timerId;
         timerId = setTimeout(() => {
-        navigation.navigate('MainCommunity');
+        navigation.navigate('NoCommunity');
             }, 30); // Adjust the delay as needed
             return () => {
             clearTimeout(timerId);
@@ -170,16 +170,26 @@ const NoChat = ({ navigation }) => {
                             Chats
                         </Text>
                         <View style = {styles.headerToolBox}>
-                            <View style = {styles.searchIcon}>
+                            <TouchableOpacity style = {styles.searchIcon}
+                                onPress = {() => {
+                                    navigation.navigate('CommunitySearch');
+                                    setShowBlur(false);
+                                }}
+                            >
                                 <Svg width={vw(5)} height={vw(5)} viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <Path d="M15.375 15.375L12.8959 12.8958M14.6667 8.64583C14.6667 11.971 11.971 14.6667 8.64583 14.6667C5.32062 14.6667 2.625 11.971 2.625 8.64583C2.625 5.32062 5.32062 2.625 8.64583 2.625C11.971 2.625 14.6667 5.32062 14.6667 8.64583Z" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </Svg>
-                            </View>
-                            <View style = {styles.editIcon}>
+                            </TouchableOpacity>
+                            <TouchableOpacity style = {styles.editIcon}
+                                onPress = {() => {
+                                    navigation.navigate('Explorer');
+                                    setShowBlur(false);
+                                }}
+                            >
                                 <Svg width={vw(4.2)} height={vw(4.2)} viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <Path d="M12.4857 12.6896H7.51891M1 13L4.44525 11.6749C4.66561 11.5901 4.77579 11.5478 4.87888 11.4924C4.97044 11.4433 5.05773 11.3866 5.13983 11.3228C5.23227 11.2511 5.31574 11.1676 5.48269 11.0007L12.4857 3.99772C13.1715 3.31195 13.1715 2.2001 12.4857 1.51433C11.7999 0.828558 10.6881 0.828558 10.0023 1.51433L2.9993 8.51731C2.83235 8.68426 2.74888 8.76773 2.67715 8.86017C2.61344 8.94227 2.55671 9.02956 2.50756 9.12112C2.45223 9.22421 2.40985 9.33439 2.32509 9.55475L1 13ZM1 13L2.27778 9.67782C2.36921 9.44009 2.41493 9.32122 2.49335 9.26677C2.56188 9.21919 2.64667 9.2012 2.72862 9.21684C2.82239 9.23475 2.91245 9.32481 3.09255 9.50491L4.4951 10.9075C4.67521 11.0876 4.76527 11.1776 4.78317 11.2714C4.79882 11.3533 4.78083 11.4381 4.73324 11.5067C4.6788 11.5851 4.55993 11.6308 4.3222 11.7222L1 13Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>                                
                                 </Svg>
-                            </View>
+                            </TouchableOpacity>
                         </View>
                     </View>
                     <View style = {styles.chatBox}>
@@ -209,13 +219,14 @@ const NoChat = ({ navigation }) => {
                             The terms and conditions contained in this Agreement shall constitute the entire agreement.
                         </Text>
                     </View>
-                    <View style = {styles.startConvBtn}>
+                    <TouchableOpacity style = {styles.startConvBtn}
+                    >
                         <Text style = {styles.buttonText}>
-                            Start a conversation
+                            Start a Conversation
                         </Text>
-                    </View>
+                    </TouchableOpacity>
                 </View>
-                <View style = {[styles.footer, {position: 'absolute', overflow: 'hidden'}]}>
+                <View style = {[styles.footer, { overflow: 'hidden'}]}>
                     <Image source = {require('../../../../assets/images/blur.png')}
                         style={styles.imageStyle}
                         ref={backgroundImageRef}
@@ -266,7 +277,7 @@ const styles = StyleSheet.create({
     container: {
         width: vw(101),
         height: '100%',
-        backgroundColor: 'black'
+        backgroundColor: '#101010'
     },
     header: {
         position: 'absolute',
@@ -298,7 +309,7 @@ const styles = StyleSheet.create({
     searchIcon: {
         width: vw(9.4),
         height: vw(9,4),
-        backgroundColor: '#131313',
+        backgroundColor: '#202020',
         borderRadius: vw(5),
         justifyContent: 'center',
         alignItems: 'center'
@@ -376,7 +387,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        backgroundColor: '#22222285',
+        backgroundColor: '#36363690',
         borderRadius: vw(5)
     },
     footerIcon: {

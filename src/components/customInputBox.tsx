@@ -24,7 +24,7 @@ const CustomInputBox = ({ placeholder, image, width, height, backgroundColor, on
       {icon && 
       <TouchableOpacity style={styles.image}
         onPress={()=>{
-          if (isVisiblePassword !== null) {
+          if (isVisiblePassword !== null && placeholder !== 'Type your Email') {
             setIsVisiblePassword(!isVisiblePassword);            
           }}
         }

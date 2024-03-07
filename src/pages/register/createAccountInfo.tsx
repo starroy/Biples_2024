@@ -9,10 +9,11 @@ import {
     SafeAreaView,
     ScrollView,
     TouchableOpacity, 
-    useWindowDimensions
+    useWindowDimensions,
+    BackHandler
 } from 'react-native';
 import { vh, vw } from 'react-native-css-vh-vw';
-import Svg, { Path} from 'react-native-svg';
+import Svg, { Path } from 'react-native-svg';
 import { Icon } from 'react-native-elements'
 import CustomButton from "../../components/customButton"
 import LinearGradient from 'react-native-linear-gradient';
@@ -67,9 +68,7 @@ const CreateAccountInfo = ({ navigation }) => {
                 <View style = {styles.titleBar}>
                     <TouchableOpacity 
                         style = {styles.prevButton}
-                        onPress = {() => 
-                            navigation.navigate('Email')
-                        }
+                        onPress = {() => navigation.goBack()}
                     >
                         <Svg width={windowWidth*0.02} height={0.033*windowWidth} viewBox='0 0 7 12' fill="none" xmlns="http://www.w3.org/2000/svg">
                             <Path d="M6 1L1 6L6 11" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
@@ -82,14 +81,14 @@ const CreateAccountInfo = ({ navigation }) => {
                     <Text styles= {{width: vw(9), height: '100%'}}>&nbsp;&nbsp;&nbsp;</Text>
                 </View>
                 <View style = {styles.title}>
-                    <Svg  style={{ marginBottom: vw(5) }}
+                    {/* <Svg  style={{ marginBottom: vw(5) }}
                         width={vw(11.6)} height={vw(10.5)} viewBox='0 0 42 38' fill="none" xmlns="http://www.w3.org/2000/svg"
                     >
                         <Path d="M32.9402 12.8179L17.997 12.8281L16.1062 19.3364H30.9576L27.1046 32.5212L15.1736 32.5721C12.9056 32.5823 11.2594 30.4061 11.8914 28.2248L20.0612 0H8.15559L0.357841 26.7162C-1.28835 32.3632 2.95199 38.0102 8.83852 38L37.1856 37.9541L41.3087 24.0099C42.96 18.419 38.7706 12.8128 32.9402 12.8179Z" fill="#53FAFB"/>
                         <Path d="M20.1323 25.7784H18.8429L19.7195 22.8479H22.65L22.2423 24.2087C21.962 25.1414 21.1058 25.7784 20.1323 25.7784Z" fill="white"/>
                         <Path d="M25.0354 25.7784H23.6288L24.5054 22.8479H27.4359L26.9925 24.3208C26.7326 25.1872 25.9375 25.7784 25.0303 25.7784" fill="white"/>
-                    </Svg>
-                    <Text style = {[styles.maintitle, {marginBottom: vw(5)}]}>
+                    </Svg> */}
+                    <Text style = {[styles.maintitle, {marginBottom: vw(5), marginTop: vw(10)}]}>
                         Create your account, {'\n'}
                         Signup Now!
                     </Text>
@@ -144,7 +143,11 @@ const CreateAccountInfo = ({ navigation }) => {
                             backgroundColor={(isName || (password !== '') || ((phoneNumber !== '+') && (phoneNumber != ''))) ? "#53FAFB" : "#202020"}  
                             color={(isName || (password !== '') || ((phoneNumber !== '+') && (phoneNumber != ''))) ? 'black' : '#4C4C4C'}
                             fontSize={vw(3.9)}
-                            navigateName='CreateAccountLoading'
+                            onPress={() => {
+                                if ((isName !== '') && (phoneNumber.length > 8)&&(password !== '')){
+                                    navigation.navigate('CreateAccountLoading')
+                                }}
+                            }
                         />
                     </View>
                 </View>
@@ -157,7 +160,8 @@ const CreateAccountInfo = ({ navigation }) => {
                     }
                     <View style = {styles.foot}>
                         <TouchableOpacity onPress={() => {
-                            setLoadingNumber(loadingNumber+1)
+                            // setLoadingNumber(loadingNumber+1)
+                            navigation.goBack();
                         }}>
                             <Svg width={vw(5.3)} height={vw(5.3)} viewBox='0 0 19 19' fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <Path d="M18.2083 9.5L4.74998 9.5" stroke="#F2F2F2" stroke-width="1.1875" stroke-linecap="round" stroke-linejoin="round"/>
@@ -166,15 +170,16 @@ const CreateAccountInfo = ({ navigation }) => {
                         </TouchableOpacity>
                         <Text style = {styles.confirmQuestion}>
                             &nbsp;Back to 
-                            <Text 
-                                style = {[styles.confirmQuestion, {color: "#53FAFB"}]}
-                                // onPress = {
-                                //     navigation.navigate('Verify')
-                                // }
-                            >
-                                &nbsp;Login
-                            </Text>
                         </Text>
+                        <TouchableOpacity style = {styles.confirmQuestion}
+                            onPress = {() =>navigation.navigate('Login')}
+                        >
+                        <Text 
+                            style = {[styles.confirmQuestion, {color: "#53FAFB", marginTop: 0}]}
+                        >
+                            &nbsp;Login
+                        </Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>

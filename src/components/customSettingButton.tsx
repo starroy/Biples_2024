@@ -91,7 +91,7 @@ const CustomSettingButton = ({ navigation, title, navigateName, avatarName }) =>
                 style={styles.button}
                 onPress={() => {
                     if (title != 'Privacy Policy')
-                        navigation.navigate('Overview');
+                        navigation.navigate(navigateName);
                     else
                         navigation.navigate('PrivatePolicy'); }}
             >

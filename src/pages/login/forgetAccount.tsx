@@ -47,7 +47,14 @@ const ForgetAccount = ({ navigation }) => {
         else setIsEmail(false)
     }
     handleNavigate = () => {
-        navigation.navigate('BackLogin');
+        if (isEmail) {
+            navigation.goBack();
+        }
+    }
+    handleNavigated = () => {
+        if (isEmail) {
+            navigation.navigate('Login');
+        }
     }
     return (
         <View>
@@ -79,7 +86,7 @@ const ForgetAccount = ({ navigation }) => {
                         you remember or you can reset it again
                     </Text>
                 </View>
-                <View style = {styles.mainpad}>                            
+                <View style = {styles.mainpad}>
                     <CustomInputBox
                         placeholder="Enter your Email"
                         image={require('../../../assets/images/mail.png')}
@@ -98,14 +105,18 @@ const ForgetAccount = ({ navigation }) => {
                             backgroundColor={isEmail ? "#53FAFB" : "#202020"}  
                             color={isEmail ? 'black' : '#4C4C4C'}
                             fontSize={vw(3.9)}
-                            navigateName='ResetPassword'
+                            onPress = {() => {
+                                if (isEmail){
+                                    navigation.navigate('ResetPassword')
+                                }
+                            }}
                         />
                     </View>
                 </View>
                 <View style = {{width: vw(100), aspectRatio: 360/260}}/>
                 <View style = {styles.footer}>
                     <TouchableOpacity onPress={() => {
-                        setLoadingNumber(loadingNumber+1)
+                        navigation.goBack()
                     }}>
                         <Svg width={vw(5.3)} height={vw(5.3)} viewBox='0 0 19 19' fill="none" xmlns="http://www.w3.org/2000/svg">
                             <Path d="M18.2083 9.5L4.74998 9.5" stroke="#F2F2F2" stroke-width="1.1875" stroke-linecap="round" stroke-linejoin="round"/>
@@ -116,7 +127,7 @@ const ForgetAccount = ({ navigation }) => {
                         &nbsp;Back to 
                         <Text 
                             style = {[styles.confirmQuestion, {color: "#53FAFB"}]}
-                            onPress = { handleNavigate }
+                            onPress = { handleNavigated }
                         >
                             &nbsp;Login
                         </Text>
@@ -203,7 +214,7 @@ const styles = StyleSheet.create({
         aspectRatio: 360/17,
         // marginBottom: vw(13.3),
         position: 'absolute',
-        bottom: vw(5)
+        top: vh(105)
     },
     arrow: {
         marginRight: vw(1.4)

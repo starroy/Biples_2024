@@ -73,21 +73,21 @@ const MainNFTs = ({ navigation }) => {
     const exploreArray = [
         {
             backavatar: require('../../../../assets/images/communityBackground.png'),
-            avatar: require('../../../../assets/images/avatar2.png')
+            avatar: require('../../../../assets/images/card9.png')
         },
         {
             backavatar: require('../../../../assets/images/communityBackground.png'),
-            avatar: require('../../../../assets/images/avatar2.png')
+            avatar: require('../../../../assets/images/card9.png')
         },
         {
             backavatar: require('../../../../assets/images/communityBackground2.png'),
-            avatar: require('../../../../assets/images/avatar2.png')
+            avatar: require('../../../../assets/images/card9.png')
         },
     ];
     const topArray = [
         {
             backavatar: require('../../../../assets/images/communityBackground.png'),
-            avatar: require('../../../../assets/images/avatar2.png'),
+            avatar: require('../../../../assets/images/card9.png'),
             description: "The terms and conditions contained in this Agreement shall constitute the entire all previous agreements oral or written.",
             readMore: 'true',
             members: '1.5k Members',
@@ -102,7 +102,7 @@ const MainNFTs = ({ navigation }) => {
         },
         {
             backavatar: require('../../../../assets/images/communityBackground.png'),
-            avatar: require('../../../../assets/images/avatar2.png'),
+            avatar: require('../../../../assets/images/card9.png'),
             description: "The terms and conditions contained in this Agreement shall constitute the entire all previous agreements oral or written.",
             readMore: 'true',
             members: '1.5k Members',
@@ -117,7 +117,7 @@ const MainNFTs = ({ navigation }) => {
         },
         {
             backavatar: require('../../../../assets/images/communityBackground2.png'),
-            avatar: require('../../../../assets/images/avatar2.png'),
+            avatar: require('../../../../assets/images/card9.png'),
             description: "The terms and conditions contained in this Agreement shall constitute the entire all previous agreements oral or written.",
             readMore: 'true',
             members: '1.5k Members',
@@ -134,12 +134,12 @@ const MainNFTs = ({ navigation }) => {
     const [topData, setTopData] = useState(topArray);
     const helloMessage = "Good Morning!";
     const communitiesArray = [
-        {avatar: require('../../../../assets/images/avatar1.png')},
-        {avatar: require('../../../../assets/images/avatar2.png')},
-        {avatar: require('../../../../assets/images/avatar1.png')},
-        {avatar: require('../../../../assets/images/avatar2.png')},
-        {avatar: require('../../../../assets/images/avatar1.png')},
-        {avatar: require('../../../../assets/images/avatar2.png')},
+        {avatar: require('../../../../assets/images/card8.png')},
+        {avatar: require('../../../../assets/images/card9.png')},
+        {avatar: require('../../../../assets/images/card8.png')},
+        {avatar: require('../../../../assets/images/card9.png')},
+        {avatar: require('../../../../assets/images/card8.png')},
+        {avatar: require('../../../../assets/images/card9.png')},
     ];
     const [backImgArray, setBackImgArray] = useState([
         require('../../../../assets/images/market3.png'),
@@ -194,7 +194,7 @@ const MainNFTs = ({ navigation }) => {
         setTimeout(() => {
           navigation.goBack();
           setSelected('Home');
-        }, 300); // Delay the back action by one second
+        }, 30); // Delay the back action by one second
   
         return true; // Prevent default behavior (i.e. exit the app)
       };
@@ -224,7 +224,7 @@ const MainNFTs = ({ navigation }) => {
             <BlurView
                 viewRef={viewRef}
                 style={styles.blurViewStyle}
-                blurRadius={3}
+                blurAmount={9}
                 blurType={blurType}
                 // blurRadius={10}
                 downsampleFactor={10}
@@ -232,16 +232,16 @@ const MainNFTs = ({ navigation }) => {
             />
         );
     }
-    const navigateAndAnimate = () => {
-        setShowBlur(false);
-        let timerId;
-        timerId = setTimeout(() => {
-        navigation.navigate('Main');
-          }, 30); // Adjust the delay as needed
-          return () => {
-            clearTimeout(timerId);
-          };
-    };
+    // const navigateAndAnimate = () => {
+    //     setShowBlur(false);
+    //     let timerId;
+    //     timerId = setTimeout(() => {
+    //     navigation.navigate('Main');
+    //       }, 30); // Adjust the delay as needed
+    //       return () => {
+    //         clearTimeout(timerId);
+    //       };
+    // };
     const navigateChat = () => {
         
         setSelected('Chat')
@@ -264,11 +264,11 @@ const MainNFTs = ({ navigation }) => {
             clearTimeout(timerId);
           };
     }
-    const navigateMyCommunity = () => {
+    const navigateNoCommunity = () => {
         setShowBlur(false);
         let timerId;
         timerId = setTimeout(() => {
-        navigation.navigate('MyCommunity');
+        navigation.navigate('NoCommunity');
           }, 30); // Adjust the delay as needed
           return () => {
             clearTimeout(timerId);
@@ -302,7 +302,7 @@ const MainNFTs = ({ navigation }) => {
             <View style={styles.container}>
                 <View style = {styles.header}>
                     <View style = {styles.userInfo}>
-                        <Image source = {require('../../../../assets/images/avatar2.png')}
+                        <Image source = {require('../../../../assets/images/card9.png')}
                             style = {{width: vw(10.7), height: vw(10.7), borderRadius: vw(2)}}
                         />
                         <View style = {styles.user}>
@@ -334,9 +334,7 @@ const MainNFTs = ({ navigation }) => {
                         </View>
                     </View>
                 </View>
-                <View
-                    style = {styles.body}
-                >
+                <View style = {styles.body} >
                     <View style = {{width: vw(90)}}>
                         <View style = {styles.sortBtnStyle}>
                             {
@@ -362,14 +360,16 @@ const MainNFTs = ({ navigation }) => {
                             />
                         </View>
                     </View>
-                    <ScrollView showsVerticalScrollIndicator={false}>
+                    <ScrollView showsVerticalScrollIndicator={false}
+                        style = {{marginBottom: vw(6)}}
+                    >
                         <View style = {styles.myCommunities}>
                             <View style = {{justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', marginBottom: vw(3.33), paddingLeft: vw(5), paddingRight: vw(5)}}>
                                 <Text style = {styles.title}>
                                     Top Sellers
                                 </Text>
                                 <Text style = {styles.viewAll}
-                                    onPress = {navigateMyCommunity}
+                                    // onPress = {navigateNoCommunity}
                                 >
                                     View All
                                 </Text>
@@ -423,7 +423,7 @@ const MainNFTs = ({ navigation }) => {
                                     NFTs
                                 </Text>
                                 <Text style = {styles.viewAll}
-                                    onPress = {navigateMyCommunity}
+                                    // onPress = {navigateNoCommunity}
                                 >
                                     View All
                                 </Text>
@@ -446,8 +446,8 @@ const MainNFTs = ({ navigation }) => {
                                 />
                             </View>
                         </View>
+                        <View style = {{height: vw(20)}}/>
                     </ScrollView>
-                    <View style = {{height: vw(20)}}/>
                 </View>
                 <View style = {[styles.footer, {position: 'absolute', overflow: 'hidden'}]}>
                     {/* <View style = {{ position: 'relative', bottom: 0, left: 0,width: vw(92.2), height: vw(30), flexDirection: 'row',justifyContent: 'space-around', alignItems: 'center', overflow: 'hidden'}}> */}
@@ -470,7 +470,7 @@ const MainNFTs = ({ navigation }) => {
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style = {styles.footerIcon}
-                            onPress = {navigateMyCommunity}
+                            onPress = {navigateNoCommunity}
                         >
                             <Svg width={vw(5.6)} height={vw(5.6)} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <Path d="M15 13.1974C16.2132 13.8069 17.2534 14.785 18.0127 16.008C18.163 16.2502 18.2382 16.3713 18.2642 16.539C18.317 16.8798 18.084 17.2988 17.7666 17.4336C17.6104 17.5 17.4347 17.5 17.0833 17.5M13.3333 9.6102C14.5681 8.99657 15.4167 7.72238 15.4167 6.25C15.4167 4.77762 14.5681 3.50343 13.3333 2.8898M11.6667 6.25C11.6667 8.32107 9.98772 10 7.91665 10C5.84559 10 4.16665 8.32107 4.16665 6.25C4.16665 4.17893 5.84559 2.5 7.91665 2.5C9.98772 2.5 11.6667 4.17893 11.6667 6.25ZM2.13268 15.782C3.46127 13.7871 5.5578 12.5 7.91665 12.5C10.2755 12.5 12.372 13.7871 13.7006 15.782C13.9917 16.219 14.1372 16.4375 14.1205 16.7166C14.1074 16.9339 13.9649 17.2 13.7913 17.3313C13.5683 17.5 13.2615 17.5 12.648 17.5H3.18528C2.5718 17.5 2.26505 17.5 2.04202 17.3313C1.86836 17.2 1.72589 16.9339 1.71285 16.7166C1.69609 16.4375 1.84162 16.219 2.13268 15.782Z" stroke={selected == 'Community'? '#53FAFB' : "#9D9D9D"} stroke-linecap="round" stroke-linejoin="round"/>
@@ -505,11 +505,11 @@ const styles = StyleSheet.create({
     container: {
         width: vw(101),
         height: '100%',
-        backgroundColor: 'black',
+        backgroundColor: '#202020',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#090909'
+        backgroundColor: '#101010'
     },
     header: {
         position: 'absolute',

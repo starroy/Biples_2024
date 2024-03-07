@@ -72,7 +72,7 @@ const MainSearch = ({navigation}) => {
                         <TouchableOpacity
                             style = {styles.prevButton}
                             onPress = { () => 
-                                navigation.navigate('Main')
+                                navigation.goBack()
                             }
                         >
                             <Svg width={vw(2)} height={vw(3.3)} viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -169,7 +169,7 @@ const MainSearch = ({navigation}) => {
                         </View>
                     </View>
                     <View style = {styles.friends}>
-                        <Text style = {[styles.title, {marginBottom: vh(1.91)}]}>
+                        <Text style = {[styles.title, {marginBottom: vh(1.91), marginLeft: vw(5)}]}>
                             Friends you may know
                         </Text>
                         <FlatList
@@ -178,22 +178,27 @@ const MainSearch = ({navigation}) => {
                             horizontal
                             showsHorizontalScrollIndicator={false}
                             renderItem = {({item, index}) => 
-                                <View key = {index} style = {styles.card}>
-                                    <Image
-                                        style = {styles.friendAvatar} 
-                                        source = {item.avatar}
-                                    />
-                                    <Text style = {styles.friendName}>
-                                        {item.name}
-                                    </Text>
-                                    <Text style = {styles.friendNumber}>
-                                        {item.friend}
-                                    </Text>
-                                    <TouchableOpacity style = {styles.friendButton}>
-                                        <Text style = {styles.btnName}>
-                                            Add Friend
+                                <View>
+                                    <View key = {index} style = {[styles.card, {marginRight: index  === (friendCard.length-1) ? vw(10) : vw(3.3),}]}>
+                                        <Image
+                                            style = {styles.friendAvatar} 
+                                            source = {item.avatar}
+                                        />
+                                        <Text style = {styles.friendName}>
+                                            {item.name}
                                         </Text>
-                                    </TouchableOpacity>
+                                        <Text style = {styles.friendNumber}>
+                                            {item.friend}
+                                        </Text>
+                                        <TouchableOpacity style = {styles.friendButton}>
+                                            <Text style = {styles.btnName}>
+                                                Add Friend
+                                            </Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    {/* {index  === (friendCard.length-1) &&  */}
+                                    <View style = {{width: vw(25)}}/>
+                                    {/* } */}
                                 </View>
                             }
                         />
@@ -217,7 +222,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        backgroundColor: 'black',
+        backgroundColor: '#101010',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'flex-start',
@@ -243,7 +248,7 @@ const styles = StyleSheet.create({
         width: vw(9.44),
         height: vw(9.44),
         borderRadius: vw(5),
-        backgroundColor: '#181818',
+        backgroundColor: '#202020',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -255,7 +260,7 @@ const styles = StyleSheet.create({
     searchBar: {
         width: vw(66.7),
         height: vw(9.44),
-        backgroundColor: '#131313',
+        backgroundColor: '#202020',
         borderRadius: vw(5),
         flexDirection: 'row',
         justifyContent: 'flex-start',
@@ -286,14 +291,15 @@ const styles = StyleSheet.create({
         // marginTop: vh(11.42),
         // paddingTop: vh(4.2),
         // height: vh(74.6),
-        marginLeft: vw(5),
+        // paddingLeft: vw(5),
         justifyContent: 'flex-start',
         alignItems: 'flex-start'
     },
     recentSearches: {
         width: vw(90),
         height: vh(25),
-        paddingTop: vh(4.2)
+        paddingTop: vh(4.2),
+        paddingLeft: vw(5)
     },
     title: {
         fontFamily: 'TT Firs Neue Trial Medium',
@@ -316,7 +322,8 @@ const styles = StyleSheet.create({
     trendCommunities: {
         width: vw(90),
         height: vh(23),
-        paddingBottom: vh(3.45)
+        paddingBottom: vh(3.45),
+        marginLeft: vw(5)
     },
     trendBtns: {
         width: vw(90),
@@ -336,13 +343,16 @@ const styles = StyleSheet.create({
         marginBottom: vw(2.8)
     },
     friends: {
-        width: vw(90),
+        width: vw(100),
         height: vh(33),
-        paddingTop: vh(4.2)
+        paddingTop: vh(4.2),
+        // paddingLeft: vw(5)
     },
     cards: {
         width: vw(100),
         height: vh(21.7),
+        paddingLeft: vw(5),
+        paddingRight: vw(5)
     },
     card: {
         width: vw(41.67),
@@ -351,7 +361,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#131313',
+        backgroundColor: '#202020',
         borderRadius: vw(3)
     },
     friendAvatar: {
@@ -387,7 +397,7 @@ const styles = StyleSheet.create({
         width: vw(100),
         aspectRatio: 360/40,
         position: 'absolute',
-        bottom: vw(7.8),
+        top: vh(95),
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'black'

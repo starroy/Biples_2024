@@ -150,7 +150,7 @@ const Account = ({navigation}) => {
                     style={styles.blurViewStyle}
                     // blurRadius={1}
                     // blurType={blurType}
-                    blurRadius={1}
+                    blurAmount={9}
                     downsampleFactor={10}
                     overlayColor={'rgba(50, 50, 50, .2)'}
                 />
@@ -163,7 +163,7 @@ const Account = ({navigation}) => {
         setShowBlur(false);
         let timerId;
         timerId = setTimeout(() => {
-            navigation.navigate('FriendProfile');
+            navigation.goBack();
           }, 30); // Adjust the delay as needed
           return () => {
             clearTimeout(timerId);
@@ -195,7 +195,7 @@ const Account = ({navigation}) => {
         setShowBlur(false);
         let timerId;
         timerId = setTimeout(() => {
-        navigation.navigate('MyCommunity');
+        navigation.navigate('NoCommunity');
           }, 30); // Adjust the delay as needed
           return () => {
             clearTimeout(timerId);
@@ -206,6 +206,20 @@ const Account = ({navigation}) => {
             <StatusBar translucent backgroundColor = 'transparent'/>
             <View style = {styles.container}>
                 <View style = {styles.header}>
+                    {/* <View style = {{backgroundColor: '#101F29', width: vw(33.9), height: vw(33.9), borderRadius: vw(20), top: vw(18), left: vw(15), position: 'absolute', overflow: 'hidden'}}>
+                        <Image source = {require('../../../../assets/images/blurref.png')}
+                            style={{backgroundColor: '#101F29', width: vw(33.9), height: vw(33.9)}}
+                            ref={backgroundImageRef}
+                        />
+                        {showBlur ? renderBlurView() : null}
+                    </View>
+                    <View style = {{backgroundColor: '#101F29', width: vw(22.8), height: vw(22.8), borderRadius: vw(20), top: vw(50), right: vw(13), position: 'absolute', overflow: 'hidden'}}>
+                        <Image source = {require('../../../../assets/images/blurref.png')}
+                            style={{backgroundColor: '#101F29', width: vw(22.8), height: vw(22.8)}}
+                            ref={backgroundImageRef}
+                        />
+                        {showBlur ? renderBlurView() : null}
+                    </View> */}
                     <View style = {styles.headerBar}>
                         <TouchableOpacity
                             style = {styles.prevButton}
@@ -264,7 +278,7 @@ const Account = ({navigation}) => {
                                 {friendData.text}
                             </Text>
                             <TouchableOpacity 
-                                style = {[styles.btnStyle, {backgroundColor: wallet ? '#53FAFB10' : '#131313', marginLeft: vw(5)}]}
+                                style = {[styles.btnStyle, {backgroundColor: wallet ? '#53FAFB10' : '#202020', marginLeft: vw(5)}]}
                                 onPress = {() => setWallet(!wallet)}
                             >
                                 {friendData.btnName.avatar}
@@ -307,7 +321,7 @@ const Account = ({navigation}) => {
                                 sortBtn.map((item, index) => 
                                     <TouchableOpacity 
                                         key = {index} 
-                                        style = {[styles.btn,{backgroundColor: item.selected ? '#53FAFB10': 'black'}]}
+                                        style = {[styles.btn,{backgroundColor: item.selected ? '#53FAFB10': '#101010'}]}
                                         onPress={() => 
                                             setSortBtn(prevBtn => {
                                                 const newBtn = [...prevBtn];
@@ -365,7 +379,7 @@ const Account = ({navigation}) => {
                             invite ? 
                     <View style = {[styles.myfriends, {paddingTop: vw(5), paddingBottom: vw(15.6)}]}>
                                 <TouchableOpacity 
-                                    style = {[styles.btnStyle, {backgroundColor:'#131313', width: vw(88), borderRadius: vw(5)}]}
+                                    style = {[styles.btnStyle, {backgroundColor:'#202020', width: vw(88), borderRadius: vw(5)}]}
                                 // onPress = {}
                                 >
                                     <Svg width={vw(4.44)} height={vw(4.7)} viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -443,7 +457,7 @@ const Account = ({navigation}) => {
                                     </Text>
                                 </View>
                                 <TouchableOpacity 
-                                        style = {[styles.btnStyle, {backgroundColor:'#53FAFB', width: vw(88), borderRadius: vw(5)}]}
+                                        style = {[styles.btnStyle, {backgroundColor:'#53FAFB', width: vw(88)}]}
                                         onPress = {() => setInvite(true)}
                                     >
                                         <Svg width={vw(4.44)} height={vw(4.7)} viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -509,7 +523,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        backgroundColor: 'black',
+        backgroundColor: '#101010',
         flexDirection: 'column',
     },
     header: {
@@ -520,7 +534,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-end',
         alignItems: 'center',
-        backgroundColor: 'black'
+        // backgroundColor: 'black'
     },
     headerBar: {
         width: vw(90),
@@ -566,12 +580,14 @@ const styles = StyleSheet.create({
         marginBottom: vw(20)
     },
     friendInfo: {
+        position: 'relative',
         width: vw(90),
         height: vw(94.72),
         paddingTop: vw(3.11),
         paddingBottom: vw(7.22),
         flexDirection: 'column',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        // overflow: 'hidden'
     },
     friend: {
         flexDirection: 'column',
@@ -598,7 +614,7 @@ const styles = StyleSheet.create({
     },
     btnStyle: {
         flexDirection: 'row',
-        borderRadius: vw(10),
+        borderRadius: vw(4.2),
         justifyContent:'center',
         alignItems: 'center',
         width: vw(75),
@@ -686,7 +702,7 @@ const styles = StyleSheet.create({
         width: vw(12.5),
         height: vw(12.5),
         borderRadius: vw(6.5),
-        backgroundColor: '#131313',
+        backgroundColor: '#202020',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -736,7 +752,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         width: vw(92.2),
-        height: vw(20),
+        height: vw(40),
         left: 0,
         top: 0,
         right: 0

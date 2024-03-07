@@ -20,29 +20,29 @@ import { vh, vw } from 'react-native-css-vh-vw';
 import Svg, { Path, Circle, ClipPath, G, Defs, Rect } from 'react-native-svg';
 import { Icon } from 'react-native-elements';
 
-const CustomCard = ({ backgroundImage, avatar, avatarName, avatarContent, title, avatar1, avatar2, avatar3, text, heartNumber, onPress }) => {
+const CustomCard = ({ backgroundImage, avatar, avatarName, avatarContent, title, avatar1, avatar2, avatar3, text, heartNumber, onPress, handlePressed, bookMark, renderBlurView, showBlur}) => {
     
-    const [showBlur, setShowBlur] = useState(false);
+    // const [showBlur, setShowBlur] = useState(false);
     const [viewRef, setViewRef] = useState(null);
     const [blurType, setBlurType] = useState('Dark');
     const backgroundImageRef = createRef();
-    const renderBlurView = () => {
-        console.log(viewRef);
-        return (
-            <View style = {{width: vw(92.2), position: 'relative', right: 0, bottom: 0}}>
+    // const renderBlurView = () => {
+    //     console.log(viewRef);
+    //     return (
+    //         <View style = {{width: vw(92.2), position: 'relative', right: 0, bottom: 0}}>
                 
-                <BlurView
-                    // viewRef={viewRef}
-                    style={styles.blurViewStyle}
-                    // blurRadius={1}
-                    // blurType={blurType}
-                    blurRadius={3}
-                    // downsampleFactor={10}
-                    overlayColor={'rgba(75, 75, 75, .6)'}
-                />
-            </View>
-        );
-    }
+    //             <BlurView
+    //                 // viewRef={viewRef}
+    //                 style={styles.blurViewStyle}
+    //                 // blurRadius={1}
+    //                 // blurType={blurType}
+    //                 blurRadius={3}
+    //                 // downsampleFactor={10}
+    //                 overlayColor={'rgba(75, 75, 75, .6)'}
+    //             />
+    //         </View>
+    //     );
+    // }
     return (
             <TouchableOpacity
                 style={[styles.card]}
@@ -70,11 +70,13 @@ const CustomCard = ({ backgroundImage, avatar, avatarName, avatarContent, title,
                                 </Text>
                             </View>
                         </View>
-                        <View style = {{ width: vw(6.5), aspectRatio: 1/1, borderRadius: vw(3.5), backgroundColor: '#75757580', justifyContent: 'center', alignItems: 'center' }}>
+                        <TouchableOpacity style = {{ width: vw(6.5), aspectRatio: 1/1, borderRadius: vw(3.5), backgroundColor: '#75757580', justifyContent: 'center', alignItems: 'center' }}
+                            onPress = {handlePressed}
+                        >
                             <Svg width={vw(2.8)} height={vw(3.3)} viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <Path d="M1 3.66667C1 2.73325 1 2.26654 1.18685 1.91002C1.3512 1.59641 1.61345 1.34144 1.93602 1.18166C2.30272 1 2.78277 1 3.74286 1H6.25714C7.21723 1 7.69728 1 8.06398 1.18166C8.38655 1.34144 8.6488 1.59641 8.81315 1.91002C9 2.26654 9 2.73325 9 3.66667V11L5 8.77778L1 11V3.66667Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                                <Path d="M1 3.66667C1 2.73325 1 2.26654 1.18685 1.91002C1.3512 1.59641 1.61345 1.34144 1.93602 1.18166C2.30272 1 2.78277 1 3.74286 1H6.25714C7.21723 1 7.69728 1 8.06398 1.18166C8.38655 1.34144 8.6488 1.59641 8.81315 1.91002C9 2.26654 9 2.73325 9 3.66667V11L5 8.77778L1 11V3.66667Z" stroke={bookMark ? "#FF5252" : "white"} stroke-linecap="round" stroke-linejoin="round"/>
                             </Svg>
-                        </View>
+                        </TouchableOpacity>
                     </ImageBackground>
                 </View>
                 <View style = {{width: vw(63.9), aspectRatio: 230/70, borderRadius: vw(5), backgroundColor: '#75757550', padding: vw(3.3), position: 'absolute', top: vw(48.3), justifyContent: 'space-between', alignItems: 'flex-start', overflow: 'hidden'}}>

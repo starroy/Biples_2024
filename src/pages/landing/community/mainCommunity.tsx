@@ -56,21 +56,21 @@ const MainCommunity = ({ navigation }) => {
     const exploreArray = [
         {
             backavatar: require('../../../../assets/images/communityBackground.png'),
-            avatar: require('../../../../assets/images/avatar2.png')
+            avatar: require('../../../../assets/images/card9.png')
         },
         {
             backavatar: require('../../../../assets/images/communityBackground.png'),
-            avatar: require('../../../../assets/images/avatar2.png')
+            avatar: require('../../../../assets/images/card9.png')
         },
         {
             backavatar: require('../../../../assets/images/communityBackground2.png'),
-            avatar: require('../../../../assets/images/avatar2.png')
+            avatar: require('../../../../assets/images/card9.png')
         },
     ];
     const topArray = [
         {
             backavatar: require('../../../../assets/images/communityBackground.png'),
-            avatar: require('../../../../assets/images/avatar2.png'),
+            avatar: require('../../../../assets/images/card9.png'),
             description: "The terms and conditions contained in this Agreement shall constitute the entire all previous agreements oral or written.",
             readMore: 'true',
             members: '1.5k Members',
@@ -85,7 +85,7 @@ const MainCommunity = ({ navigation }) => {
         },
         {
             backavatar: require('../../../../assets/images/communityBackground.png'),
-            avatar: require('../../../../assets/images/avatar2.png'),
+            avatar: require('../../../../assets/images/card9.png'),
             description: "The terms and conditions contained in this Agreement shall constitute the entire all previous agreements oral or written.",
             readMore: 'true',
             members: '1.5k Members',
@@ -100,7 +100,7 @@ const MainCommunity = ({ navigation }) => {
         },
         {
             backavatar: require('../../../../assets/images/communityBackground2.png'),
-            avatar: require('../../../../assets/images/avatar2.png'),
+            avatar: require('../../../../assets/images/card9.png'),
             description: "The terms and conditions contained in this Agreement shall constitute the entire all previous agreements oral or written.",
             readMore: 'true',
             members: '1.5k Members',
@@ -117,12 +117,12 @@ const MainCommunity = ({ navigation }) => {
     const [topData, setTopData] = useState(topArray);
     const helloMessage = "Good Morning!";
     const communitiesArray = [
-        {avatar: require('../../../../assets/images/avatar1.png')},
-        {avatar: require('../../../../assets/images/avatar2.png')},
-        {avatar: require('../../../../assets/images/avatar1.png')},
-        {avatar: require('../../../../assets/images/avatar2.png')},
-        {avatar: require('../../../../assets/images/avatar1.png')},
-        {avatar: require('../../../../assets/images/avatar2.png')},
+        {avatar: require('../../../../assets/images/card8.png')},
+        {avatar: require('../../../../assets/images/card9.png')},
+        {avatar: require('../../../../assets/images/card8.png')},
+        {avatar: require('../../../../assets/images/card9.png')},
+        {avatar: require('../../../../assets/images/card8.png')},
+        {avatar: require('../../../../assets/images/card9.png')},
     ];
     useEffect(() => {
       const backAction = () => {
@@ -161,7 +161,7 @@ const MainCommunity = ({ navigation }) => {
             <BlurView
                 viewRef={viewRef}
                 style={styles.blurViewStyle}
-                blurRadius={1}
+                blurAmount={9}
                 blurType={blurType}
                 // blurRadius={10}
                 downsampleFactor={10}
@@ -265,7 +265,7 @@ const MainCommunity = ({ navigation }) => {
                                 Community
                             </Text>
                         </View>
-                        <View style = {styles.notification}>
+                        {/* <View style = {styles.notification}> */}
                             <TouchableOpacity 
                                 style = {{width: vw(9.4), aspectRatio: 1/1, borderRadius: vw(5), backgroundColor: "#212121", justifyContent: 'center', alignItems: 'center'}}
                                 onPress = { () => {navigation.navigate('CommunitySearch'); 
@@ -276,19 +276,19 @@ const MainCommunity = ({ navigation }) => {
                                     <Path d="M23.375 23.375L20.8959 20.8958M22.6667 16.6458C22.6667 19.971 19.971 22.6667 16.6458 22.6667C13.3206 22.6667 10.625 19.971 10.625 16.6458C10.625 13.3206 13.3206 10.625 16.6458 10.625C19.971 10.625 22.6667 13.3206 22.6667 16.6458Z" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </Svg>
                             </TouchableOpacity>
-                            <TouchableOpacity 
+                            {/* <TouchableOpacity 
                                 style = {{width: vw(9.4), aspectRatio: 1/1, borderRadius: vw(5), backgroundColor: "#212121", justifyContent: 'center', alignItems: 'center'}}
                                 // onPress = { () => {navigation.navigate('Notifications'); 
                                 // setShowBlur(false)
                             // } }
                                 onPress ={navigateCreate}
-                            >
-                                <Svg width={vw(4.44)} height={vw(4.44)} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            > */}
+                                {/* <Svg width={vw(4.44)} height={vw(4.44)} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <Path d="M8 15.5V0.5M0.5 8H15.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                                 </Svg>
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
 
-                        </View>
+                        {/* </View> */}
                     </View>
                 </View>
                 <View
@@ -298,7 +298,7 @@ const MainCommunity = ({ navigation }) => {
                         <Text style = {[styles.viewAll, {marginLeft: vw(5), marginBottom: vw(5)}]}>
                             Promoted
                         </Text>
-                        <View style = {[styles.advert, {marginLeft: vw(5)}]}>
+                        <View style = {[styles.advert, {marginLeft: vw(5), marginBottom: vw(5)}]}>
                             <ImageBackground 
                                 source = {require('../../../../assets/images/communityBackground.png')}
                                 style = {[styles.advert, {paddingLeft: vw(4.5),paddingTop: vw(4.8), paddingRight: vw(3.3), paddingBottom: vw(5.3) }]}
@@ -341,166 +341,165 @@ const MainCommunity = ({ navigation }) => {
                             </ImageBackground>
                         </View>
                     </View>
-                    <ScrollView showsVerticalScrollIndicator={false}>
-                    <View style = {styles.myCommunities}>
-                        <View style = {{justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', marginBottom: vw(3.33), paddingLeft: vw(5), paddingRight: vw(5)}}>
-                            <Text style = {styles.title}>
-                                My Communitites
-                            </Text>
-                            <Text style = {styles.viewAll}
-                                onPress = {navigateMyCommunity}
-                            >
-                                View All
-                            </Text>
-                        </View>
-                        <View style = {[styles.communities, {}]}>
-                            <View style={{width: vw(13.9), aspectRatio: 1/1, backgroundColor: '#53FAFB10', justifyContent: 'center', alignItems: 'center', borderRadius: vw(3)}}>
-                                <Svg width={vw(4.44)} height={vw(4.44)}  viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <Path d="M8 15.5V0.5M0.5 8H15.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-                                </Svg>
+                    <ScrollView showsVerticalScrollIndicator={false} style = {{marginBottom: vw(3)}}>
+                        <View style = {styles.myCommunities}>
+                            <View style = {{justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', marginBottom: vw(3.33), paddingLeft: vw(5), paddingRight: vw(5)}}>
+                                <Text style = {styles.title}>
+                                    My Communitites
+                                </Text>
+                                <Text style = {styles.viewAll}
+                                    onPress = {navigateMyCommunity}
+                                >
+                                    View All
+                                </Text>
                             </View>
-                            <FlatList
-                                data={communitiesArray}
-                                horizontal
-                                showsHorizontalScrollIndicator={false}
-                                renderItem={({ item }) =>
-                                    <Image 
-                                        source = {item.avatar}
-                                        style={{width: vw(13.9), height: vw(13.9), marginLeft: vw(2.8),borderRadius: vw(3) }}
-                                        resizeMode="cover"
-                                    />
-                                }
-                            />
+                            <View style = {[styles.communities, {}]}>
+                                <View style={{width: vw(13.9), aspectRatio: 1/1, backgroundColor: '#53FAFB10', justifyContent: 'center', alignItems: 'center', borderRadius: vw(3)}}>
+                                    <Svg width={vw(4.44)} height={vw(4.44)}  viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <Path d="M8 15.5V0.5M0.5 8H15.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </Svg>
+                                </View>
+                                <FlatList
+                                    data={communitiesArray}
+                                    horizontal
+                                    showsHorizontalScrollIndicator={false}
+                                    renderItem={({ item }) =>
+                                        <Image 
+                                            source = {item.avatar}
+                                            style={{width: vw(13.9), height: vw(13.9), marginLeft: vw(2.8),borderRadius: vw(3) }}
+                                            resizeMode="cover"
+                                        />
+                                    }
+                                />
+                            </View>
                         </View>
-                    </View>
-                    <View style = {styles.recommended}>
-                        <View style = {{justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', marginBottom: vw(4.44), paddingRight: vw(5)}}>
-                            <Text style = {styles.title}>
-                                Explore New
-                            </Text>
-                        </View> 
-                        {
-                            exploreArray.map((item, index) =>
-                            <View key = {index} style = {[styles.advert, {marginBottom: vw(5)}]}>
-                                <ImageBackground 
-                                    source = {item.backavatar}
-                                    style = {[styles.advert, {paddingLeft: vw(4.5),paddingTop: vw(4.8), paddingRight: vw(3.3), paddingBottom: vw(5.3), flexDirection: 'column' }]}
-                                >
-                                    <Image source = {item.avatar}/>
-                                    <View style = {styles.mainContent}>
-                                        <Text style = {styles.middleTitle}>
-                                            New NFTs Go{'\n'}
-                                            Through to friends.
-                                        </Text>
-                                    </View>
-                                </ImageBackground>
-                            </View>)
-                        }    
-                    </View>
-                    {isTopTrand && <View style = {[styles.recommended, {marginTop: vw(2)}]}>
-                        <View style = {{justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', marginBottom: vw(4.44), paddingRight: vw(5)}}>
-                            <Text style = {styles.title}>
-                                Top Trading
-                            </Text>
-                            <Text style = {styles.viewAll}>
-                                View All
-                            </Text>
-                        </View> 
-                        {
-                            topData.map((item, index) =>
-                            <TouchableOpacity key = {index} style = {[styles.advert, {marginBottom: vw(5), flexDirection: 'column', aspectRatio: item.isShowMore ? 320/300 : 320/126, borderWidth: vw(0.3), borderColor: '#323232', borderRadius: vw(5),justifyContent: 'flex-start'}]}
-                                onPress = {() =>  setTopData(prev =>{
-                                    const newState = [...prev];
-                                    newState[index].isShowMore = !(newState[index].isShowMore);
-                                    return newState}
-                            )}>
-                                <ImageBackground 
-                                    source = {item.backavatar}
-                                    style = {[styles.advert, {paddingLeft: vw(4.5),paddingTop: vw(4.8), paddingRight: vw(3.3), paddingBottom: vw(5.3), flexDirection: item.isShowMore ? 'row' : 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }]}
-                                >
-                                    <Image source = {item.avatar}/>
-                                    <View style = {[styles.mainContent, {marginLeft: item.isShowMore ? vw(6) : 0}]}>
-                                        <Text style = {styles.middleTitle}>
-                                            New NFTs Go{'\n'}
-                                            Through to friends.
-                                        </Text>
-                                    </View>
-                                </ImageBackground>
-                                {item.isShowMore &&<View style = {styles.description}>
-                                    <View style = {styles.dspTxt}>
-                                        <View style = {{width: vw(76.9)}}>
-                                            <Text style = {styles.viewAll}>
-                                                {item.description}
-                                                {item.readMore &&
-                                                <Text style = {[styles.viewAll, {color: 'white'}]}>
-                                                    Read More
-                                                </Text>}
+                        <View style = {styles.recommended}>
+                            <View style = {{justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', marginBottom: vw(4.44), paddingRight: vw(5)}}>
+                                <Text style = {styles.title}>
+                                    Explore New
+                                </Text>
+                            </View> 
+                            {
+                                exploreArray.map((item, index) =>
+                                <View key = {index} style = {[styles.advert, {marginBottom: vw(5)}]}>
+                                    <ImageBackground 
+                                        source = {item.backavatar}
+                                        style = {[styles.advert, {paddingLeft: vw(4.5),paddingTop: vw(4.8), paddingRight: vw(3.3), paddingBottom: vw(5.3), flexDirection: 'column' }]}
+                                    >
+                                        <Image source = {item.avatar}/>
+                                        <View style = {styles.mainContent}>
+                                            <Text style = {styles.middleTitle}>
+                                                New NFTs Go{'\n'}
+                                                Through to friends.
                                             </Text>
                                         </View>
-                                        <Svg width={vw(1.1)} height={vw(4.4)} viewBox="0 0 4 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <Path d="M1.875 7.12495C1.39174 7.12495 0.999991 7.51671 0.99999 7.99996C0.99999 8.48321 1.39174 8.87496 1.875 8.87496C2.35825 8.87496 2.75 8.48321 2.75 7.99996C2.75 7.51671 2.35825 7.12495 1.875 7.12495Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <Path d="M1.875 13.25C1.39174 13.25 0.99999 13.6417 0.99999 14.125C0.99999 14.6082 1.39174 15 1.87499 15C2.35825 15 2.75 14.6082 2.75 14.125C2.75 13.6417 2.35825 13.25 1.875 13.25Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <Path d="M1.875 0.999919C1.39174 0.999919 0.999991 1.39167 0.999991 1.87492C0.999991 2.35818 1.39174 2.74993 1.875 2.74993C2.35825 2.74993 2.75 2.35818 2.75 1.87492C2.75 1.39167 2.35825 0.999919 1.875 0.999919Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </Svg>
-                                    </View>
-                                    <View style = {styles.members}>
-                                        <View style = {{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: vw(35.3), height: vw(8.3), borderRadius: vw(5), borderWidth: vw(0.3), borderColor: '#323232'}}>
-                                            <Svg width={vw(3.6)} height={vw(3.3)} viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <Path d="M8.9 1.27515C9.78903 1.7083 10.4 2.60773 10.4 3.64706C10.4 4.68639 9.78903 5.58582 8.9 6.01896M10.1 9.09788C11.0069 9.5002 11.8235 10.1559 12.5 11M0.5 11C1.66789 9.54269 3.25351 8.64706 5 8.64706C6.74649 8.64706 8.33211 9.54269 9.5 11M7.7 3.64706C7.7 5.10899 6.49117 6.29412 5 6.29412C3.50883 6.29412 2.3 5.10899 2.3 3.64706C2.3 2.18513 3.50883 1 5 1C6.49117 1 7.7 2.18513 7.7 3.64706Z" stroke="#B0B0B0" stroke-linecap="round" stroke-linejoin="round"/>
-                                            </Svg>
-                                            <Text style = {[styles.viewAll,{marginLeft: vw(2)}]}>
-                                                {item.members}
+                                    </ImageBackground>
+                                </View>)
+                            }    
+                        </View>
+                        {isTopTrand && <View style = {[styles.recommended, {marginTop: vw(2)}]}>
+                            <View style = {{justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', marginBottom: vw(4.44), paddingRight: vw(5)}}>
+                                <Text style = {styles.title}>
+                                    Top Trading
+                                </Text>
+                                <Text style = {styles.viewAll}>
+                                    View All
+                                </Text>
+                            </View> 
+                            {
+                                topData.map((item, index) =>
+                                <TouchableOpacity key = {index} style = {[styles.advert, {marginBottom: vw(5), flexDirection: 'column', aspectRatio: item.isShowMore ? 320/300 : 320/126, borderWidth: vw(0.3), borderColor: '#323232', borderRadius: vw(5),justifyContent: 'flex-start'}]}
+                                    onPress = {() =>  setTopData(prev =>{
+                                        const newState = [...prev];
+                                        newState[index].isShowMore = !(newState[index].isShowMore);
+                                        return newState}
+                                )}>
+                                    <ImageBackground 
+                                        source = {item.backavatar}
+                                        style = {[styles.advert, {paddingLeft: vw(4.5),paddingTop: vw(4.8), paddingRight: vw(3.3), paddingBottom: vw(5.3), flexDirection: item.isShowMore ? 'row' : 'column', justifyContent: 'flex-start', alignItems: 'flex-start' }]}
+                                    >
+                                        <Image source = {item.avatar}/>
+                                        <View style = {[styles.mainContent, {marginLeft: item.isShowMore ? vw(6) : 0}]}>
+                                            <Text style = {styles.middleTitle}>
+                                                New NFTs Go{'\n'}
+                                                Through to friends.
                                             </Text>
                                         </View>
-                                        <View style = {{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginLeft: vw(2), height: vw(8.3)}}>
-                                            <Svg width={vw(2.2)} height={vw(2.2)} viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <Circle cx={vw(1.1)} cy={vw(1.1)} r={vw(1.1)} fill="#53FAFB"/>
-                                            </Svg>
-                                            <Text style = {[styles.viewAll, {color: 'white', marginLeft: vw(2)}]}>
-                                                {item.online}
-                                            </Text>
-                                        </View>
-                                    </View>
-                                    <View style = {{flexDirection: 'row', justifyContent: 'space-between', width: vw(80), height: vw(8.3), marginTop: vw(2)}}>
-                                        <View style = {{position: 'relative', flexDirection: 'row'}}>
-                                            {item.avatars.map((items, indexes) => 
-                                                <Image key = {indexes} source = {items} style = {[styles.imgStyle,{bottom: vw(0), left: indexes*vw(6.1)}]}/>
-                                            )}
-                                            <View>
-                                                <Text style = {{marginLeft: vw(22.4), fontFamily: 'TT Firs Neue Trial Medium', fontSize: vw(3.3), color: 'white', marginTop: vw(0.2)}}>
-                                                    {item.mutalNum}
+                                    </ImageBackground>
+                                    {item.isShowMore &&<View style = {styles.description}>
+                                        <View style = {styles.dspTxt}>
+                                            <View style = {{width: vw(76.9)}}>
+                                                <Text style = {styles.viewAll}>
+                                                    {item.description}
+                                                    {item.readMore &&
+                                                    <Text style = {[styles.viewAll, {color: 'white'}]}>
+                                                        Read More
+                                                    </Text>}
                                                 </Text>
-                                                <Text style = {{marginLeft: vw(22.4), fontFamily: 'TT Firs Neue Trial Medium', fontSize: vw(2.2), color: '#888888', marginTop: vw(0.2)}}>
-                                                    {item.mutalText}
+                                            </View>
+                                            <Svg width={vw(1.1)} height={vw(4.4)} viewBox="0 0 4 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <Path d="M1.875 7.12495C1.39174 7.12495 0.999991 7.51671 0.99999 7.99996C0.99999 8.48321 1.39174 8.87496 1.875 8.87496C2.35825 8.87496 2.75 8.48321 2.75 7.99996C2.75 7.51671 2.35825 7.12495 1.875 7.12495Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <Path d="M1.875 13.25C1.39174 13.25 0.99999 13.6417 0.99999 14.125C0.99999 14.6082 1.39174 15 1.87499 15C2.35825 15 2.75 14.6082 2.75 14.125C2.75 13.6417 2.35825 13.25 1.875 13.25Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <Path d="M1.875 0.999919C1.39174 0.999919 0.999991 1.39167 0.999991 1.87492C0.999991 2.35818 1.39174 2.74993 1.875 2.74993C2.35825 2.74993 2.75 2.35818 2.75 1.87492C2.75 1.39167 2.35825 0.999919 1.875 0.999919Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </Svg>
+                                        </View>
+                                        <View style = {styles.members}>
+                                            <View style = {{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: vw(35.3), height: vw(8.3), borderRadius: vw(5), borderWidth: vw(0.3), borderColor: '#323232'}}>
+                                                <Svg width={vw(3.6)} height={vw(3.3)} viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <Path d="M8.9 1.27515C9.78903 1.7083 10.4 2.60773 10.4 3.64706C10.4 4.68639 9.78903 5.58582 8.9 6.01896M10.1 9.09788C11.0069 9.5002 11.8235 10.1559 12.5 11M0.5 11C1.66789 9.54269 3.25351 8.64706 5 8.64706C6.74649 8.64706 8.33211 9.54269 9.5 11M7.7 3.64706C7.7 5.10899 6.49117 6.29412 5 6.29412C3.50883 6.29412 2.3 5.10899 2.3 3.64706C2.3 2.18513 3.50883 1 5 1C6.49117 1 7.7 2.18513 7.7 3.64706Z" stroke="#B0B0B0" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </Svg>
+                                                <Text style = {[styles.viewAll,{marginLeft: vw(2)}]}>
+                                                    {item.members}
+                                                </Text>
+                                            </View>
+                                            <View style = {{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginLeft: vw(2), height: vw(8.3)}}>
+                                                <Svg width={vw(2.2)} height={vw(2.2)} viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <Circle cx={vw(1.1)} cy={vw(1.1)} r={vw(1.1)} fill="#53FAFB"/>
+                                                </Svg>
+                                                <Text style = {[styles.viewAll, {color: 'white', marginLeft: vw(2)}]}>
+                                                    {item.online}
                                                 </Text>
                                             </View>
                                         </View>
-                                        <CustomRoundedButton
-                                            title="Join Now"
-                                            width={vw(25.83)}
-                                            height={vw(8.3)}
-                                            backgroundColor="#53FAFB"  
-                                            color='black'
-                                            fontSize={vw(2.8)}
-                                            onPress={handleMember}
-                                        />
-                                    </View>
-                                </View>}
-                            </TouchableOpacity>)
-                        }    
-                    </View>}
-                    {!isTopTrand && <TouchableOpacity style = {{alignItems: 'center', marginTop: vw(2)}}
-                        onPress = {() => setIsTopTrand(true)}
-                    >
-                        <View style = {styles.ftBtn}>
-                            <Text style = {[styles.viewAll, {fontSize: vw(3.9)}]}>
-                                See more
-                            </Text>
-                        </View>
-                    </TouchableOpacity>}
-
+                                        <View style = {{flexDirection: 'row', justifyContent: 'space-between', width: vw(80), height: vw(8.3), marginTop: vw(2)}}>
+                                            <View style = {{position: 'relative', flexDirection: 'row'}}>
+                                                {item.avatars.map((items, indexes) => 
+                                                    <Image key = {indexes} source = {items} style = {[styles.imgStyle,{bottom: vw(0), left: indexes*vw(6.1)}]}/>
+                                                )}
+                                                <View>
+                                                    <Text style = {{marginLeft: vw(22.4), fontFamily: 'TT Firs Neue Trial Medium', fontSize: vw(3.3), color: 'white', marginTop: vw(0.2)}}>
+                                                        {item.mutalNum}
+                                                    </Text>
+                                                    <Text style = {{marginLeft: vw(22.4), fontFamily: 'TT Firs Neue Trial Medium', fontSize: vw(2.2), color: '#888888', marginTop: vw(0.2)}}>
+                                                        {item.mutalText}
+                                                    </Text>
+                                                </View>
+                                            </View>
+                                            <CustomRoundedButton
+                                                title="Join Now"
+                                                width={vw(25.83)}
+                                                height={vw(8.3)}
+                                                backgroundColor="#53FAFB"  
+                                                color='black'
+                                                fontSize={vw(2.8)}
+                                                onPress={handleMember}
+                                            />
+                                        </View>
+                                    </View>}
+                                </TouchableOpacity>)
+                            }    
+                        </View>}
+                        {!isTopTrand && <TouchableOpacity style = {{alignItems: 'center', marginTop: vw(2)}}
+                            onPress = {() => setIsTopTrand(true)}
+                        >
+                            <View style = {styles.ftBtn}>
+                                <Text style = {[styles.viewAll, {fontSize: vw(3.9)}]}>
+                                    See more
+                                </Text>
+                            </View>
+                        </TouchableOpacity>}
+                        <View style = {{height: vw(25)}}/>
                     </ScrollView>
-                    <View style = {{height: vw(20)}}/>
                 </View>
                 <View style = {[styles.footer, {position: 'absolute', overflow: 'hidden'}]}>
                     {/* <View style = {{ position: 'relative', bottom: 0, left: 0,width: vw(92.2), height: vw(30), flexDirection: 'row',justifyContent: 'space-around', alignItems: 'center', overflow: 'hidden'}}> */}
@@ -613,8 +612,8 @@ const styles = StyleSheet.create({
     },
     notification: {
         flexDirection: 'row',
-        width: vw(21.1),
-        aspectRatio: 76/34,
+        width: vw(11.1),
+        aspectRatio: 72/34,
         justifyContent: 'space-between',
         alignItems: 'center',
         borderRadius: vw(2)
@@ -633,7 +632,7 @@ const styles = StyleSheet.create({
     myCommunities: {
         width: vw(100),
         aspectRatio: 350/85,
-        marginTop: vw(8.05)
+        marginTop: vw(3.05)
     },
     title: {
         fontFamily: 'TT Firs Neue Trial Medium',
@@ -657,7 +656,7 @@ const styles = StyleSheet.create({
     },
     advert: {
         flexDirection: 'row',
-        alingItems: 'flex-start',
+        alignItems: 'flex-start',
         justifyContent: 'space-between',
         width: vw(90),
         aspectRatio: 320/126,

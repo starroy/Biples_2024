@@ -134,7 +134,7 @@ const Tickets = ({ navigation }) => {
                 <BlurView
                     viewRef={viewRef}
                     style={styles.blurViewStyle}
-                    blurRadius={3}
+                    blurAmount={9}
                     blurType={blurType}
                     // blurRadius={10}
                     downsampleFactor={10}
@@ -489,7 +489,7 @@ const styles = StyleSheet.create({
     container: {
         width: vw(101),
         height: '100%',
-        backgroundColor: 'black'
+        backgroundColor: '#101010'
     },
     header: {
         position: 'absolute',
@@ -653,7 +653,7 @@ const styles = StyleSheet.create({
         paddingLeft: vw(3),
         paddingRight: vw(3), 
         borderRadius: vw(5),
-        backgroundColor: '#181818',   
+        backgroundColor: '#202020',   
     },
     datas: {
         flexDirection: 'row',

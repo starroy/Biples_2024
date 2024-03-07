@@ -44,7 +44,7 @@ const ResetLoading = ({ navigation }) => {
                     <TouchableOpacity 
                         style = {styles.prevButton}
                         onPress = {() => 
-                            navigation.navigate('BackLogin')
+                            navigation.goBack()
                         }
                     >
                         <Svg width={vw(2)} height={vw(3.3)} viewBox='0 0 7 12' fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -93,7 +93,7 @@ const ResetLoading = ({ navigation }) => {
                         backgroundColor="#53FAFB"  
                         color='black'
                         fontSize={vw(3.9)}
-                        navigateName='Login'
+                        onPress={() => navigation.navigate('Login')}
                     />
                 </View>
                 <View style = {{width: vw(100), height: vw(56.5)}}/>

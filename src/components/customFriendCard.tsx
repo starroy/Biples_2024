@@ -13,7 +13,7 @@ import {
 import { vh, vw } from 'react-native-css-vh-vw';
 import Svg, { Path, Circle } from 'react-native-svg';
 
-const CustomFriendCard = ({ avatar, id, userName, dragged, displayName, onlineState, msgNum, onPress, handlePress, friends, setFriends}) => {
+const CustomFriendCard = ({ avatar, id, userName, dragged, displayName, onlineState, msgNum, onPress, handlePress, friends, setFriends, navigatePress}) => {
     
     const handleDelete = (id) => {
         setFriends(prevFriends => {
@@ -68,22 +68,25 @@ const CustomFriendCard = ({ avatar, id, userName, dragged, displayName, onlineSt
           transform: [{ translateX: pan.x }],
         }}>
             <TouchableOpacity
-                style={[styles.button, {backgroundColor: dragged? '#53FAFB' : '#131313'}]}
+                style={[styles.button, {backgroundColor: dragged? '#53FAFB' : '#202020'}]}
                 onPress = {handlePress}
             >
                 <View style = {{ flexDirection: 'row', justyfiContent: 'center', alignItems: 'center'}}>
-                    {!dragged && <ImageBackground 
+                    {!dragged && 
+                    <TouchableOpacity onPress = {navigatePress}>
+                    <ImageBackground 
                         source = {avatar}
                         style = {styles.avatar}
                     >
                         {(msgNum != 0) && <Text style = {styles.unreadMsg}> {msgNum} </Text>}
-                    </ImageBackground>}
+                    </ImageBackground>
+                    </TouchableOpacity>}
                     <View style = {{marginLeft: vw(2.8)}}>
                         <Text style={{fontFamily: 'TT Firs Neue Trial Medium', fontSize: vw(3.9), color: dragged ? 'black' : 'white'}}>
                             {userName}
                         </Text>
                         <View style = {{flexDirection:'row', alignItems: 'center'}}>
-                            {onlineState && <View style = {{width: vw(1.7), height: vw(1.7), backgroundColor: '#53FAFB', borderRadius: vw(2), marginRight: vw(1)}}/>}
+                            {(onlineState && !dragged) && <View style = {{width: vw(1.7), height: vw(1.7), backgroundColor: '#53FAFB', borderRadius: vw(2), marginRight: vw(1)}}/>}
                             <Text style={{fontFamily: 'TT Firs Neue Trial Regular', fontSize: vw(2.2), color: dragged ? 'black' : '#565656'}}>
                                 {displayName}
                             </Text>
@@ -93,7 +96,7 @@ const CustomFriendCard = ({ avatar, id, userName, dragged, displayName, onlineSt
                 {
                     dragged != true ?
                     <View style = {styles.info}>
-                        <TouchableOpacity style = {[styles.online, {backgroundColor: onlineState ? '#53FAFB': 'black'}]}>
+                        <TouchableOpacity style = {[styles.online, {backgroundColor: onlineState ? '#53FAFB': '#202020', borderColor: '#323223', borderWidth: vw(0.3)}]}>
                             <Svg width={vw(2.8)} height={vw(3.6)} viewBox="0 0 10 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <Path d="M5 0.4375L0.693885 6.7626C0.434659 7.14337 0.305046 7.33376 0.312831 7.49201C0.319611 7.62984 0.386187 7.75764 0.494813 7.84137C0.619537 7.9375 0.848322 7.9375 1.30589 7.9375H5V12.625L9.30611 6.2999C9.56534 5.91913 9.69495 5.72874 9.68717 5.57049C9.68039 5.43266 9.61381 5.30486 9.50519 5.22113C9.38046 5.125 9.15168 5.125 8.69411 5.125H5V0.4375Z" fill={onlineState ? 'black' : "#606060"}/>
                             </Svg>
@@ -143,7 +146,7 @@ const styles = StyleSheet.create({
         paddingRight: vw(5),
         marginBottom: vw(2.8),
         // marginLeft: vw(5),
-        backgroundColor: '#131313'
+        backgroundColor: '#202020'
     },
     avatar: {
         marginLeft: vw(5),
@@ -171,7 +174,7 @@ const styles = StyleSheet.create({
         height: vw(8.3),
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#202020',
+        backgroundColor: '#303030',
         borderRadius: vw(5),
     }
 });

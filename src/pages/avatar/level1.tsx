@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
         width: vw(101),
         aspectRatio: 360/780,
         // height: vh(100),
-        backgroundColor: '#050505',
+        backgroundColor: '#101010',
         backgroundImage: 'Radial-gradient(to bottom, #151515, #000000)',
         fontFamily: 'TT Firs Neue Trial Bold',
         color: 'white',

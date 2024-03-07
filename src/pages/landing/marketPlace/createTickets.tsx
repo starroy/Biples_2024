@@ -122,7 +122,8 @@ const CreateTickets = ({ navigation }) => {
                         <TouchableOpacity 
                             style = {[styles.footerBtn, {backgroundColor: name != '' || description!='' ? '#53FAFB': '#212121', borderRadius:vw(3), width: vw(90), aspectRatio: 320/45}]}
                             onPress={() => {
-                                navigation.navigate('MainNFTs');
+                                if (name && description)
+                                    navigation.navigate('MainNFTs');
                             }}
                         >
                             <Text style = {[styles.maintitle, {fontSize: vw(5), color: name || description ? 'black' : '#878787'}]}>Send</Text>

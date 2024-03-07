@@ -3,19 +3,21 @@ import { TouchableOpacity, Text, StyleSheet, Pressable, View, Image, ImageBackgr
 import { vh, vw } from 'react-native-css-vh-vw';
 import Svg, { Path} from 'react-native-svg';
 
-const CustomFriendCard = ({ avatar, userName, displayName, onlineState, msgNum, onPress, handlePress}) => {
+const CustomFriendCard = ({ avatar, userName, displayName, onlineState, msgNum, onPress, handlePress, navigatePress}) => {
     
     return (
             <TouchableOpacity
-                style={[styles.button, {backgroundColor: '#131313'}]}
+                style={[styles.button, {backgroundColor: '#202020'}]}
                 onPress = {handlePress}
             >
                 <View style = {{ flexDirection: 'row', justyfiContent: 'center', alignItems: 'center'}}>
                     <View style = {{position: 'relative'}}>
+                        <TouchableOpacity onPress = {navigatePress}>
                         <Image 
                             source = {avatar}
                             style = {styles.avatar}
                         />
+                        </TouchableOpacity>
                         <View style = {styles.unreadMsg}/>
                     </View>
                     <View style = {styles.avatarInfo}>
@@ -57,7 +59,7 @@ const styles = StyleSheet.create({
         paddingRight: vw(5),
         marginBottom: vw(2.8),
         // marginLeft: vw(5),
-        backgroundColor: '#131313'
+        backgroundColor: '#202020'
     },
     avatar: {
         marginLeft: vw(5),
@@ -90,7 +92,7 @@ const styles = StyleSheet.create({
         height: vw(8.3),
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#202020',
+        backgroundColor: '#303030',
         borderRadius: vw(5),
     }
 });

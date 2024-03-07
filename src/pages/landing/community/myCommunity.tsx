@@ -106,32 +106,32 @@ const MyCommunity = ({ navigation }) => {
     ]);
     const [accouts, setAccounts] = useState([
         {
-            avatar: require('../../../../assets/images/avatar2.png'),
+            avatar: require('../../../../assets/images/card9.png'),
             name: '@KitshunaFowyu',
             text: '121,9k Items – 23,9K Active',
         },
         {
-            avatar: require('../../../../assets/images/avatar2.png'),
+            avatar: require('../../../../assets/images/card9.png'),
             name: '@KitshunaFowyu',
             text: '121,9k Items – 23,9K Active',
         },
         {
-            avatar: require('../../../../assets/images/avatar2.png'),
+            avatar: require('../../../../assets/images/card9.png'),
             name: '@KitshunaFowyu',
             text: '121,9k Items – 23,9K Active',
         },
         {
-            avatar: require('../../../../assets/images/avatar2.png'),
+            avatar: require('../../../../assets/images/card9.png'),
             name: '@KitshunaFowyu',
             text: '121,9k Items – 23,9K Active',
         },
         {
-            avatar: require('../../../../assets/images/avatar2.png'),
+            avatar: require('../../../../assets/images/card9.png'),
             name: '@KitshunaFowyu',
             text: '121,9k Items – 23,9K Active',
         },
         {
-            avatar: require('../../../../assets/images/avatar2.png'),
+            avatar: require('../../../../assets/images/card9.png'),
             name: '@KitshunaFowyu',
             text: '121,9k Items – 23,9K Active',
         },
@@ -179,7 +179,7 @@ const MyCommunity = ({ navigation }) => {
             <BlurView
                 viewRef={viewRef}
                 style={styles.blurViewStyle}
-                blurRadius={3}
+                blurAmount={9}
                 blurType={blurType}
                 // blurRadius={10}
                 downsampleFactor={10}
@@ -201,7 +201,7 @@ const MyCommunity = ({ navigation }) => {
         setShowBlur(false);
         let timerId;
         timerId = setTimeout(() => {
-            navigation.navigate('MainCommunity');
+            navigation.navigate('NoCommunity');
           }, 300); // Adjust the delay as needed
           return () => {
             clearTimeout(timerId);
@@ -217,47 +217,58 @@ const MyCommunity = ({ navigation }) => {
         clearTimeout(timerId);
         };
     }
-    const handleChatView = (item) => {
+    const handleFriendProfile = () => {
+        // setShowBlurs(true);
+            setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+        navigation.navigate('FriendProfile');
+          }, 50); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
     }
-    const handleChatHidden = () => {
-        setAllView(0);
-        Animated.timing(screenY, {
-        toValue: 0 * screenHegiht,
-        duration: 50,
-        useNativeDriver: true,
-        }).start();        
-    };
+    // const handleChatView = (item) => {
+    // }
+    // const handleChatHidden = () => {
+    //     setAllView(0);
+    //     Animated.timing(screenY, {
+    //     toValue: 0 * screenHegiht,
+    //     duration: 50,
+    //     useNativeDriver: true,
+    //     }).start();        
+    // };
     
-    // const [screenY, setScreenY] = useState(new Animated.Value(1));
-    const panResponder = useRef(
-        PanResponder.create({
-            onMoveShouldSetPanResponder: (evt, gestureState) => {
-                // console.log('onMoveShouldSetPanResponder', evt, gestureState);
-                return Math.abs(gestureState.dx) > 2;
-            },
-            onPanResponderRelease: (evt, gestureState) => {
-                let num =0
-                // console.log('onPanResponderRelease', evt, gestureState);
-                if (gestureState.dx > 0){
-                    console.log('left');
-                    Animated.timing(screenX, {
-                        toValue: 0,
-                        duration: 250,
-                        useNativeDriver: true,
-                    }).start();
-                }
-                else {
-                    console.log('right')
-                    // setAllView(1)
-                    Animated.timing(screenX, {
-                        toValue: -1*screenWidth,
-                        duration: 250,
-                        useNativeDriver: true,
-                    }).start();
-                }
-            },
-        })
-    ).current;
+    // // const [screenY, setScreenY] = useState(new Animated.Value(1));
+    // const panResponder = useRef(
+    //     PanResponder.create({
+    //         onMoveShouldSetPanResponder: (evt, gestureState) => {
+    //             // console.log('onMoveShouldSetPanResponder', evt, gestureState);
+    //             return Math.abs(gestureState.dx) > 2;
+    //         },
+    //         onPanResponderRelease: (evt, gestureState) => {
+    //             let num =0
+    //             // console.log('onPanResponderRelease', evt, gestureState);
+    //             if (gestureState.dx > 0){
+    //                 console.log('left');
+    //                 Animated.timing(screenX, {
+    //                     toValue: 0,
+    //                     duration: 250,
+    //                     useNativeDriver: true,
+    //                 }).start();
+    //             }
+    //             else {
+    //                 console.log('right')
+    //                 // setAllView(1)
+    //                 Animated.timing(screenX, {
+    //                     toValue: -1*screenWidth,
+    //                     duration: 250,
+    //                     useNativeDriver: true,
+    //                 }).start();
+    //             }
+    //         },
+    //     })
+    // ).current;
 
     return (
         <View>
@@ -350,22 +361,24 @@ const MyCommunity = ({ navigation }) => {
                         <TouchableOpacity
                             key = {index}
                             style={[styles.button,]}
-                            onPress = {() => {
-                                setAllView(1);
-                                setSelectedAccount(item);
-                                Animated.timing(screenY, {
-                                    toValue: -1.07*screenHegiht,
-                                    duration: 50,
-                                    useNativeDriver: true,
-                                }).start();
-                                console.log(selectedAccount);
-                            }}
+                            // onPress = {() => {
+                            //     setAllView(1);
+                            //     setSelectedAccount(item);
+                            //     Animated.timing(screenY, {
+                            //         toValue: -1.07*screenHegiht,
+                            //         duration: 50,
+                            //         useNativeDriver: true,
+                            //     }).start();
+                            //     console.log(selectedAccount);
+                            // }}
                         >
                             <View style = {{ flexDirection: 'row', justyfiContent: 'center', alignItems: 'center'}}>
+                                <TouchableOpacity onPress = {handleFriendProfile}>
                                 <Image 
                                     source = {item.avatar}
                                     style = {styles.avatars}
                                 />
+                                </TouchableOpacity>
                                 <View style = {styles.avatarInfo}>
                                     <Text style={{fontFamily: 'TT Firs Neue Trial Medium', fontSize: vw(3.9), color: 'white'}}>
                                         {item.name}
@@ -375,11 +388,13 @@ const MyCommunity = ({ navigation }) => {
                                     </Text>
                                 </View>
                             </View>
-                            <TouchableOpacity style = {{ width: vw(20.8), aspectRatio: 75/30, borderRadius: vw(5), backgroundColor: '#53FAFB20', justifyContent: 'center', alignItems: 'center' }}>
+                            <TouchableOpacity style = {{ width: vw(20.8), aspectRatio: 75/30, borderRadius: vw(5), backgroundColor: '#53FAFB20', justifyContent: 'center', alignItems: 'center' }}
+                            
+                            >
                                 <Text style={{fontFamily: 'TT Firs Neue Trial Medium', fontSize: vw(2.8), color: '#53FAFB'}}
                                     // onPress = {onPress}
                                 >
-                                    Leave
+                                    Join
                                 </Text>
                             </TouchableOpacity>
                         </TouchableOpacity>
@@ -449,7 +464,7 @@ const MyCommunity = ({ navigation }) => {
                     
                 </View>
             </View>
-            <Animated.View style = {[styles.account, {transform: [{ translateY: screenY }], position: 'absolute'}]}>
+            {/* <Animated.View style = {[styles.account, {transform: [{ translateY: screenY }], position: 'absolute'}]}>
                 <Animated.View 
                     {...panResponder.panHandlers} 
                     style =  {{flexDirection: 'row', width: vw(100),transform: [{ translateX: screenX }], height: vh(100)}}
@@ -750,7 +765,7 @@ const MyCommunity = ({ navigation }) => {
                                 </TouchableOpacity>
                             </View>
                         </View>
-            </Animated.View>
+            </Animated.View> */}
         </View>
     );
 };
@@ -759,7 +774,7 @@ const styles = StyleSheet.create({
     container: {
         width: vw(101),
         height: '100%',
-        backgroundColor: '#0E0E0E',
+        backgroundColor: '#101010',
         flexDirection: 'column',
     },
     titleBar: {
@@ -839,7 +854,7 @@ const styles = StyleSheet.create({
         paddingLeft: vw(5),
         paddingRight: vw(5),
         borderRadius: vw(5),
-        backgroundColor: '#131313',
+        backgroundColor: '#202020',
     },
     privInfo: {
         flexDirection: 'row',
@@ -968,7 +983,7 @@ const styles = StyleSheet.create({
         width: vw(9.44),
         height: vw(9.44),
         borderRadius: vw(5),
-        backgroundColor: '#181818',
+        backgroundColor: '#202020',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -980,7 +995,7 @@ const styles = StyleSheet.create({
     searchBar: {
         width: vw(66.7),
         height: vw(9.44),
-        backgroundColor: '#131313',
+        backgroundColor: '#202020',
         borderRadius: vw(5),
         flexDirection: 'row',
         justifyContent: 'flex-start',

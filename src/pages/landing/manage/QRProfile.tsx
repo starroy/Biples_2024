@@ -28,7 +28,7 @@ const QRProfile = ({navigation}) => {
                         <TouchableOpacity
                             style = {styles.prevButton}
                             onPress = { () => 
-                                navigation.navigate('Explorer')
+                                navigation.goBack()
                             }
                         >
                             <Svg width={vw(2)} height={vw(3.3)} viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        backgroundColor: 'black',
+        backgroundColor: '#101010',
         flexDirection: 'column',
     },
     header: {
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-end',
         alignItems: 'center',
-        backgroundColor: 'black'
+        // backgroundColor: 'black'
     },
     headerBar: {
         width: vw(90),
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
         width: vw(11),
         height: vw(11),
         borderRadius: vw(6),
-        backgroundColor: 'black',
+        // backgroundColor: 'black',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
         marginBottom: vw(16),
         paddingTop: vw(4),
         alignItems: 'center',
-        backgroundColor: 'black',
+        // backgroundColor: 'black',
     },
     footerBtn: {
         width: vw(48),

@@ -17,15 +17,18 @@ import {
     PanResponder,
     Dimensions,
     TextInput,
-    Animated
+    Animated,
+    Modal
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { BlurView } from '@react-native-community/blur';
 import { vh, vw } from 'react-native-css-vh-vw';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Svg, { Path, Circle, ClipPath, G, Defs, Rect } from 'react-native-svg';
 // import { TouchableOpacity, View } from 'react-native';r
 
 const ChatMore = ({ navigation }) => {
+    const statusBarHeight = getStatusBarHeight();
     const backgroundImageRef = createRef();
     const screenWidth = Dimensions.get('window').width;
     const screenHegiht = Dimensions.get('window').height;
@@ -262,10 +265,40 @@ const ChatMore = ({ navigation }) => {
         onlineState: 'online',
         time: 'Active Now'
     });
+    const [modalData, setModalData] = useState([
+        {
+            img: <Svg width={vw(4.2)} height={vw(4.2)} viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <Path d="M14.2845 6.78048L7.47991 12.9481C5.93248 14.3506 3.42359 14.3506 1.87615 12.9481C0.328717 11.5455 0.328718 9.27146 1.87615 7.86888L8.68072 1.70129C9.71234 0.766237 11.3849 0.766237 12.4166 1.70129C13.4482 2.63634 13.4482 4.15236 12.4166 5.08742L5.87884 11.0131C5.36303 11.4807 4.52673 11.4807 4.01092 11.0131C3.49511 10.5456 3.49511 9.7876 4.01092 9.32007L9.7481 4.11995" stroke="#53FAFB" stroke-linecap="round" stroke-linejoin="round"/>
+                </Svg>,
+            btnName: 'Send a Document',
+        },
+        {
+            img: <Svg width={vw(4.2)} height={vw(4.2)} viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <Path d="M10.7667 14.5H3.55773C3.08654 14.5 2.85095 14.5 2.74185 14.4068C2.64719 14.326 2.59696 14.2047 2.60673 14.0806C2.61798 13.9376 2.78457 13.771 3.11776 13.4378L9.73116 6.8244C10.0392 6.51639 10.1932 6.36238 10.3708 6.30468C10.527 6.25392 10.6952 6.25392 10.8515 6.30468C11.029 6.36238 11.1831 6.51639 11.4911 6.8244L14.5 9.83333V10.7667M10.7667 14.5C12.0735 14.5 12.7269 14.5 13.226 14.2457C13.665 14.022 14.022 13.665 14.2457 13.226C14.5 12.7269 14.5 12.0735 14.5 10.7667M10.7667 14.5H4.23333C2.92654 14.5 2.27315 14.5 1.77402 14.2457C1.33498 14.022 0.978023 13.665 0.754318 13.226C0.5 12.7269 0.5 12.0735 0.5 10.7667V4.23333C0.5 2.92654 0.5 2.27315 0.754318 1.77402C0.978023 1.33498 1.33498 0.978023 1.77402 0.754318C2.27315 0.5 2.92654 0.5 4.23333 0.5H10.7667C12.0735 0.5 12.7269 0.5 13.226 0.754318C13.665 0.978023 14.022 1.33498 14.2457 1.77402C14.5 2.27315 14.5 2.92654 14.5 4.23333V10.7667M6.33333 4.77778C6.33333 5.63689 5.63689 6.33333 4.77778 6.33333C3.91867 6.33333 3.22222 5.63689 3.22222 4.77778C3.22222 3.91867 3.91867 3.22222 4.77778 3.22222C5.63689 3.22222 6.33333 3.91867 6.33333 4.77778Z" stroke="#53FAFB" stroke-linecap="round" stroke-linejoin="round"/>
+                </Svg>,
+            btnName: 'Choose Photo or Video',
+        },
+        {
+            img: <Svg width={vw(4.2)} height={vw(4.2)} viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <G clip-path="url(#clip0_193_5689)">
+                        <Path d="M2.50001 13.6359C2.87663 13.75 3.38531 13.75 4.25 13.75H10.75C11.6147 13.75 12.1234 13.75 12.5 13.6359M2.50001 13.6359C2.41926 13.6114 2.34458 13.5817 2.27377 13.5456C1.92096 13.3659 1.63413 13.079 1.45436 12.7262C1.25 12.3251 1.25 11.8001 1.25 10.75V4.25C1.25 3.1999 1.25 2.67485 1.45436 2.27377C1.63413 1.92096 1.92096 1.63413 2.27377 1.45436C2.67485 1.25 3.1999 1.25 4.25 1.25H10.75C11.8001 1.25 12.3251 1.25 12.7262 1.45436C13.079 1.63413 13.3659 1.92096 13.5456 2.27377C13.75 2.67485 13.75 3.1999 13.75 4.25V10.75C13.75 11.8001 13.75 12.3251 13.5456 12.7262C13.3659 13.079 13.079 13.3659 12.7262 13.5456C12.6554 13.5817 12.5807 13.6114 12.5 13.6359M2.50001 13.6359C2.50022 13.1301 2.50325 12.8624 2.54804 12.6373C2.7453 11.6455 3.52055 10.8703 4.51227 10.673C4.75377 10.625 5.04418 10.625 5.625 10.625H9.375C9.95582 10.625 10.2462 10.625 10.4877 10.673C11.4795 10.8703 12.2547 11.6455 12.452 12.6373C12.4967 12.8624 12.4998 13.1301 12.5 13.6359M10 5.9375C10 7.31821 8.88071 8.4375 7.5 8.4375C6.11929 8.4375 5 7.31821 5 5.9375C5 4.55679 6.11929 3.4375 7.5 3.4375C8.88071 3.4375 10 4.55679 10 5.9375Z" stroke="#53FAFB" stroke-linecap="round" stroke-linejoin="round"/>
+                    </G>
+                    <Defs>
+                        <ClipPath id="clip0_193_5689">
+                            <Rect width="15" height="15" fill="white"/>
+                        </ClipPath>
+                    </Defs>
+                </Svg>
+            ,
+            btnName: 'Send a Document',
+        },
+    ]);
     const [isVoice, setIsVoice] = useState(false);
+    // const [pin, setPin] = useState(false);
     const [screenY, setScreenY] = useState(new Animated.Value(0));
     const [msgData, setMsgData] = useState(chatModalData);
     const [isCalled, setIsCalled] = useState (callingData);
+    const [showModals, setShowModals] = useState(false);
     const [allChat, setAllChat] = useState(allData);
     const [pinnedChat, setPinnedChat] = useState(pinedData);
     const [btnNames, setBtnNames] = useState(btnArray);
@@ -285,7 +318,7 @@ const ChatMore = ({ navigation }) => {
           setTimeout(() => {
             navigation.goBack();
             setSelected('Chat');
-          }, 300); // Delay the back action by one second
+          }, 30); // Delay the back action by one second
     
           return true; // Prevent default behavior (i.e. exit the app)
         };
@@ -318,11 +351,11 @@ const ChatMore = ({ navigation }) => {
                 <BlurView
                     viewRef={viewRef}
                     style={styles.blurViewStyle}
-                    blurRadius={1}
+                    blurAmount={9}
                     blurType={blurType}
                     // blurRadius={10}
                     downsampleFactor={10}
-                    overlayColor={'rgba(50, 50, 50, .2'}
+                    overlayColor={'rgba(18, 18, 18, .2'}
                 />
             // </View>
         );
@@ -384,14 +417,14 @@ const ChatMore = ({ navigation }) => {
     }
     const navigateChat = () => {
         setSelected('Chat')
-        // setShowBlur(false);
-        // let timerId;
-        // timerId = setTimeout(() => {
-        //     navigation.navigate('GroupAccount');
-        // }, 30); // Adjust the delay as needed
-        // return () => {
-        //     clearTimeout(timerId);
-        // };
+        setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+            navigation.navigate('NoChat');
+        }, 30); // Adjust the delay as needed
+        return () => {
+            clearTimeout(timerId);
+        };
     }
     const handleChatView = () => {
         setAllView(1)
@@ -402,12 +435,23 @@ const ChatMore = ({ navigation }) => {
         }).start();
     }
     
+    const handleFriendProfile = () => {
+        // setShowBlurs(true);
+            setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+        navigation.navigate('FriendProfile');
+          }, 50); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
+    }
     const navigateAndAnimateCommunity = () => {
         // setShowBlurs(true);
             setShowBlur(false);
         let timerId;
         timerId = setTimeout(() => {
-        navigation.navigate('MainCommunity');
+        navigation.navigate('NoCommunity');
           }, 30); // Adjust the delay as needed
           return () => {
             clearTimeout(timerId);
@@ -455,6 +499,36 @@ const ChatMore = ({ navigation }) => {
         <SafeAreaView>
             <StatusBar translucent backgroundColor = 'transparent'/>
             <View style = {styles.container}>
+                <Modal visible={showModals} transparent={true}>
+                    <TouchableOpacity style={styles.modalContainer}
+                        onPress = {() => setShowModals(false)}
+                    >
+                    <StatusBar translucent backgroundColor = '#00000090'/>
+                        <View style = {[styles.modal, {marginTop: (vw(28)-statusBarHeight), width: vw(50)}]}>
+                            <TouchableOpacity style = {[styles.modalItem,{marginLeft: vw(3)}]}
+                                onPress = {() => {navigation.navigate('Members'), setShowBlur(false), setShowModals(!showModals)}}
+                            >
+                                <Text style = {[styles.text, {color:'white', fontSize: vw(3.3), marginLeft: vw(3)}]}>
+                                &nbsp;&nbsp;Members&nbsp;&nbsp;
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style = {[styles.modalItem,{marginLeft: vw(3)}]}
+                                onPress = {() => {navigation.navigate('Overview'), setShowBlur(false), setShowModals(!showModals)}}
+                            >
+                                <Text style = {[styles.text, {color:'white', fontSize: vw(3.3), marginLeft: vw(3)}]}>
+                                &nbsp;&nbsp;Overview&nbsp;&nbsp;
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style = {[styles.modalItem,{marginLeft: vw(3)}]}
+                                onPress = {() => {navigation.navigate('MemberPermission'), setShowBlur(false), setShowModals(!showModals)}}
+                            >
+                                <Text style = {[styles.text, {color:'white', fontSize: vw(3.3), marginLeft: vw(3), textAlign: 'center'}]}>
+                                &nbsp;&nbsp;Community Settings&nbsp;&nbsp;
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </TouchableOpacity>
+                </Modal>
                 <View style = {styles.header}>
                     <View style = {styles.headerTitleBar}>
                         <Text style = {styles.headerTitle}>
@@ -649,6 +723,7 @@ const ChatMore = ({ navigation }) => {
                                         >
                                             <View style = {styles.datas}>
                                                 <View style = {[styles.avatars, {width: vw(11.1), height: vw(11.1)}]}>
+                                                <TouchableOpacity onPress = {handleFriendProfile}>
                                                     <Image source = {item.avatar}
                                                         style = {[
                                                             styles.addChatIcon, 
@@ -662,6 +737,7 @@ const ChatMore = ({ navigation }) => {
                                                             }
                                                         ]}
                                                     />
+                                                    </TouchableOpacity>
                                                     <View 
                                                         style = {{
                                                             position: 'absolute',
@@ -744,6 +820,7 @@ const ChatMore = ({ navigation }) => {
                                         >
                                             <View style = {styles.datas}>
                                                 <View style = {[styles.avatars, {width: vw(11.1), height: vw(11.1)}]}>
+                                                <TouchableOpacity onPress = {handleFriendProfile}>
                                                     <Image source = {item.avatar}
                                                         style = {[
                                                             styles.addChatIcon, 
@@ -757,6 +834,7 @@ const ChatMore = ({ navigation }) => {
                                                             }
                                                         ]}
                                                     />
+                                                    </TouchableOpacity>
                                                     <View 
                                                         style = {{
                                                             position: 'absolute',
@@ -868,6 +946,7 @@ const ChatMore = ({ navigation }) => {
                                                 </View>
                                             </View>
                                             <View style = {[styles.avatars, {width: vw(11.1), height: vw(11.1), backgroundColor: 'transparent'}]}>
+                                            <TouchableOpacity onPress = {handleFriendProfile}>
                                                 <Image source = {item.avatar}
                                                     style = {[
                                                         styles.addChatIcon, 
@@ -881,6 +960,7 @@ const ChatMore = ({ navigation }) => {
                                                         }
                                                     ]}
                                                 />
+                                                </TouchableOpacity>
                                                 <View 
                                                     style = {{
                                                         position: 'absolute',
@@ -945,6 +1025,7 @@ const ChatMore = ({ navigation }) => {
                                 )
                             }
                         </View>
+                        <View style = {{height: vw(20)}}/>
                     </ScrollView>
                 </View>
                 <View style = {[styles.footer, {position: 'absolute', overflow: 'hidden'}]}>
@@ -1002,19 +1083,21 @@ const ChatMore = ({ navigation }) => {
                             >
                                 <View style = {styles.datas}>
                                     <View style = {[styles.avatars, {width: vw(11.1), height: vw(11.1), backgroundColor: 'transparent'}]}>
-                                        <Image source = {clientData.avatar}
-                                            style = {[
-                                                styles.addChatIcon, 
-                                                {
-                                                    width: vw(11.1), 
-                                                    height: vw(11.1), 
-                                                    borderRadius: vw(3),
-                                                    backgroundColor: 'transparent'
-                                                    // borderWidth: vw(0.3), 
-                                                    // borderColor: 'black',
-                                                }
-                                            ]}
-                                        />
+                                        <TouchableOpacity onPress = {handleFriendProfile}>
+                                            <Image source = {clientData.avatar}
+                                                style = {[
+                                                    styles.addChatIcon, 
+                                                    {
+                                                        width: vw(11.1), 
+                                                        height: vw(11.1), 
+                                                        borderRadius: vw(3),
+                                                        backgroundColor: 'transparent'
+                                                        // borderWidth: vw(0.3), 
+                                                        // borderColor: 'black',
+                                                    }
+                                                ]}
+                                            />
+                                        </TouchableOpacity>
                                     </View>
                                     <View style = {styles.info}>
                                         <Text style = {styles.name}>
@@ -1055,14 +1138,18 @@ const ChatMore = ({ navigation }) => {
                                         <Path d="M21.1794 4.43137C21.1794 3.82555 21.1794 3.52265 21.0596 3.38238C20.9557 3.26068 20.7998 3.19609 20.6402 3.20865C20.4563 3.22312 20.2421 3.43731 19.8138 3.86569L16.1794 7.5L19.8138 11.1343C20.2421 11.5627 20.4563 11.7769 20.6402 11.7914C20.7998 11.8039 20.9557 11.7393 21.0596 11.6176C21.1794 11.4774 21.1794 11.1744 21.1794 10.5686V4.43137Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                                         <Path d="M1.17944 5.3C1.17944 3.61984 1.17944 2.77976 1.50642 2.13803C1.79404 1.57354 2.25299 1.1146 2.81747 0.82698C3.45921 0.5 4.29929 0.5 5.97944 0.5H11.3794C13.0596 0.5 13.8997 0.5 14.5414 0.82698C15.1059 1.1146 15.5648 1.57354 15.8525 2.13803C16.1794 2.77976 16.1794 3.61984 16.1794 5.3V9.7C16.1794 11.3802 16.1794 12.2202 15.8525 12.862C15.5648 13.4265 15.1059 13.8854 14.5414 14.173C13.8997 14.5 13.0596 14.5 11.3794 14.5H5.97944C4.29929 14.5 3.45921 14.5 2.81747 14.173C2.25299 13.8854 1.79404 13.4265 1.50642 12.862C1.17944 12.2202 1.17944 11.3802 1.17944 9.7V5.3Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                                     </Svg>
+                                    <TouchableOpacity 
+                                        onPress = {() => setShowModals(!showModals)}
+                                    >
                                     <Svg width="4" height="13" viewBox="0 0 4 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <Path d="M1.86694 5.8125C1.48725 5.8125 1.17944 6.1203 1.17944 6.5C1.17944 6.8797 1.48725 7.1875 1.86694 7.1875C2.24664 7.1875 2.55444 6.8797 2.55444 6.5C2.55444 6.1203 2.24664 5.8125 1.86694 5.8125Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
                                         <Path d="M1.86694 10.625C1.48725 10.625 1.17944 10.9328 1.17944 11.3125C1.17944 11.6922 1.48725 12 1.86694 12C2.24664 12 2.55444 11.6922 2.55444 11.3125C2.55444 10.9328 2.24664 10.625 1.86694 10.625Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
                                         <Path d="M1.86694 1C1.48725 1 1.17944 1.3078 1.17944 1.6875C1.17944 2.0672 1.48725 2.375 1.86694 2.375C2.24664 2.375 2.55444 2.0672 2.55444 1.6875C2.55444 1.3078 2.24664 1 1.86694 1Z" stroke="white" stroke-width="1.38" stroke-linecap="round" stroke-linejoin="round"/>
                                     </Svg>
+                                    </TouchableOpacity>
                                 </View>
                             </View>
-                            <ScrollView style =  {{width: vw(90), marginLeft: vw(5), marginBottom: vw(128)}}
+                            <ScrollView style =  {{width: vw(90), marginLeft: vw(5), marginBottom: pin ? vw(238) : vw(128)}}
                                 showsVerticalScrollIndicator={false}
                             >
                                 {
@@ -1074,7 +1161,11 @@ const ChatMore = ({ navigation }) => {
                                             </Text>
                                             :
                                             <View key = {index} style = {{ marginTop: vw(3.3), flexDirection: 'row', justifyContent: item.isMyMsg ? 'flex-end' : 'flex-stat'}}>
-                                                {item.avatar && <Image source = {item.avatar} style = {{width: vw(9.7), height: vw(9.7), marginRight: vw(3), borderRadius: vw(5)}}/>}
+                                                {item.avatar && 
+                                                    <TouchableOpacity onPress = {handleFriendProfile}>
+                                                    <Image source = {item.avatar} style = {{width: vw(9.7), height: vw(9.7), marginRight: vw(3), borderRadius: vw(5)}}/>
+                                                    </TouchableOpacity>
+                                                    }
                                                 <View style = {{flexDirection: 'column', alignItems: item.isMyMsg ? 'flex-end' : 'flex-stat'}}>
                                                     <View style = {{ maxWidth: item.msgImg? vw(75) : vw(58.3), flexDirection: 'row', borderRadius: vw(5), padding: item.msgImg ? 0 : vw(2.5), paddingLeft: item.msgImg ? 0 : item.msgImg ? 0 : vw(5), paddingRight: vw(5), backgroundColor: item.isMyMsg ? '#181818' : '#53FAFB', justifyContent: 'space-between'}}>
                                                         {
@@ -1145,12 +1236,11 @@ const ChatMore = ({ navigation }) => {
                                         </View>    
                                     )
                                 }
-                                
                                 <View style = {{height: vw(20)}}/>
                             </ScrollView>
                         </ImageBackground>
                     </View>
-                    <View style = {styles.foot}>
+                    <View style = {[styles.foot, {bottom: pin ? vw(155) : vw(45)}]}>
                         <View style = {styles.footerBar}>
                             <View style = {{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                                 <View style = {{width: vw(9.4), height: vw(9.4), justifyContent: 'center', alignItems: 'center', backgroundColor: '#7C7C7C30',borderRadius: vw(10)}}>
@@ -1214,51 +1304,80 @@ const ChatMore = ({ navigation }) => {
                                 </TouchableOpacity>
                             </View>
                             :
-                            <View style = {[styles.inputBar, {borderColor: isFocused ? '#53FAFB' : '#4C4C4C'}]}>
+                            <View style = {{width: vw(90),flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                                 <TouchableOpacity
+                                    style = {[styles.sendBtn, {backgroundColor: '#242424', marginLeft: vw(0)}]}
                                     onPress = { () => setPin(!pin) }
                                 >
                                     <Svg width={vw(4.44)} height={vw(3.9)} viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <Path d="M14.5826 6.28048L7.77801 12.4481C6.23057 13.8506 3.72168 13.8506 2.17425 12.4481C0.626813 11.0455 0.626813 8.77146 2.17425 7.36888L8.97881 1.20129C10.0104 0.266237 11.683 0.266237 12.7147 1.20129C13.7463 2.13634 13.7463 3.65236 12.7147 4.58742L6.17693 10.5131C5.66112 10.9807 4.82483 10.9807 4.30901 10.5131C3.7932 10.0456 3.7932 9.2876 4.30901 8.82007L10.0462 3.61995" stroke={pin ? "#53FAFB" : "#4C4C4C"} stroke-linecap="round" stroke-linejoin="round"/>
                                     </Svg>
                                 </TouchableOpacity>
-                                <View style = {[styles.msgInput]}>
-                                    <TextInput
-                                        onFocus={() => setIsFocused(true)}
-                                        onBlur={() => setIsFocused(false)}
-                                        style={[styles.input, { color: 'white', fontSize: vw(3.3) }]}
-                                        placeholder='Type your message'
-                                        placeholderTextColor='#3F3F3F'
-                                        value={text}
-                                        onChangeText={onchangeText}
-                                        keyboardAppearance="dark"
-                                    />
+                                <View style = {[styles.speechInput]}>
+                                    <Svg width={vw(6.92)} height={vw(6.67)} viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <Path d="M9.75 15.3V8.7M15.25 15.3V8.7M23.5 12C23.5 18.0751 18.5751 23 12.5 23C6.42487 23 1.5 18.0751 1.5 12C1.5 5.92487 6.42487 1 12.5 1C18.5751 1 23.5 5.92487 23.5 12Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </Svg>
+                                    <Svg width={vw(38.9)} height={vw(4.4)} viewBox="0 0 140 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <Rect opacity="0.66" x="6" y="4" width="2" height="8" rx="1" fill="black"/>
+                                        <Rect opacity="0.66" x="12" y="1" width="2" height="14" rx="1" fill="black"/>
+                                        <Rect opacity="0.66" x="18" y="6" width="2" height="4" rx="1" fill="black"/>
+                                        <Rect opacity="0.66" x="24" width="2" height="16" rx="1" fill="black"/>
+                                        <Rect opacity="0.66" x="30" y="1" width="2" height="14" rx="1" fill="black"/>
+                                        <Rect opacity="0.66" x="36" y="3" width="2" height="10" rx="1" fill="black"/>
+                                        <Rect opacity="0.66" x="42" y="3" width="2" height="10" rx="1" fill="#00C1C3"/>
+                                        <Rect opacity="0.66" x="48" y="3" width="2" height="10" rx="1" fill="#00C1C3"/>
+                                        <Rect opacity="0.66" x="54" y="1" width="2" height="14" rx="1" fill="#00C1C3"/>
+                                        <Rect opacity="0.66" x="60" y="3" width="2" height="10" rx="1" fill="#00C1C3"/>
+                                        <Rect opacity="0.66" x="66" width="2" height="16" rx="1" fill="#00C1C3"/>
+                                        <Rect opacity="0.66" x="72" y="3" width="2" height="10" rx="1" fill="#00C1C3"/>
+                                        <Rect opacity="0.66" x="78" y="6" width="2" height="4" rx="1" fill="#00C1C3"/>
+                                        <Rect opacity="0.66" x="84" y="7" width="2" height="2" rx="1" fill="#00C1C3"/>
+                                        <Rect opacity="0.66" x="90" y="3" width="2" height="10" rx="1" fill="#00C1C3"/>
+                                        <Rect opacity="0.66" x="96" y="3" width="2" height="10" rx="1" fill="#00C1C3"/>
+                                        <Rect opacity="0.66" x="102" y="3" width="2" height="10" rx="1" fill="#00C1C3"/>
+                                        <Rect opacity="0.66" x="108" y="3" width="2" height="10" rx="1" fill="#00C1C3"/>
+                                        <Rect opacity="0.66" x="114" y="3" width="2" height="10" rx="1" fill="#00C1C3"/>
+                                        <Rect opacity="0.66" x="120" y="3" width="2" height="10" rx="1" fill="#00C1C3"/>
+                                        <Rect opacity="0.66" x="126" y="3" width="2" height="10" rx="1" fill="#00C1C3"/>
+                                        <Rect opacity="0.66" x="132" y="3" width="2" height="10" rx="1" fill="#00C1C3"/>
+                                    </Svg>
+                                    <Text style = {[styles.text, {color: 'black', fontSize: vw(3.3)}]}>
+                                        00 : 09
+                                    </Text>
                                 </View>
-                                <View style = {styles.msgTool}>
-                                    <TouchableOpacity
-                                        // onPress = { () => setPin(!pin) }
-                                    >
-                                        <Svg width={vw(4.44)} height={vw(4.44)} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <Path d="M14.7177 7.99998V8.77776C14.7177 12.2142 11.5677 15 7.68195 15C3.79624 15 0.64624 12.2142 0.64624 8.77776V7.99998M7.68195 11.8889C5.73909 11.8889 4.1641 10.496 4.1641 8.77776V4.1111C4.1641 2.39289 5.73909 1 7.68195 1C9.62481 1 11.1998 2.39289 11.1998 4.1111V8.77776C11.1998 10.496 9.62481 11.8889 7.68195 11.8889Z" stroke="#4C4C4C" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </Svg>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        // onPress = { () => setPin(!pin) }
-                                    >
-                                        <Svg width={vw(5.3)} height={vw(4.44)} viewBox="0 0 19 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <Path d="M1.02515 5.69901C1.02515 5.44088 1.02515 5.31181 1.03754 5.2031C1.15711 4.15462 2.11173 3.32518 3.31847 3.2213C3.44359 3.21053 3.60015 3.21053 3.91327 3.21053C4.03393 3.21053 4.09425 3.21053 4.14547 3.20783C4.79952 3.17341 5.37224 2.81475 5.61665 2.28653C5.63579 2.24516 5.65368 2.19853 5.68946 2.10526C5.72524 2.012 5.74313 1.96537 5.76227 1.924C6.00667 1.39578 6.5794 1.03711 7.23344 1.0027C7.28466 1 7.34123 1 7.45438 1H11.557C11.6702 1 11.7268 1 11.778 1.0027C12.432 1.03711 13.0048 1.39578 13.2492 1.924C13.2683 1.96537 13.2862 2.012 13.322 2.10526C13.3577 2.19853 13.3756 2.24516 13.3948 2.28653C13.6392 2.81475 14.2119 3.17341 14.8659 3.20783C14.9172 3.21053 14.9775 3.21053 15.0981 3.21053C15.4113 3.21053 15.5678 3.21053 15.693 3.2213C16.8997 3.32518 17.8543 4.15462 17.9739 5.2031C17.9863 5.31181 17.9863 5.44088 17.9863 5.69901V11.4632C17.9863 12.7012 17.9863 13.3202 17.709 13.793C17.4651 14.209 17.0759 14.5471 16.5971 14.7591C16.0529 15 15.3405 15 13.9156 15H5.09582C3.67095 15 2.95851 15 2.41429 14.7591C1.93557 14.5471 1.54636 14.209 1.30244 13.793C1.02515 13.3202 1.02515 12.7012 1.02515 11.4632V5.69901Z" stroke="#4C4C4C" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <Path d="M9.50571 11.6842C11.3792 11.6842 12.8979 10.3646 12.8979 8.73684C12.8979 7.10906 11.3792 5.78947 9.50571 5.78947C7.63224 5.78947 6.11349 7.10906 6.11349 8.73684C6.11349 10.3646 7.63224 11.6842 9.50571 11.6842Z" stroke="#4C4C4C" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </Svg>
-                                    </TouchableOpacity>
-                                </View>
-                                <TouchableOpacity style = {styles.sendBtn}>
-                                    <Svg width={vw(4.44)} height={vw(4.44)} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <Path d="M6.90359 9.0962L14.6112 1.3886M6.99724 9.33702L8.92642 14.2978C9.09637 14.7348 9.18135 14.9533 9.30379 15.0171C9.40993 15.0724 9.53638 15.0725 9.64259 15.0173C9.7651 14.9536 9.85034 14.7352 10.0208 14.2984L14.8585 1.90186C15.0124 1.50753 15.0893 1.31037 15.0472 1.18439C15.0107 1.07498 14.9248 0.989118 14.8154 0.952568C14.6894 0.91048 14.4923 0.987421 14.0979 1.1413L1.70137 5.97898C1.26455 6.14945 1.04614 6.23468 0.982492 6.3572C0.927315 6.46341 0.927389 6.58985 0.982692 6.69599C1.04649 6.81844 1.26499 6.90341 1.70201 7.07336L6.66277 9.00255C6.75148 9.03704 6.79583 9.05429 6.83318 9.08094C6.86629 9.10455 6.89524 9.1335 6.91885 9.1666C6.94549 9.20395 6.96274 9.24831 6.99724 9.33702Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                <TouchableOpacity style = {[styles.sendBtn, {marginLeft: vw(0)}]}
+                                    onPress ={() => setIsVoice(!isVoice)}
+                                >
+                                    <Svg width={vw(5)} height={vw(5.6)} viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <Path d="M17 9.99995V10.9909C17 15.3693 13.4882 18.9187 9.15625 18.9187C4.82427 18.9187 1.3125 15.3693 1.3125 10.9909V9.99995M9.15625 14.9548C6.99026 14.9548 5.23438 13.1801 5.23438 10.9909V5.04507C5.23438 2.85587 6.99026 1.08118 9.15625 1.08118C11.3222 1.08118 13.0781 2.85587 13.0781 5.04507V10.9909C13.0781 13.1801 11.3222 14.9548 9.15625 14.9548Z" stroke="black" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </Svg>
                                 </TouchableOpacity>
                             </View>
                             }
                         </View>
+                        {pin && 
+                            <View style = {styles.pinModal}>
+                                {
+                                    modalData.map((item, index) =>
+                                        <View key = {index} style = {styles.items}>
+                                            <View style = {styles.pin}>
+                                                {item.img}
+                                            </View>
+                                            <Text style = {styles.headerText}>
+                                                {item.btnName}
+                                            </Text>
+                                        </View>
+                                    )
+                                }
+                                <TouchableOpacity style = {styles.cancel}
+                                    onPress = {() => setPin(false)}
+                                >
+                                    <Text style = {styles.headerText}>
+                                        Cancel
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        }
                     </View>
                 </Animated.View>
             </View>
@@ -1270,7 +1389,7 @@ const styles = StyleSheet.create({
     container: {
         width: vw(101),
         height: '100%',
-        backgroundColor: 'black'
+        backgroundColor: '#101010'
     },
     header: {
         position: 'absolute',
@@ -1302,7 +1421,7 @@ const styles = StyleSheet.create({
     searchIcon: {
         width: vw(9.4),
         height: vw(9,4),
-        backgroundColor: '#131313',
+        backgroundColor: '#202020',
         borderRadius: vw(5),
         justifyContent: 'center',
         alignItems: 'center'
@@ -1455,7 +1574,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        backgroundColor: '#22222285',
+        backgroundColor: '#36363690',
         borderRadius: vw(5)
     },
     footerIcon: {
@@ -1513,7 +1632,7 @@ const styles = StyleSheet.create({
         width: vw(77.8),
         aspectRatio: 280/40,
         borderRadius: vw(10),
-        backgroundColor: '#181818',
+        backgroundColor: '#202020',
         borderWidth: vw(0.3),
         borderColor: '#4C4C4C',
         flexDirection: 'row',
@@ -1527,6 +1646,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start',
         width: vw(60.2),
+    },
+    speechInput: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        width: vw(61.1),
+        height: vw(11.1),
+        borderRadius: vw(10),
+        backgroundColor: '#53FAFB'
     },
     msgTool: {
         flexDirection: 'row',
@@ -1547,6 +1675,66 @@ const styles = StyleSheet.create({
         bottom: vw(45),
         width: vw(100),
         height: vw(30),
+    },
+    pinModal: {
+        marginTop: vw(3),
+        marginLeft: vw(5),
+        width: vw(90),
+        height: vw(65),
+        backgroundColor: '#5A5A5A20',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        padding: vw(5),
+        borderRadius: vw(5)
+    },
+    items: {
+        width: vw(80),
+        flexDirection: 'row',
+        marginBottom: vw(2),
+        alignItems: 'center'
+    },
+    pin: {
+        width: vw(10.3),
+        height: vw(10.3),
+        backgroundColor: '#53FAFB10',
+        borderRadius: vw(3),
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: vw(5)
+    },
+    cancel: {
+        width: vw(80),
+        aspectRatio: 280/45,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#222222',
+        borderRadius: vw(5)
+    },
+    modalContainer: {
+        backgroundColor: '#00000090',
+        width: vw(100),
+        height: '100%',
+        position: 'absolute',
+        top: 0,
+        padding: vw(5),
+        alignItems: 'flex-end'
+    },
+    modal: {
+        marginTop: vw(40),
+        width: vw(44.44),
+        height: vw(30.56),
+        backgroundColor: '#6C434B',
+        borderRadius: vw(5.6),
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+        alignItmes: 'flex-start',
+        paddingTop: vw(2),
+        paddingBottom: vw(2)
+    },
+    modalItem: {
+        marginLeft: vw(8),
+        flexDirection: 'row',
+        alignItems: 'center',
     },
 });
 

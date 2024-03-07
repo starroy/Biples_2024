@@ -260,6 +260,7 @@ const GroupCall = ({ navigation }) => {
         );
         if (callState.call) {
             setCalling('end');
+            navigation.navigate('GroupChat');
         } 
         else setCalling('call');
     };
@@ -271,6 +272,17 @@ const GroupCall = ({ navigation }) => {
         );
         navigation.navigate('ChatCalling');
     };
+    const handleFriendProfile = () => {
+        // setShowBlurs(true);
+            setShowBlur(false);
+        let timerId;
+        timerId = setTimeout(() => {
+        navigation.navigate('FriendProfile');
+          }, 50); // Adjust the delay as needed
+          return () => {
+            clearTimeout(timerId);
+          };
+    }
     return(
         <SafeAreaView {...panResponder.panHandlers}>
             <StatusBar translucent backgroundColor = 'transparent'/>
@@ -574,10 +586,12 @@ const GroupCall = ({ navigation }) => {
                                 callAct.map((item, index) => 
                                     <View key = {index} style = {styles.friends}>
                                         <View style = {styles. info}>
-                                            <View style = {styles.imgInfo}>
+                                            <TouchableOpacity style = {styles.imgInfo}
+                                                onPress = {handleFriendProfile}
+                                            >
                                                 <Image style = {styles.avatar} source = {item.avatar}/>
                                                 <View style = {styles.online}/>
-                                            </View>
+                                            </TouchableOpacity>
                                             <View style = {styles.textInfo}>
                                                 <Text style = {[styles.Title, {fontSize: vw(3.9)}]}> {item.name} </Text>
                                                 <Text style = {[styles.text, {fontSize: vw(2.8), color: item.data.color}]}> {item.data.text} </Text>
@@ -600,10 +614,12 @@ const GroupCall = ({ navigation }) => {
                                 friendData.map((item, index) => 
                                     <View key = {index} style = {styles.friends}>
                                         <View style = {styles. info}>
-                                            <View style = {styles.imgInfo}>
+                                            <TouchableOpacity style = {styles.imgInfo}
+                                                onPress = {handleFriendProfile}
+                                            >
                                                 <Image style = {styles.avatar} source = {item.avatar}/>
                                                 <View style = {styles.online}/>
-                                            </View>
+                                            </TouchableOpacity>
                                             <View style = {styles.textInfo}>
                                                 <Text style = {[styles.Title, {fontSize: vw(3.9)}]}> {item.name} </Text>
                                                 <Text style = {[styles.text, {fontSize: vw(2.8), color: item.data.color}]}> {item.data.text} </Text>
@@ -630,7 +646,7 @@ const styles = StyleSheet.create({
     container: {
         width: vw(101),
         height: '100%',
-        backgroundColor: 'black'
+        backgroundColor: '#101010'
     },
     header: {
         width: vw(90),

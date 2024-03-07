@@ -102,6 +102,17 @@ const Explorer = ({navigation}) => {
     handlePress = () => {
         navigation.navigate('Explorer');
     };
+    const handleFriendProfile = () => {
+        // setShowBlurs(true);
+        //     setShowBlur(false);
+        // let timerId;
+        // timerId = setTimeout(() => {
+        navigation.navigate('FriendProfile');
+        //   }, 30); // Adjust the delay as needed
+        //   return () => {
+        //     clearTimeout(timerId);
+        //   };
+    }
     return (
         <SafeAreaView>
             <StatusBar translucent backgroundColor = 'transparent'/>
@@ -111,7 +122,7 @@ const Explorer = ({navigation}) => {
                         <TouchableOpacity
                             style = {styles.prevButton}
                             onPress = { () => 
-                                navigation.navigate('MemberSearch')
+                                navigation.goBack()
                             }
                         >
                             <Svg width={vw(2)} height={vw(3.3)} viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -125,7 +136,7 @@ const Explorer = ({navigation}) => {
                         <TouchableOpacity
                             style = {[styles.prevButton, {backgroundColor: '#53FAFB12'}]}
                             onPress = { () => 
-                                navigation.navigate('QRProfile')
+                                navigation.navigate('Scan')
                             }
                         >
                             <Svg width={vw(3.33)} height={vw(3.3)} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -174,7 +185,7 @@ const Explorer = ({navigation}) => {
                                 <TouchableOpacity
                                     style = {[styles.prevButton, {backgroundColor: '#53FAFB12', width: vw(7), height: vw(7), marginRight: vw(2)}]}
                                     onPress = { () => 
-                                        navigation.navigate('QRProfile')
+                                        navigation.navigate('Scan')
                                     }
                                 >
                                     <Svg width={vw(3.33)} height={vw(3.3)} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -224,25 +235,26 @@ const Explorer = ({navigation}) => {
                                 </Text>
                             </TouchableOpacity>
                         </View>
-                        <FlatList
-                            style = {styles.friendData}
-                            data = {friends}
-                            horizontal = {false}
-                            showsVerticalScrollIndicator={false}
-                            renderItem = {({item, index}) => 
-                            <CustomFriendCard
-                                avatar = {item.avatar}
-                                userName = {item.userName}
-                                displayName = {item.displayName}
-                                onlineState = {item.onlineState}
-                                msgNum = {item.msgNum}
-                                friends = {friends}
-                                setFriends = {setFriends}
-                                id = {item.id}
-                                dragged = {item.dragged}
-                            />
+                        <ScrollView showsVerticalScrollIndicator={false}>
+                            {
+                                friends.map((item, index) => 
+                                    <CustomFriendCard
+                                        key = {index}
+                                        avatar = {item.avatar}
+                                        userName = {item.userName}
+                                        displayName = {item.displayName}
+                                        onlineState = {item.onlineState}
+                                        msgNum = {item.msgNum}
+                                        friends = {friends}
+                                        navigatePress = {handleFriendProfile}
+                                        setFriends = {setFriends}
+                                        id = {item.id}
+                                        dragged = {item.dragged}
+                                    />
+                                )
                             }
-                        />
+                            <View style = {{height: vw(10)}}/>
+                        </ScrollView>
                     </View>
                 </View>
                 <View style = {styles.footer}>
@@ -262,7 +274,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        backgroundColor: 'black',
+        backgroundColor: '#101010',
         flexDirection: 'column',
     },
     header: {
@@ -273,7 +285,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-end',
         alignItems: 'center',
-        backgroundColor: 'black'
+        // backgroundColor: 'black'
     },
     headerBar: {
         width: vw(90),
@@ -287,7 +299,7 @@ const styles = StyleSheet.create({
         width: vw(11),
         height: vw(11),
         borderRadius: vw(6),
-        backgroundColor: 'black',
+        backgroundColor: '#101010',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -299,7 +311,7 @@ const styles = StyleSheet.create({
     searchBar: {
         width: vw(76.38),
         height: vw(10.83),
-        backgroundColor: '#131313',
+        backgroundColor: '#202020',
         borderRadius: vw(5),
         flexDirection: 'row',
         justifyContent: 'flex-start',
@@ -334,7 +346,7 @@ const styles = StyleSheet.create({
         width: vw(90),
         aspectRatio: 320/126,
         padding: vw(4.44),
-        backgroundColor: '#131313',
+        backgroundColor: '#202020',
         flexDirection: 'row',
         justifyContent: 'space-between',
         borderRadius: vw(5),
@@ -360,7 +372,8 @@ const styles = StyleSheet.create({
     },
     myFriends: {
         width: vw(90),
-        height: vw(100)
+        height: vw(100),
+        marginBottom: vw(10)
     },
     friendTitle: {
         height: vw(21.4),
@@ -372,10 +385,11 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: vw(0),
         width: vw(100),
-        marginBottom: vw(8),
-        // paddingTop: vw(4),
+        marginBottom: vw(4),
+        // marginTop: vw(5),
+        paddingTop: vw(4),
         alignItems: 'center',
-        backgroundColor: 'black',
+        backgroundColor: '#101010',
         zIndex: 0
     },
     footerBtn: {

@@ -7,7 +7,8 @@ import {
     StyleSheet, 
     Image,
     SafeAreaView,
-    ScrollView
+    ScrollView,
+    BackHandler
 } from 'react-native';
 import { vh, vw } from 'react-native-css-vh-vw';
 import Svg, { Path} from 'react-native-svg';
@@ -40,6 +41,15 @@ const RegisterEmail = ({navigation}) => {
         navigation.navigate('PrivatePolicy')
     }
 
+    // useEffect(() => {
+    //     const backAction = () => {
+    //         navigation.navigate('LoadingEnd'); // Prevent default behavior (i.e. exit the app)
+    //     };
+    
+    //     const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+    
+    //     return () => backHandler.remove();
+    // }, []);
     return (
         <View style={styles.container}>
             <StatusBar 
@@ -118,7 +128,11 @@ const RegisterEmail = ({navigation}) => {
                                     backgroundColor={(email !== '') ? "#53FAFB" : "#282828"}
                                     color={(email !== '') ? "black" : "#6D6D6D"}
                                     fontSize={vw(3.9)}
-                                    navigateName = 'Verify'
+                                    onPress = {() => {
+                                        if (email.length > 5 ) {
+                                            navigation.navigate('Verify')
+                                        }
+                                    }}
                                 />) : (
                                 <CustomButton
                                     navigation={navigation}
@@ -129,7 +143,11 @@ const RegisterEmail = ({navigation}) => {
                                     backgroundColor={((phoneNumber !== '+') && (phoneNumber !== '')) ? "#53FAFB" : "#282828"}
                                     color={((phoneNumber !== '+') && (phoneNumber !== '')) ? "black" : "#6D6D6D"}
                                     fontSize={vw(3.9)}
-                                    navigateName = 'Verify'
+                                    onPress = {() => {
+                                        if (phoneNumber.length > 8) {
+                                            navigation.navigate('Verify')
+                                        }
+                                    }}
                                 />
                                 )
 
@@ -141,7 +159,7 @@ const RegisterEmail = ({navigation}) => {
                 <View className='small_text'
                     style = {{marginTop: vw(33)}}
                 >
-                    <Text style={{ color: 'white', fontSize: vw(3.6), textAlign: 'center', fontFamily: 'TT Firs Neue Trial Regular'}}>
+                    <Text style={{ color: 'white', fontSize: vw(3.6), textAlign: 'center', fontFamily: 'TT Firs Neue Trial Regular', width: vw(100)}}>
                         Or continue with
                     </Text>
                 </View>

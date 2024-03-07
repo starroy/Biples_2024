@@ -10,7 +10,8 @@ import {
     ScrollView,
     PanResponder,
     TouchableOpacity, 
-    FlatList
+    FlatList,
+    Animated
 } from 'react-native';
 import { vh, vw } from 'react-native-css-vh-vw';
 import Svg, { Path } from 'react-native-svg';
@@ -48,9 +49,11 @@ const Notifications = ({ navigation }) => {
     );
     const GroupName = 'THEOUIS';
     const userName = '@kitshunaFowyu';
-    const [message, setMessage] = useState (
+    const [todayMessage, setTodayMessage] = useState (
         [
             {
+                id: 0,
+                dragged: false,
                 userAvatar: require('../../../assets/images/follow2.png'),
                 online: 'off',
                 time: '8 min ago',
@@ -61,6 +64,8 @@ const Notifications = ({ navigation }) => {
                 content: 'The terms and conditions contained in this \nAgreement shall constitute the entire \nagreement between ...',
             },
             {
+                id: 1,
+                dragged: false,
                 userAvatar: require('../../../assets/images/follow2.png'),
                 online: 'on',
                 time: '3 Days ago',
@@ -69,6 +74,8 @@ const Notifications = ({ navigation }) => {
                 comment: [userName, ' Mentioned you in a', '','comment'],
             },
             {
+                id: 2,
+                dragged: false,
                 userAvatar: require('../../../assets/images/follow2.png'),
                 online: 'off',
                 time: '8 min ago',
@@ -78,7 +85,13 @@ const Notifications = ({ navigation }) => {
                 message: '“ Hello, dears I need to know what’s wrong to \nunderstand more things about the topic... It’s \n2th highly differently wrongs, please check \nwith us or go out from this one !!! \n\nI hope that you understand the mentions of \nthe group together “',
                 button: ['Reply']
             },
+        ]
+    );
+    const [yesterdayMessage, setYesterdayMessage] = useState (
+        [
             {
+                id: 0,
+                dragged: false,
                 userAvatar: require('../../../assets/images/follow2.png'),
                 online: 'out',
                 time: 'Yesterday, 10:23 PM',
@@ -87,6 +100,8 @@ const Notifications = ({ navigation }) => {
                 comment: [userName, ' Shared an image into', GroupName, ' Community'],
             },
             {
+                id: 1,
+                dragged: false,
                 userAvatar: require('../../../assets/images/follow2.png'),
                 online: 'out',
                 time: '29 Feb, 10:23 PM',
@@ -96,6 +111,8 @@ const Notifications = ({ navigation }) => {
                 button: ['Approve', 'Decline']
             },
             {
+                id: 2,
+                dragged: false,
                 userAvatar: require('../../../assets/images/follow2.png'),
                 online: 'out',
                 time: '3 Days ago',
@@ -106,7 +123,335 @@ const Notifications = ({ navigation }) => {
         ]
     );
     const num = 92;
-
+    const handleFriendProfile = () => {
+        // setShowBlurs(true);
+        //     setShowBlur(false);
+        // let timerId;
+        // timerId = setTimeout(() => {
+        navigation.navigate('FriendProfile');
+        //   }, 30); // Adjust the delay as needed
+        //   return () => {
+        //     clearTimeout(timerId);
+        //   };
+    }
+    const TodayMsg = ({item, index}) => {
+        const handleDelete = (id) => {
+            setTodayMessage(prevFriends => {
+                const newFriends = [...prevFriends];
+                let index = newFriends.findIndex(friend => friend.id === id);
+                if (index !== -1) {
+                    newFriends.splice(index, 1);
+                    for (let i = index; i < newFriends.length; i++) {
+                    if (newFriends[i].id > id) {
+                        newFriends[i].id -= 1;
+                    }
+                    }
+                }
+                return newFriends;});
+        };
+        
+        const pan = new Animated.ValueXY()
+        const panResponder = useRef(
+            PanResponder.create({
+                onMoveShouldSetPanResponder: (evt, gestureState) => {
+                    // console.log('onMoveShouldSetPanResponder', evt, gestureState);
+                    return Math.abs(gestureState.dx) > 5;
+                },
+                onPanResponderRelease: (evt, gestureState) => {
+                    let num = 0;
+                    // console.log('onPanResponderRelease', evt, gestureState);
+                    // console.log('length: ', descriptions.length);
+                    if (gestureState.dx > 0) {
+                        // console.log('dx>0', gestureState.dx);
+                        setTodayMessage(prevFriend => {
+                            const newFriends = [...prevFriend];
+                            newFriends[index].dragged = false;
+                            return newFriends;
+                        });
+                    } else {
+                        // console.log('dx<0', gestureState.dx);
+                        setTodayMessage(prevFriend => {
+                            const newFriends = [...prevFriend];
+                            newFriends[index].dragged = true;
+                            return newFriends;
+                        });
+                        Animated.spring(pan.x, { toValue: 0, useNativeDriver: true }).start();
+                    }
+                },
+            })
+        ).current;
+        const handleBack = () => {
+            setTodayMessage(prevFriend => {
+                const newFriends = [...prevFriend];
+                newFriends[index].dragged = false;
+                return newFriends;
+            });
+        }
+        return (
+            <Animated.View 
+                {...panResponder.panHandlers} 
+                style = {[styles.messagePart, {transform: [{ translateX: pan.x }], backgroundColor: index<3? '#53FAFB10' : '#151515', alignItems: item.dragged? 'center' : 'flex-start',}]}
+            >
+                { !item.dragged ? <View style = {styles.avatar}>
+                    <View style = {{width: vw(1.67), aspectRatio: 6/6, backgroundColor: '#53FAFB', borderRadius: vw(1)}}/>
+                    <TouchableOpacity onPress = {handleFriendProfile}>
+                        <ImageBackground
+                            source = {item.userAvatar}
+                            style = {{ 
+                                position: 'relative',
+                                width: vw(11.1), 
+                                height: vw(11.1), 
+                                marginLeft: vw(2.5)
+                            }}
+                        >
+                            <View 
+                                style = {{ 
+                                    position: 'absolute', 
+                                    bottom: vw(0), 
+                                    right: vw(1),
+                                    width: vw(2.3), 
+                                    aspectRatio: 6/6, 
+                                    backgroundColor: item.online == 'off' ? '#656565': item.online == 'on' ? '#53FAFB' : '#FBC253',
+                                    borderRadius: vw(1.5),
+                                    borderWidth: vw(0.3),
+                                    borderColor: 'black'
+                                }}
+                            />
+                        </ImageBackground>
+                    </TouchableOpacity>
+                </View>
+                :
+                <View style = {{width: vw(5)}}/>
+                }
+                <View style = {styles.mainPart}>
+                    <View style = {styles.comments}>
+                        <Text style = {[styles.commentText, { flexWrap: 'wrap', color: 'white'}]}>
+                            {item.comment[0]}
+                        </Text>
+                        <Text style = {[styles.commentText, { flexWrap: 'wrap', }]}>
+                            {item.comment[1]}
+                        </Text>
+                        <Text style = {[styles.commentText, { flexWrap: 'wrap', color: 'white'}]}>
+                            {item.comment[2]}
+                        </Text>
+                        <Text style = {[styles.commentText, { flexWrap: 'wrap', }]}>
+                            {item.comment[3]}
+                        </Text>
+                        <Text style = {[styles.commentText, { flexWrap: 'wrap', color: 'white'}]}>
+                            {item.comment[4]}
+                        </Text>
+                        <Text style = {[styles.commentText, { flexWrap: 'wrap', }]}>
+                            {item.comment[5]}
+                        </Text>
+                    </View>
+                    {item.image && <Image style = {styles.image}
+                        source = {item.image}
+                        resizeMode = 'stretch'
+                    />
+                    }
+                    {item.content && <View style = {[styles.comments, {marginTop: vw(2.8), width: vw(66)}]}>
+                        <Text style = {styles.commentText}>
+                            {item.content}
+                        </Text>
+                    </View>
+                    }
+                    <View style = {{marginTop: vw(2.8)}}>
+                        <Text style = {[styles.commentText, {color: '#545454'}]}>
+                            {item.time}
+                        </Text>
+                    </View>
+                    {item.message && <View style = {styles.message}>
+                        <Text style = {[styles.commentText, {fontFamily: 'TT Firs Neue Trial ExtraLight'}]}>
+                            {item.message}
+                        </Text>
+                    </View>
+                    }
+                    {item.button && <View style = {styles.buttons}>
+                        {
+                            item.button.map((items, index) => 
+                                <TouchableOpacity key = {index} style = {[styles.button, {backgroundColor: index == 0 ? '#53FAFB' : '#252525' }]}>
+                                    <Text 
+                                        style = {[styles.commentText, {fontFamily: 'TT Firs Neue Trial Medium', color: index == 0 ? 'black' : '#A7A7A7' }]}
+                                        onPress = {() => console.log(items)}
+                                    >
+                                        {items}
+                                    </Text>
+                                </TouchableOpacity>
+                            )
+                        }
+                    </View>
+                    }
+                </View>
+                {item.dragged && <TouchableOpacity style = {{flexDirection: 'column', justifyContent: 'center',alignItems: 'center',height: '100%', width: vw(11.4), height: vw(11.4), borderRadius: vw(6), backgroundColor: '#53FAFB20'}}
+                    onPress = {() => handleDelete(item.id)}
+                >
+                    <Svg width={vw(4.7)} height={vw(4.7)} viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <Path d="M6 1H11M1 3.5H16M14.3333 3.5L13.7489 12.2661C13.6612 13.5813 13.6174 14.2389 13.3333 14.7375C13.0833 15.1765 12.706 15.5294 12.2514 15.7497C11.735 16 11.0759 16 9.75779 16H7.24221C5.92409 16 5.26503 16 4.74861 15.7497C4.29396 15.5294 3.91674 15.1765 3.66665 14.7375C3.38259 14.2389 3.33875 13.5813 3.25107 12.2661L2.66667 3.5M6.83333 7.25V11.4167M10.1667 7.25V11.4167" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                    </Svg>
+                </TouchableOpacity>}
+            </Animated.View>
+        )
+    }
+    const YesterdayMsg = ({item, index}) => {
+        const handleDelete = (id) => {
+            setYesterdayMessage(prevFriends => {
+                const newFriends = [...prevFriends];
+                let index = newFriends.findIndex(friend => friend.id === id);
+                if (index !== -1) {
+                    newFriends.splice(index, 1);
+                    for (let i = index; i < newFriends.length; i++) {
+                    if (newFriends[i].id > id) {
+                        newFriends[i].id -= 1;
+                    }
+                    }
+                }
+                return newFriends;});
+        };
+        
+        const pan = new Animated.ValueXY()
+        const panResponder = useRef(
+            PanResponder.create({
+                onMoveShouldSetPanResponder: (evt, gestureState) => {
+                    // console.log('onMoveShouldSetPanResponder', evt, gestureState);
+                    return Math.abs(gestureState.dx) > 5;
+                },
+                onPanResponderRelease: (evt, gestureState) => {
+                    let num = 0;
+                    // console.log('onPanResponderRelease', evt, gestureState);
+                    // console.log('length: ', descriptions.length);
+                    if (gestureState.dx > 0) {
+                        // console.log('dx>0', gestureState.dx);
+                        setYesterdayMessage(prevFriend => {
+                            const newFriends = [...prevFriend];
+                            newFriends[index].dragged = false;
+                            return newFriends;
+                        });
+                    } else {
+                        // console.log('dx<0', gestureState.dx);
+                        setYesterdayMessage(prevFriend => {
+                            const newFriends = [...prevFriend];
+                            newFriends[index].dragged = true;
+                            return newFriends;
+                        });
+                        Animated.spring(pan.x, { toValue: 0, useNativeDriver: true }).start();
+                    }
+                },
+            })
+        ).current;
+        const handleBack = () => {
+            setYesterdayMessage(prevFriend => {
+                const newFriends = [...prevFriend];
+                newFriends[index].dragged = false;
+                return newFriends;
+            });
+        }
+        return (
+            <Animated.View {...panResponder.panHandlers} style = {[styles.messagePart, {transform: [{ translateX: pan.x }], backgroundColor: '#202020', alignItems: item.dragged? 'center' : 'flex-start',}]}>
+                {/* <View style = {{width: vw(120), 
+                    flexDirection: 'row',
+                    alignItem: 'flex-start',}}
+                > */}
+                    { !item.dragged ? <View style = {styles.avatar}>
+                        <TouchableOpacity onPress = {handleFriendProfile}>
+                        <ImageBackground
+                            source = {item.userAvatar}
+                            style = {{ 
+                                position: 'relative',
+                                width: vw(11.1), 
+                                height: vw(11.1), 
+                                marginLeft: vw(2.5)
+                            }}
+                        >
+                        <View 
+                            style = {{ 
+                                position: 'absolute', 
+                                bottom: vw(0), 
+                                right: vw(1),
+                                width: vw(2.3), 
+                                aspectRatio: 6/6, 
+                                backgroundColor: item.online == 'off' ? '#656565': item.online == 'on' ? '#53FAFB' : '#FBC253',
+                                borderRadius: vw(1.5),
+                                borderWidth: vw(0.3),
+                                borderColor: 'black'
+                            }}
+                        />
+                        </ImageBackground>
+                        </TouchableOpacity>
+                    </View>
+                    :
+                    <View style = {{width: vw(5)}}/>
+                    }
+                    <View style = {styles.mainPart}>
+                        <View style = {styles.comments}>
+                            <Text style = {[styles.commentText, { flexWrap: 'wrap', color: 'white'}]}>
+                                {item.comment[0]}
+                            </Text>
+                            <Text style = {[styles.commentText, { flexWrap: 'wrap', }]}>
+                                {item.comment[1]}
+                            </Text>
+                            <Text style = {[styles.commentText, { flexWrap: 'wrap', color: 'white'}]}>
+                                {item.comment[2]}
+                            </Text>
+                            <Text style = {[styles.commentText, { flexWrap: 'wrap', }]}>
+                                {item.comment[3]}
+                            </Text>
+                            <Text style = {[styles.commentText, { flexWrap: 'wrap', color: 'white'}]}>
+                                {item.comment[4]}
+                            </Text>
+                            <Text style = {[styles.commentText, { flexWrap: 'wrap', }]}>
+                                {item.comment[5]}
+                            </Text>
+                        </View>
+                        {item.image && <Image style = {styles.image}
+                            source = {item.image}
+                            resizeMode = 'stretch'
+                        />
+                        }
+                        {item.content && <View style = {[styles.comments, {marginTop: vw(2.8), width: vw(66)}]}>
+                            <Text style = {styles.commentText}>
+                                {item.content}
+                            </Text>
+                        </View>
+                        }
+                        <View style = {{marginTop: vw(2.8)}}>
+                            <Text style = {[styles.commentText, {color: '#545454'}]}>
+                                {item.time}
+                            </Text>
+                        </View>
+                        {item.message && <View style = {styles.message}>
+                            <Text style = {[styles.commentText, {fontFamily: 'TT Firs Neue Trial ExtraLight'}]}>
+                                {item.message}
+                            </Text>
+                        </View>
+                        }
+                        {item.button && <View style = {styles.buttons}>
+                            {
+                                item.button.map((items, index) => 
+                                    <TouchableOpacity key = {index} style = {[styles.button, {backgroundColor: index == 0 ? '#53FAFB' : '#303030' }]}>
+                                        <Text 
+                                            style = {[styles.commentText, {fontFamily: 'TT Firs Neue Trial Medium', color: index == 0 ? 'black' : '#A7A7A7' }]}
+                                            onPress = {() => console.log(items)}
+                                        >
+                                            {items}
+                                        </Text>
+                                    </TouchableOpacity>
+                                )
+                            }
+                        </View>
+                        }
+                    </View>
+                    {item.dragged && <TouchableOpacity style = {{flexDirection: 'column', justifyContent: 'center',alignItems: 'center',height: '100%', width: vw(11.4), height: vw(11.4), borderRadius: vw(6), backgroundColor: '#53FAFB20'}}
+                        onPress = {() => handleDelete(item.id)}
+                    >
+                        <Svg width={vw(4.7)} height={vw(4.7)} viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <Path d="M6 1H11M1 3.5H16M14.3333 3.5L13.7489 12.2661C13.6612 13.5813 13.6174 14.2389 13.3333 14.7375C13.0833 15.1765 12.706 15.5294 12.2514 15.7497C11.735 16 11.0759 16 9.75779 16H7.24221C5.92409 16 5.26503 16 4.74861 15.7497C4.29396 15.5294 3.91674 15.1765 3.66665 14.7375C3.38259 14.2389 3.33875 13.5813 3.25107 12.2661L2.66667 3.5M6.83333 7.25V11.4167M10.1667 7.25V11.4167" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                        </Svg>
+                    </TouchableOpacity>}
+                {/* </View> */}
+            </Animated.View>
+        )
+    }
+    
     return (
         <SafeAreaView>
             <StatusBar translucent backgroundColor = 'transparent'/>
@@ -116,7 +461,7 @@ const Notifications = ({ navigation }) => {
                         <TouchableOpacity
                             style = {styles.prevButton}
                             onPress = { () => 
-                                navigation.navigate('Main')
+                                navigation.goBack()
                             }
                         >
                             <Svg width={vw(2)} height={vw(3.3)} viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -190,125 +535,44 @@ const Notifications = ({ navigation }) => {
                             }
                         />
                     </View>
+                       {/* { message.map((item, index) => */}
+                        <View>
+                            <View style = {styles.groupStyle}>
+                                <Text style = {styles.groupText}>
+                                    {/* {item.GroupName} */}Today
+                                </Text> 
+                                <Text 
+                                    style = {[styles.groupText, {color: '#53FAFB', fontSize: vw(3.3)}]}
+                                    onPress = {() =>
+                                        setSortBtn(prevBtn => {
+                                            const newBtn = [...prevBtn];
+                                            for (i=0; i< sortBtn.length; i++){
+                                                newBtn[i].unreadMsgNum = 0;
+                                            }
+                                            return newBtn;
+                                        })}
+                                >
+                                    Mark all as read
+                                </Text>
+                        </View>
+                    </View>
+                {/* )} */}
                 </View>
                 <ScrollView style = {styles.body}>
                     {
-                        message.map((item, index) =>
-                            <View key = {index} style = {styles.messageStyle}>
-                                {
-                                    index == 0 || index == 3 ? 
-                                    <View style = {styles.groupStyle}>
-                                        <Text style = {styles.groupText}>
-                                            {item.GroupName}
-                                        </Text> 
-                                        {
-                                            index == 0 ? 
-                                            <Text 
-                                                style = {[styles.groupText, {color: '#53FAFB', fontSize: vw(3.3)}]}
-                                                // onPress = {}
-                                            >
-                                                Mark all as read
-                                            </Text>
-                                            :
-                                            null
-                                        }
-                                    </View>
-                                    : 
-                                    null
-                                }
-                                <View style = {styles.messagePart}>
-                                    <View style = {styles.avatar}>
-                                        {
-                                            index< 3 ?
-                                                <View style = {{width: vw(1.67), aspectRatio: 6/6, backgroundColor: '#53FAFB', borderRadius: vw(1)}}/>
-                                                :
-                                                null
-                                        }
-                                        <ImageBackground
-                                            source = {item.userAvatar}
-                                            style = {{ 
-                                                position: 'relative',
-                                                width: vw(11.1), 
-                                                height: vw(11.1), 
-                                                marginLeft: vw(2.5)
-                                            }}
-                                        >
-                                        <View 
-                                            style = {{ 
-                                                position: 'absolute', 
-                                                bottom: vw(0), 
-                                                right: vw(1),
-                                                width: vw(2.3), 
-                                                aspectRatio: 6/6, 
-                                                backgroundColor: item.online == 'off' ? '#656565': item.online == 'on' ? '#53FAFB' : '#FBC253',
-                                                borderRadius: vw(1.5),
-                                                borderWidth: vw(0.3),
-                                                borderColor: 'black'
-                                            }}
-                                        />
-                                        </ImageBackground>
-                                    </View>
-                                    <View style = {styles.mainPart}>
-                                        <View style = {styles.comments}>
-                                            <Text style = {[styles.commentText, { flexWrap: 'wrap', color: 'white'}]}>
-                                                {item.comment[0]}
-                                            </Text>
-                                            <Text style = {[styles.commentText, { flexWrap: 'wrap', }]}>
-                                                {item.comment[1]}
-                                            </Text>
-                                            <Text style = {[styles.commentText, { flexWrap: 'wrap', color: 'white'}]}>
-                                                {item.comment[2]}
-                                            </Text>
-                                            <Text style = {[styles.commentText, { flexWrap: 'wrap', }]}>
-                                                {item.comment[3]}
-                                            </Text>
-                                            <Text style = {[styles.commentText, { flexWrap: 'wrap', color: 'white'}]}>
-                                                {item.comment[4]}
-                                            </Text>
-                                            <Text style = {[styles.commentText, { flexWrap: 'wrap', }]}>
-                                                {item.comment[5]}
-                                            </Text>
-                                        </View>
-                                        {item.image && <Image style = {styles.image}
-                                            source = {item.image}
-                                            resizeMode = 'stretch'
-                                        />
-                                        }
-                                        {item.content && <View style = {[styles.comments, {marginTop: vw(2.8), width: vw(66)}]}>
-                                            <Text style = {styles.commentText}>
-                                                {item.content}
-                                            </Text>
-                                        </View>
-                                        }
-                                        <View style = {{marginTop: vw(2.8)}}>
-                                            <Text style = {[styles.commentText, {color: '#545454'}]}>
-                                                {item.time}
-                                            </Text>
-                                        </View>
-                                        {item.message && <View style = {styles.message}>
-                                            <Text style = {[styles.commentText, {fontFamily: 'TT Firs Neue Trial ExtraLight'}]}>
-                                                {item.message}
-                                            </Text>
-                                        </View>
-                                        }
-                                        {item.button && <View style = {styles.buttons}>
-                                            {
-                                                item.button.map((items, index) => 
-                                                    <TouchableOpacity key = {index} style = {[styles.button, {backgroundColor: index == 0 ? '#53FAFB' : '#252525' }]}>
-                                                        <Text 
-                                                            style = {[styles.commentText, {fontFamily: 'TT Firs Neue Trial Medium', color: index == 0 ? 'black' : '#A7A7A7' }]}
-                                                            onPress = {() => console.log(items)}
-                                                        >
-                                                            {items}
-                                                        </Text>
-                                                    </TouchableOpacity>
-                                                )
-                                            }
-                                        </View>
-                                        }
-                                    </View>
-                                </View>
-                            </View>
+                        todayMessage.map((item, index) =>
+                            <TodayMsg key = {index} item = {item} index = {index}/>
+                        )
+                    }
+                    <View style = {styles.groupStyle}>
+                        <Text style = {styles.groupText}>
+                            Yesterday
+                        </Text> 
+                    </View>
+                    
+                    {
+                        yesterdayMessage.map((item, index) =>
+                        <YesterdayMsg key = {index} item = {item} index = {index}/>
                         )
                     }
                     <View style = {styles.footer}>
@@ -328,19 +592,20 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        backgroundColor: 'black',
+        backgroundColor: '#101010',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'flex-start',
     },
     header: {
         position: 'absolute',
-        top: 0,
-        width: '100%',
-        height: vw(39.7),
+        top: 0  ,
+        width: vw(100),
+        height: vw(55.83),
         flexDirection: 'column',
         justifyContent: 'flex-end',
-        alignItems: 'center'
+        alignItems: 'center',
+    marginBottom: vw(10)
     },
     headerBar: {
         width: vw(90),
@@ -354,7 +619,7 @@ const styles = StyleSheet.create({
         width: vw(9.44),
         height: vw(9.44),
         borderRadius: vw(5),
-        backgroundColor: '#181818',
+        backgroundColor: '#202020',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -380,7 +645,7 @@ const styles = StyleSheet.create({
     },
     body: {
         width: vw(100),
-        marginTop: vw(39.7),
+        marginTop: vw(54.7),
         paddingLeft: vw(5),
         // marginBottom: vw(20)
     },
@@ -401,7 +666,7 @@ const styles = StyleSheet.create({
         width: vw(90),
         marginBottom: vw(2.2),
         flexDirection: 'row',
-        alignItem: 'flex-start',
+        alignItems: 'flex-start',
         padding: vw(2.8),
         paddingTop: vw(5.56),
         paddingBottom : vw(5.56),

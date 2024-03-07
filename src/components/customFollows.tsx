@@ -3,18 +3,20 @@ import { TouchableOpacity, Text, StyleSheet, Pressable, View, Image, ImageBackgr
 import { vh, vw } from 'react-native-css-vh-vw';
 import Svg, { Path} from 'react-native-svg';
 
-const CustomFollows = ({ avatar, avatarName, avatarContent, followState, onPress, handlePress}) => {
+const CustomFollows = ({ avatar, avatarName, avatarContent, followState, onPress, handlePress, navigatePress}) => {
     
     return (
             <TouchableOpacity
-                style={[styles.button, {backgroundColor: '#111111'}]}
+                style={[styles.button, {backgroundColor: '#202020'}]}
                 onPress = {handlePress}
             >
                 <View style = {{ flexDirection: 'row', justyfiContent: 'center', alignItems: 'center'}}>
+                    <TouchableOpacity onPress = {navigatePress}>
                     <Image 
                         source = {avatar}
                         style = {styles.avatar}
                     />
+                    </TouchableOpacity>
                     <View style = {styles.avatarInfo}>
                         <Text style={{fontFamily: 'TT Firs Neue Trial Medium', fontSize: vw(3.9), color: 'white'}}>
                             {avatarName}
